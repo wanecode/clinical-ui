@@ -1,0 +1,26 @@
+{
+  "name": "@clinical-ui/storybook",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006 --no-open",
+    "build-storybook": "storybook build",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@clinical-ui/cardiology": "workspace:*",
+    "@clinical-ui/core": "workspace:*",
+    "@clinical-ui/dermatology": "workspace:*",
+    "@clinical-ui/ent": "workspace:*",
+    "@clinical-ui/fhir": "workspace:*",
+    "@clinical-ui/odontology": "workspace:*",
+    "@clinical-ui/ophthalmology": "workspace:*",
+    "@clinical-ui/testing": "workspace:*",
+    "@clinical-ui/theme": "workspace:*",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@fontsource-variable/source-sans-3": "5.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "clinical-ui-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=24.12.0 <25"
+  },
+  "scripts": {
+    "storybook": "pnpm --filter @clinical-ui/storybook storybook",
+    "build:storybook": "pnpm --filter @clinical-ui/storybook build-storybook",
+    "build": "pnpm --filter './packages/**' build && pnpm build:storybook",
+    "typecheck": "pnpm --filter './packages/**' build && pnpm --filter './packages/**' typecheck && pnpm --filter @clinical-ui/storybook typecheck",
+    "test": "pnpm --filter './packages/**' test",
+    "test:stories": "vitest run --config vitest.storybook.config.ts",
+    "test:all": "pnpm test && pnpm test:stories",
+    "check:isolation": "node scripts/check-isolation.mjs",
+    "verify": "pnpm check:isolation && pnpm typecheck && pnpm test:all && pnpm lint && pnpm build:storybook",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.6",
+    "@storybook/addon-a11y": "10.5.7",
+    "@storybook/addon-docs": "10.5.7",
+    "@storybook/addon-vitest": "10.5.7",
+    "@storybook/react-vite": "10.5.7",
+    "@types/node": "26.1.2",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "6.0.5",
+    "@vitest/browser-playwright": "4.1.10",
+    "playwright": "1.58.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "storybook": "10.5.7",
+    "typescript": "7.0.2",
+    "vite": "8.2.1",
+    "vitest": "4.1.10"
+  }
+}

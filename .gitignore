@@ -1,0 +1,9 @@
+node_modules/
+dist/
+storybook-static/
+coverage/
+.cache/
+.DS_Store
+playwright-report/
+test-results/
+.artifacts/

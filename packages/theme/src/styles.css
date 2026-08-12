@@ -1,0 +1,201 @@
+.clinical-ui-theme {
+  color-scheme: light;
+  --background: oklch(0.99 0.002 220);
+  --foreground: oklch(0.19 0.012 240);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.42 0.12 237);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.965 0.006 225);
+  --secondary-foreground: oklch(0.25 0.018 240);
+  --muted: oklch(0.965 0.006 225);
+  --muted-foreground: oklch(0.5 0.016 240);
+  --accent: oklch(0.955 0.025 229);
+  --accent-foreground: oklch(0.31 0.09 237);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.91 0.008 225);
+  --input: oklch(0.91 0.008 225);
+  --ring: oklch(0.58 0.13 237);
+  --chart-1: oklch(0.52 0.13 237);
+  --chart-2: oklch(0.58 0.11 195);
+  --chart-3: oklch(0.55 0.12 150);
+  --chart-4: oklch(0.62 0.14 70);
+  --chart-5: oklch(0.55 0.19 25);
+  --radius: 0.625rem;
+  --font-sans: "Source Sans 3 Variable", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --status-success: oklch(0.97 0.035 150);
+  --status-success-foreground: oklch(0.36 0.11 150);
+  --status-success-border: oklch(0.88 0.07 150);
+  --status-pending: oklch(0.97 0.04 85);
+  --status-pending-foreground: oklch(0.42 0.11 70);
+  --status-pending-border: oklch(0.88 0.08 80);
+  --status-critical: oklch(0.97 0.03 25);
+  --status-critical-foreground: oklch(0.45 0.19 27);
+  --status-critical-border: oklch(0.88 0.08 25);
+  --status-active: oklch(0.97 0.035 195);
+  --status-active-foreground: oklch(0.4 0.1 195);
+  --status-active-border: oklch(0.88 0.07 195);
+  --status-unknown: oklch(0.97 0 0);
+  --status-unknown-foreground: oklch(0.44 0 0);
+  --status-unknown-border: oklch(0.88 0 0);
+  --status-offline: oklch(0.97 0.02 70);
+  --status-offline-foreground: oklch(0.44 0.06 70);
+  --status-offline-border: oklch(0.88 0.04 70);
+  --clinical-critical: oklch(0.97 0.03 27);
+  --clinical-critical-foreground: oklch(0.44 0.19 27);
+  --clinical-critical-border: oklch(0.88 0.08 27);
+  --clinical-warning: oklch(0.97 0.04 85);
+  --clinical-warning-foreground: oklch(0.42 0.11 70);
+  --clinical-warning-border: oklch(0.88 0.08 80);
+  --clinical-information: oklch(0.97 0.03 237);
+  --clinical-information-foreground: oklch(0.4 0.12 237);
+  --clinical-information-border: oklch(0.88 0.07 237);
+
+  --clinical-surface-inset: oklch(0.975 0.005 225);
+  --clinical-surface-raised: var(--card);
+  --clinical-divider-strong: oklch(0.82 0.012 225);
+  --clinical-data-observed: var(--chart-1);
+  --clinical-data-projected: var(--chart-5);
+  --clinical-data-reference: var(--muted-foreground);
+  --clinical-selection: var(--accent);
+  --clinical-selection-foreground: var(--accent-foreground);
+
+  /* Medical images must retain a stable neutral reading environment. */
+  --viewer-surface: oklch(0.16 0.006 260);
+  --viewer-panel: oklch(0.21 0.008 260);
+  --viewer-foreground: oklch(0.95 0.004 260);
+  --viewer-muted-foreground: oklch(0.72 0.006 260);
+  --viewer-border: oklch(0.34 0.01 260);
+  --viewer-accent: oklch(0.76 0.13 195);
+
+  box-sizing: border-box;
+  min-width: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.45;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.clinical-ui-theme *,
+.clinical-ui-theme *::before,
+.clinical-ui-theme *::after {
+  box-sizing: border-box;
+}
+
+.clinical-ui-theme--viewport {
+  min-height: 100vh;
+}
+
+.clinical-ui-theme :focus-visible {
+  outline: 3px solid color-mix(in oklch, var(--ring) 72%, transparent);
+  outline-offset: 2px;
+}
+
+.clinical-ui-theme[data-clinical-mode="dark"] {
+  color-scheme: dark;
+  --background: oklch(0.16 0.012 240);
+  --foreground: oklch(0.96 0.006 225);
+  --card: oklch(0.205 0.014 240);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.22 0.014 240);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.72 0.12 237);
+  --primary-foreground: oklch(0.17 0.03 237);
+  --secondary: oklch(0.27 0.015 240);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.26 0.014 240);
+  --muted-foreground: oklch(0.73 0.014 225);
+  --accent: oklch(0.3 0.04 237);
+  --accent-foreground: oklch(0.92 0.05 237);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(0.34 0.015 240);
+  --input: oklch(0.38 0.016 240);
+  --ring: oklch(0.67 0.12 237);
+  --chart-1: oklch(0.7 0.14 237);
+  --chart-2: oklch(0.75 0.12 195);
+  --chart-3: oklch(0.74 0.13 150);
+  --chart-4: oklch(0.8 0.14 75);
+  --chart-5: oklch(0.72 0.17 25);
+
+  --status-success: oklch(0.26 0.045 150);
+  --status-success-foreground: oklch(0.82 0.09 150);
+  --status-success-border: oklch(0.36 0.07 150);
+  --status-pending: oklch(0.28 0.045 70);
+  --status-pending-foreground: oklch(0.84 0.1 80);
+  --status-pending-border: oklch(0.4 0.08 75);
+  --status-critical: oklch(0.28 0.06 25);
+  --status-critical-foreground: oklch(0.8 0.13 25);
+  --status-critical-border: oklch(0.4 0.09 25);
+  --status-active: oklch(0.27 0.045 195);
+  --status-active-foreground: oklch(0.83 0.09 195);
+  --status-active-border: oklch(0.39 0.07 195);
+  --status-unknown: oklch(0.27 0 0);
+  --status-unknown-foreground: oklch(0.8 0 0);
+  --status-unknown-border: oklch(0.38 0 0);
+  --status-offline: oklch(0.27 0.02 70);
+  --status-offline-foreground: oklch(0.81 0.05 70);
+  --status-offline-border: oklch(0.38 0.04 70);
+  --clinical-critical: oklch(0.28 0.06 27);
+  --clinical-critical-foreground: oklch(0.82 0.13 27);
+  --clinical-critical-border: oklch(0.4 0.09 27);
+  --clinical-warning: oklch(0.28 0.045 70);
+  --clinical-warning-foreground: oklch(0.84 0.1 80);
+  --clinical-warning-border: oklch(0.4 0.08 75);
+  --clinical-information: oklch(0.28 0.05 237);
+  --clinical-information-foreground: oklch(0.84 0.09 237);
+  --clinical-information-border: oklch(0.4 0.08 237);
+
+  --clinical-surface-inset: oklch(0.18 0.012 240);
+  --clinical-divider-strong: oklch(0.43 0.016 240);
+}
+
+.clinical-ui-theme[data-palette="ocean"] {
+  --primary: oklch(0.48 0.11 195);
+  --ring: oklch(0.62 0.12 195);
+  --accent: oklch(0.96 0.035 190);
+  --accent-foreground: oklch(0.3 0.08 195);
+  --viewer-accent: oklch(0.76 0.13 195);
+}
+
+.clinical-ui-theme[data-palette="sage"] {
+  --primary: oklch(0.45 0.1 145);
+  --ring: oklch(0.6 0.11 145);
+  --accent: oklch(0.96 0.03 140);
+  --accent-foreground: oklch(0.3 0.07 145);
+  --viewer-accent: oklch(0.76 0.11 145);
+}
+
+.clinical-ui-theme[data-clinical-mode="dark"][data-palette="ocean"] {
+  --primary: oklch(0.72 0.12 195);
+  --primary-foreground: oklch(0.17 0.03 195);
+  --ring: oklch(0.67 0.12 195);
+  --accent: oklch(0.3 0.04 195);
+  --accent-foreground: oklch(0.92 0.05 195);
+}
+
+.clinical-ui-theme[data-clinical-mode="dark"][data-palette="sage"] {
+  --primary: oklch(0.72 0.11 145);
+  --primary-foreground: oklch(0.17 0.03 145);
+  --ring: oklch(0.67 0.11 145);
+  --accent: oklch(0.3 0.04 145);
+  --accent-foreground: oklch(0.92 0.05 145);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clinical-ui-theme *,
+  .clinical-ui-theme *::before,
+  .clinical-ui-theme *::after {
+    scroll-behavior: auto;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+  }
+}
