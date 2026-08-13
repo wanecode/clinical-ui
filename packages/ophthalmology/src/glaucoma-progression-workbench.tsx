@@ -5,6 +5,7 @@ import type {
   Eye,
   GlaucomaProgressionData,
   OphthalmologyDataMode,
+  OphthalmologyPresentation,
 } from "./types";
 
 const FIELD_CELLS = Array.from({ length: 36 }, (_, index) => ({
@@ -16,6 +17,7 @@ export interface GlaucomaProgressionWorkbenchProps {
   data: GlaucomaProgressionData;
   state?: ClinicalDataState;
   dataMode?: OphthalmologyDataMode;
+  presentation?: OphthalmologyPresentation;
 }
 
 function annualizedRate(data: GlaucomaProgressionData, eye: Eye) {
@@ -36,6 +38,7 @@ export function GlaucomaProgressionWorkbench({
   data,
   state = "ready",
   dataMode = "clinical",
+  presentation = "standalone",
 }: GlaucomaProgressionWorkbenchProps) {
   const targetByEye = data.targetIopByEye ?? {
     OD: data.targetIop,
@@ -53,15 +56,21 @@ export function GlaucomaProgressionWorkbench({
 
   return (
     <OphthalmologyDataBoundary state={state} label="Progression glaucomateuse">
-      <article className="oph-workbench oph-glaucoma">
-        <header className="oph-workbench-heading">
-          <div>
-            <p className="oph-kicker">Glaucome longitudinal</p>
-            <h2>Trajectoires explicables</h2>
-            <p>Mesures observées, imports et projections gardent une grammaire distincte.</p>
+      <article className="oph-workbench oph-glaucoma" data-presentation={presentation}>
+        {presentation === "standalone" ? (
+          <header className="oph-workbench-heading">
+            <div>
+              <p className="oph-kicker">Glaucome longitudinal</p>
+              <h2>Trajectoires explicables</h2>
+              <p>Mesures observées, imports et projections gardent une grammaire distincte.</p>
+            </div>
+            <DataModeStamp mode={dataMode} />
+          </header>
+        ) : dataMode === "synthetic" ? (
+          <div className="oph-embedded-meta">
+            <DataModeStamp mode={dataMode} />
           </div>
-          <DataModeStamp mode={dataMode} />
-        </header>
+        ) : null}
         <div className="oph-glaucoma__summary">
           <div>
             <span>PIO cible</span>

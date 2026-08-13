@@ -36,6 +36,18 @@ export const Nominal: Story = {
   },
 };
 
+export const EmbarqueDansUneApplication: Story = {
+  args: { presentation: "embedded" },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Supprime le titre du workbench lorsque l’application hôte fournit déjà le contexte et la hiérarchie.",
+      },
+    },
+  },
+};
+
 export const Monoculaire: Story = { args: { left: undefined, alerts: [] } };
 
 export const Asymetrie: Story = {

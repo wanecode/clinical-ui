@@ -1,6 +1,12 @@
 import { ClinicalStatusBadge } from "@clinical-ui/core";
 import { DataModeStamp, EyeLabel, Metric, OphthalmologyDataBoundary } from "./primitives";
-import type { BilateralAlert, ClinicalDataState, EyeSummary, OphthalmologyDataMode } from "./types";
+import type {
+  BilateralAlert,
+  ClinicalDataState,
+  EyeSummary,
+  OphthalmologyDataMode,
+  OphthalmologyPresentation,
+} from "./types";
 
 export interface BilateralClinicalRailProps {
   right?: EyeSummary | undefined;
@@ -9,6 +15,7 @@ export interface BilateralClinicalRailProps {
   state?: ClinicalDataState;
   compact?: boolean;
   dataMode?: OphthalmologyDataMode;
+  presentation?: OphthalmologyPresentation;
 }
 
 function EyeColumn({ eye, fallback }: { eye?: EyeSummary | undefined; fallback: "OD" | "OG" }) {
@@ -82,6 +89,7 @@ export function BilateralClinicalRail({
   state = "ready",
   compact = false,
   dataMode = "clinical",
+  presentation = "standalone",
 }: BilateralClinicalRailProps) {
   const discordant = Boolean(
     right?.sourceContext && left?.sourceContext && right.sourceContext !== left.sourceContext,
@@ -89,15 +97,25 @@ export function BilateralClinicalRail({
 
   return (
     <OphthalmologyDataBoundary state={state} label="Comparaison bilatérale">
-      <article className="oph-bilateral" data-compact={compact || undefined}>
-        <header className="oph-workbench-heading">
-          <div>
-            <p className="oph-kicker">Rail clinique bilatéral</p>
-            <h2>Lecture OD / OG</h2>
-            <p>Deux yeux, une seule trajectoire clinique lisible.</p>
+      <article
+        className="oph-bilateral"
+        data-compact={compact || undefined}
+        data-presentation={presentation}
+      >
+        {presentation === "standalone" ? (
+          <header className="oph-workbench-heading">
+            <div>
+              <p className="oph-kicker">Rail clinique bilatéral</p>
+              <h2>Lecture OD / OG</h2>
+              <p>Deux yeux, une seule trajectoire clinique lisible.</p>
+            </div>
+            <DataModeStamp mode={dataMode} />
+          </header>
+        ) : dataMode === "synthetic" ? (
+          <div className="oph-embedded-meta">
+            <DataModeStamp mode={dataMode} />
           </div>
-          <DataModeStamp mode={dataMode} />
-        </header>
+        ) : null}
 
         {discordant ? (
           <div className="oph-inline-notice" data-tone="information" role="status">

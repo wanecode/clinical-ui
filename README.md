@@ -41,7 +41,7 @@ states.
 
 ## Install the release candidate
 
-The current checkpoint is `v0.1.0-rc.5`. Install preview packages from the
+The current checkpoint is `v0.1.0-rc.6`. Install preview packages from the
 `next` channel:
 
 ```bash

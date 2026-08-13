@@ -4,6 +4,7 @@ export type Eye = "OD" | "OG";
 export type Laterality = Eye | "OU";
 export type ClinicalDataState = "ready" | "loading" | "empty" | "error" | "forbidden" | "partial";
 export type OphthalmologyDataMode = "clinical" | "synthetic";
+export type OphthalmologyPresentation = "standalone" | "embedded";
 export type DataKind = "observed" | "imported" | "derived" | "projected";
 
 export interface EyeSource {

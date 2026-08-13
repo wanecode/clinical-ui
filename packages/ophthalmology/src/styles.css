@@ -25,27 +25,38 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1.5rem;
-  margin-bottom: 1.1rem;
-  padding-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.8rem;
   border-bottom: 1px solid var(--oph-rule-strong);
 }
 
 .oph-workbench-heading h2 {
-  max-width: 22ch;
+  max-width: 30ch;
   margin: 0;
   font-family: var(--font-sans);
-  font-size: clamp(1.65rem, 3vw, 2.65rem);
-  font-weight: 620;
-  letter-spacing: -0.045em;
-  line-height: 0.98;
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
 }
 
 .oph-workbench-heading p:last-child {
   max-width: 62ch;
-  margin: 0.55rem 0 0;
+  margin: 0.4rem 0 0;
   color: var(--muted-foreground);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
+}
+
+.oph-embedded-meta {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.65rem;
+}
+
+.oph-workbench[data-presentation="embedded"]::before,
+.oph-bilateral[data-presentation="embedded"]::before {
+  opacity: 0.16;
 }
 
 .oph-kicker {
@@ -2079,7 +2090,7 @@
     justify-content: flex-start;
   }
   .oph-workbench-heading h2 {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
   }
   .oph-bilateral__grid,
   .oph-cataract__grid,

@@ -3,6 +3,12 @@
 All notable changes are documented here. The project follows Semantic
 Versioning once package distribution begins.
 
+## 0.1.0-rc.6 — 2026-08-13
+
+- Rebalance ophthalmology workbench headings for dense clinical interfaces.
+- Add an embedded presentation mode that removes redundant module titles inside host applications.
+- Document and test both standalone Storybook and embedded application usage.
+
 ## 0.1.0-rc.5 — 2026-08-13
 
 - Add an explicit host-theme token contract for independent application integration.

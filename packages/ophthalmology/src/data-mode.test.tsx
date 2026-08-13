@@ -25,6 +25,24 @@ describe("ophthalmology data provenance", () => {
     expect(markup).toContain("100 % synthétique");
   });
 
+  it("removes redundant workbench titles when embedded in a clinical host", () => {
+    const bilateral = renderToStaticMarkup(
+      <BilateralClinicalRail
+        right={syntheticBilateralEyes.OD}
+        left={syntheticBilateralEyes.OG}
+        presentation="embedded"
+      />,
+    );
+    const glaucoma = renderToStaticMarkup(
+      <GlaucomaProgressionWorkbench data={syntheticGlaucomaData} presentation="embedded" />,
+    );
+
+    expect(bilateral).not.toContain("Lecture OD / OG");
+    expect(bilateral).toContain("Œil droit");
+    expect(glaucoma).not.toContain("Trajectoires explicables");
+    expect(glaucoma).toContain("Pression intraoculaire");
+  });
+
   it("renders eye-specific targets without inventing a vigilance", () => {
     const { targetIop: _targetIop, vigilance: _vigilance, ...trajectory } = syntheticGlaucomaData;
     const markup = renderToStaticMarkup(

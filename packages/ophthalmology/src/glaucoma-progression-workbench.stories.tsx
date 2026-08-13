@@ -23,6 +23,18 @@ type Story = StoryObj<typeof meta>;
 
 export const Progression: Story = {};
 
+export const EmbarqueDansUneApplication: Story = {
+  args: { presentation: "embedded" },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Commence directement par les données lorsque l’application hôte possède déjà son propre titre de page.",
+      },
+    },
+  },
+};
+
 export const NavigationClavierEtTable: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
