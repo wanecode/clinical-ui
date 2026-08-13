@@ -3,6 +3,12 @@
 All notable changes are documented here. The project follows Semantic
 Versioning once package distribution begins.
 
+## 0.1.0-rc.4 — 2026-08-13
+
+- Remove internal domain-goal documents and their automation references from the public snapshot.
+- Keep the public domain matrix focused on implemented package coverage and clinical validation boundaries.
+- Preserve the component APIs and launch-readiness assets introduced in RC.3.
+
 ## 0.1.0-rc.3 — 2026-08-13
 
 - Add an adoption-focused README with an ophthalmology flagship and runnable quick start.
