@@ -9,3 +9,4 @@ __pycache__/
 playwright-report/
 test-results/
 .artifacts/
+domains/*/GOAL.md

@@ -9,7 +9,7 @@
 
 ## Specialty branches
 
-On `feature/<domain>`, read `domains/<domain>/GOAL.md` before editing. Changes are limited to:
+On `feature/<domain>`, changes are limited to:
 
 - `packages/<domain>/`;
 - `prototypes/<domain>/`;

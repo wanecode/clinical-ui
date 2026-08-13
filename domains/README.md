@@ -11,5 +11,6 @@ sert à concevoir les modules Clinical UI ; aucun code applicatif n'est importé
 | `dermatology` | 8 groupes, 40 capacités | carte corporelle, lésion longitudinale, dermoscopie, comparaison photographique, plaies, scores/surfaces, procédures, vigilances |
 | `cardiology` | 9 groupes, 40 capacités | synthèse cardiovasculaire, ECG, échographie, MAPA/Holter, scores, trajectoires, prescriptions, implants, rapports |
 
-Les identifiants et versions de `PlanDefinition` présents dans les goals conservent la traçabilité de
-cet instantané. Toute règle clinique active exige malgré tout une validation locale versionnée.
+Cette matrice décrit la couverture actuelle des packages. Elle ne constitue ni une recommandation
+clinique, ni un guide d'implémentation FHIR. Toute règle clinique active exige une validation locale
+versionnée.

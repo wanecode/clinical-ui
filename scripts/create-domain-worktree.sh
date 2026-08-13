@@ -42,4 +42,4 @@ git worktree add -b "$domain_branch" "$target_path" "$foundation_branch"
 
 echo "Created $domain_branch"
 echo "Worktree: $target_path"
-echo "Scope: $target_path/domains/$domain_slug/GOAL.md"
+echo "Package scope: $target_path/packages/$domain_slug"
