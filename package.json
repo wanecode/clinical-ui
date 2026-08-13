@@ -15,6 +15,7 @@
     "test": "pnpm --filter './packages/**' test",
     "test:stories": "vitest run --config vitest.storybook.config.ts",
     "test:all": "pnpm test && pnpm test:stories",
+    "qa:visual": "python3 scripts/visual-qa.py",
     "check:isolation": "node scripts/check-isolation.mjs",
     "verify": "pnpm check:isolation && pnpm typecheck && pnpm test:all && pnpm lint && pnpm build:storybook",
     "lint": "biome check .",

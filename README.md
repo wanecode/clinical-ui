@@ -49,6 +49,20 @@ pnpm check:isolation
 pnpm verify
 ```
 
+Visual QA requires the Storybook development server and Python Playwright:
+
+```bash
+python3 -m pip install -r requirements-qa.txt
+python3 -m playwright install chromium
+pnpm storybook
+# In another terminal:
+pnpm qa:visual
+```
+
+The audit covers every executable story at desktop, tablet and mobile widths,
+then captures a cross-domain sentinel set in all six palette/mode combinations.
+Evidence is written to `.artifacts/visual-qa/` and stays outside Git.
+
 ## Clinical safety boundary
 
 Clinical UI renders and explains supplied data. It does not invent clinical

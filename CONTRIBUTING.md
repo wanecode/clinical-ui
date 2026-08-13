@@ -12,6 +12,11 @@
 Every story must be deterministic: freeze dates, avoid random identifiers and
 never call a live service.
 
+Before proposing an integration checkpoint, run `pnpm verify` and the visual
+audit documented in the README. The visual audit must complete without document
+overflow, runtime errors, failed requests or empty renders. Review its sentinel
+screenshots manually; a structurally valid screen can still have poor hierarchy.
+
 ## Required states
 
 At minimum, clinically meaningful components document:
