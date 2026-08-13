@@ -1,0 +1,24 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{t}from"./jsx-runtime-DeHZSEgm.js";import{h as n}from"./iframe-CUdBhyno.js";import{a as r,b as i,h as a,m as o,p as s,t as c,v as l,y as u}from"./fixtures-D5uNXNAw.js";function d({events:e,state:t=`ready`}){let[n,r]=(0,f.useState)(`all`),i=e.filter(e=>n===`all`?!0:n===`evidence`?[`lesion`,`specimen`,`staging`,`report`].includes(e.kind):[`coordination`,`procedure`].includes(e.kind));return(0,p.jsx)(a,{title:`Parcours oncologique cervico-facial`,eyebrow:`Clinical atlas · Chronologie`,description:`Lésions, stade, prélèvements, coordination et signature avec origine de chaque information.`,status:e.some(e=>e.signedBy)?`Compte rendu signé`:`Coordination active`,statusTone:e.some(e=>e.signedBy)?`success`:`pending`,actions:(0,p.jsx)(l,{label:`Filtrer la chronologie`,value:n,onChange:r,options:[{value:`all`,label:`Tout`},{value:`evidence`,label:`Éléments`},{value:`coordination`,label:`Coordination`}]}),children:t===`ready`?e.length===0?(0,p.jsx)(o,{state:`empty`}):(0,p.jsxs)(`div`,{className:`ent-oncology`,children:[(0,p.jsx)(`aside`,{className:`ent-oncology__legend`,"aria-label":`États de l’information`,children:[`observed`,`imported`,`preliminary`,`validated`,`projected`].map(e=>(0,p.jsx)(s,{maturity:e},e))}),(0,p.jsx)(`ol`,{className:`ent-timeline`,"aria-live":`polite`,children:i.map(e=>(0,p.jsxs)(`li`,{"data-maturity":e.maturity,children:[(0,p.jsx)(`time`,{dateTime:e.at,children:new Intl.DateTimeFormat(`fr-FR`,{day:`2-digit`,month:`short`,year:`numeric`,hour:`2-digit`,minute:`2-digit`}).format(new Date(e.at))}),(0,p.jsx)(`span`,{className:`ent-timeline__node`,"aria-hidden":`true`}),(0,p.jsxs)(`article`,{children:[(0,p.jsxs)(`div`,{className:`ent-section-heading`,children:[(0,p.jsxs)(`div`,{children:[(0,p.jsx)(`p`,{className:`ent-eyebrow`,children:e.kind===`lesion`?`Lésion`:e.kind===`specimen`?`Prélèvement`:e.kind===`staging`?`Stade`:e.kind===`coordination`?`Coordination`:e.kind===`procedure`?`Planification`:`Compte rendu`}),(0,p.jsx)(`h3`,{children:e.title})]}),(0,p.jsx)(s,{maturity:e.maturity})]}),(0,p.jsx)(`p`,{children:e.detail}),e.signedBy?(0,p.jsxs)(`p`,{className:`ent-signature`,children:[(0,p.jsx)(`span`,{"aria-hidden":`true`,children:`✓`}),` Signé par `,e.signedBy]}):null,(0,p.jsx)(u,{reference:e.sourceReference})]})]},e.id))}),(0,p.jsx)(`p`,{className:`ent-clinical-note`,children:`Les événements projetés représentent une coordination planifiée, jamais une indication thérapeutique automatique.`})]}):(0,p.jsx)(o,{state:t})})}var f,p;function m(){return(m=e((()=>{f=n(),i(),p=t(),d.__docgenInfo={description:``,methods:[],displayName:`EntOncologyTimeline`,props:{events:{required:!0,tsType:{name:`Array`,elements:[{name:`OncologyTimelineEvent`}],raw:`OncologyTimelineEvent[]`},description:``},state:{required:!1,tsType:{name:`union`,raw:`| "ready"
+| "loading"
+| "empty"
+| "error"
+| "forbidden"
+| "partial"
+| "not-calculable"`,elements:[{name:`literal`,value:`"ready"`},{name:`literal`,value:`"loading"`},{name:`literal`,value:`"empty"`},{name:`literal`,value:`"error"`},{name:`literal`,value:`"forbidden"`},{name:`literal`,value:`"partial"`},{name:`literal`,value:`"not-calculable"`}]},description:``,defaultValue:{value:`"ready"`,computed:!1}}}}})))()}var h,g,_,v,y,b,x;function S(){return(S=e((()=>{c(),m(),{expect:h,userEvent:g,within:_}=__STORYBOOK_MODULE_TEST__,v={title:`ORL/07 Oncologie/EntOncologyTimeline`,component:d,tags:[`autodocs`,`test`],args:{events:r},parameters:{docs:{description:{component:`Chronologie de lésion, prélèvement, stade, coordination, projection et compte rendu signé, sans indication thérapeutique automatique.`}}}},y={play:async({canvasElement:e})=>{let t=_(e),n=t.getByRole(`button`,{name:`Coordination`});await g.click(n),await h(n).toHaveAttribute(`aria-pressed`,`true`),await h(t.getByText(`Réunion de coordination`)).toBeVisible(),await h(t.queryByText(`Lésion décrite`)).not.toBeInTheDocument()}},b={args:{state:`empty`}},y.parameters={...y.parameters,docs:{...y.parameters?.docs,source:{originalSource:`{
+  play: async ({
+    canvasElement
+  }) => {
+    const canvas = within(canvasElement);
+    const coordination = canvas.getByRole("button", {
+      name: "Coordination"
+    });
+    await userEvent.click(coordination);
+    await expect(coordination).toHaveAttribute("aria-pressed", "true");
+    await expect(canvas.getByText("Réunion de coordination")).toBeVisible();
+    await expect(canvas.queryByText("Lésion décrite")).not.toBeInTheDocument();
+  }
+}`,...y.parameters?.docs?.source}}},b.parameters={...b.parameters,docs:{...b.parameters?.docs,source:{originalSource:`{
+  args: {
+    state: "empty"
+  }
+}`,...b.parameters?.docs?.source}}},x=[`SignedLongitudinalCase`,`Empty`]})))()}S();export{b as Empty,y as SignedLongitudinalCase,x as __namedExportsOrder,v as default};

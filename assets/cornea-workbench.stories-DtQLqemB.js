@@ -1,0 +1,31 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{t}from"./jsx-runtime-DeHZSEgm.js";import{h as n}from"./iframe-CUdBhyno.js";import{a as r,i,n as a,o,r as s,t as c}from"./primitives-BGZVpAdQ.js";import{o as l,t as u}from"./fixtures-BtNEQcAc.js";import{n as d,t as f}from"./accessible-trajectory-BjVwunAm.js";function p({data:e,state:t=`ready`}){let[n,o]=(0,m.useState)(2),l=e.map[n];return(0,h.jsx)(s,{state:t,label:`Cornée et surface oculaire`,children:(0,h.jsxs)(`article`,{className:`oph-workbench oph-cornea`,children:[(0,h.jsxs)(`header`,{className:`oph-workbench-heading`,children:[(0,h.jsxs)(`div`,{children:[(0,h.jsx)(`p`,{className:`oph-kicker`,children:`Cornée & surface`}),(0,h.jsx)(`h2`,{children:`Topographie en contexte`}),(0,h.jsx)(`p`,{children:`La carte, ses mesures et sa trajectoire restent lisibles ensemble.`})]}),(0,h.jsxs)(`div`,{className:`oph-heading-actions`,children:[(0,h.jsx)(c,{eye:e.eye,long:!0}),(0,h.jsx)(r,{})]})]}),(0,h.jsxs)(`div`,{className:`oph-cornea__layout`,children:[(0,h.jsxs)(i,{title:`Carte kératométrique`,eyebrow:`Synthèse topographique`,children:[(0,h.jsxs)(`div`,{className:`oph-cornea-map-layout`,children:[(0,h.jsxs)(`div`,{className:`oph-cornea-map`,role:`listbox`,"aria-label":`Zones de la carte cornéenne`,children:[e.map.map((e,t)=>(0,h.jsx)(`button`,{type:`button`,role:`option`,"aria-selected":n===t,"data-zone":t,onClick:()=>o(t),"aria-label":`${e.zone}, ${e.value} dioptries, ${e.interpretation}`,children:(0,h.jsx)(`span`,{children:t+1})},e.zone)),(0,h.jsx)(`i`,{className:`oph-cornea-map__ring oph-cornea-map__ring--outer`,"aria-hidden":`true`}),(0,h.jsx)(`i`,{className:`oph-cornea-map__ring oph-cornea-map__ring--inner`,"aria-hidden":`true`})]}),(0,h.jsxs)(`div`,{className:`oph-cornea-map__inspector`,"aria-live":`polite`,children:[(0,h.jsx)(`span`,{children:`Zone sélectionnée`}),(0,h.jsx)(`strong`,{children:l?.zone??`Aucune`}),(0,h.jsxs)(`b`,{children:[l?.value.toFixed(1)??`—`,` D`]}),(0,h.jsx)(`small`,{children:l?.interpretation})]})]}),(0,h.jsx)(`div`,{className:`oph-table-wrap`,children:(0,h.jsxs)(`table`,{className:`oph-table`,children:[(0,h.jsx)(`caption`,{children:`Alternative tabulaire de la carte cornéenne`}),(0,h.jsx)(`thead`,{children:(0,h.jsxs)(`tr`,{children:[(0,h.jsx)(`th`,{children:`Zone`}),(0,h.jsx)(`th`,{children:`K`}),(0,h.jsx)(`th`,{children:`Interprétation`})]})}),(0,h.jsx)(`tbody`,{children:e.map.map(e=>(0,h.jsxs)(`tr`,{children:[(0,h.jsx)(`th`,{scope:`row`,children:e.zone}),(0,h.jsxs)(`td`,{children:[e.value.toFixed(1),` D`]}),(0,h.jsx)(`td`,{children:e.interpretation})]},e.zone))})]})})]}),(0,h.jsxs)(`div`,{className:`oph-cornea__side`,children:[(0,h.jsx)(i,{title:`Mesures`,eyebrow:`Kératométrie`,children:(0,h.jsxs)(`dl`,{className:`oph-metric-grid`,children:[(0,h.jsx)(a,{label:`K1`,value:e.k1.toFixed(1),unit:`D`}),(0,h.jsx)(a,{label:`K2`,value:e.k2.toFixed(1),unit:`D`}),(0,h.jsx)(a,{label:`Axe`,value:e.axis,unit:`°`}),(0,h.jsx)(a,{label:`Point le plus fin`,value:e.thinnest,unit:`µm`})]})}),(0,h.jsx)(i,{title:`Surface & lentille`,eyebrow:`Parcours thérapeutique`,children:(0,h.jsxs)(`dl`,{className:`oph-metric-grid`,children:[(0,h.jsx)(a,{label:`OSDI synthétique`,value:e.dryEyeScore,unit:`/ 100`}),(0,h.jsx)(a,{label:`Lentille`,value:e.lensStatus})]})})]})]}),(0,h.jsx)(i,{title:`Trajectoire pachymétrique`,eyebrow:`Observations longitudinales`,children:(0,h.jsx)(f,{points:e.trajectory,label:`Évolution du point cornéen le plus fin`,unit:`µm`})})]})})}var m,h;function g(){return(g=e((()=>{m=n(),d(),o(),h=t(),p.__docgenInfo={description:``,methods:[],displayName:`CorneaWorkbench`,props:{data:{required:!0,tsType:{name:`CorneaData`},description:``},state:{required:!1,tsType:{name:`union`,raw:`"ready" | "loading" | "empty" | "error" | "forbidden" | "partial"`,elements:[{name:`literal`,value:`"ready"`},{name:`literal`,value:`"loading"`},{name:`literal`,value:`"empty"`},{name:`literal`,value:`"error"`},{name:`literal`,value:`"forbidden"`},{name:`literal`,value:`"partial"`}]},description:``,defaultValue:{value:`"ready"`,computed:!1}}}}})))()}var _,v,y,b,x,S,C,w,T;function E(){return(E=e((()=>{g(),u(),{expect:_,userEvent:v,within:y}=__STORYBOOK_MODULE_TEST__,b={title:`Ophthalmology/CorneaWorkbench`,component:p,tags:[`autodocs`,`test`],args:{data:l},parameters:{docs:{description:{component:`Kératométrie, topographie, surface oculaire, lentilles et trajectoire cornéenne.`}}}},x={},S={play:async({canvasElement:e})=>{let t=y(e),n=t.getByRole(`option`,{name:/Inférieur/});await v.click(n),await _(n).toHaveAttribute(`aria-selected`,`true`),await v.click(t.getByRole(`option`,{name:/Central/}))}},C={args:{state:`partial`,data:{...l,dryEyeScore:0,lensStatus:`Non documenté`}}},w={args:{data:{...l,eye:`OG`}}},x.parameters={...x.parameters,docs:{...x.parameters?.docs,source:{originalSource:`{}`,...x.parameters?.docs?.source}}},S.parameters={...S.parameters,docs:{...S.parameters?.docs,source:{originalSource:`{
+  play: async ({
+    canvasElement
+  }) => {
+    const canvas = within(canvasElement);
+    const inferiorZone = canvas.getByRole("option", {
+      name: /Inférieur/
+    });
+    await userEvent.click(inferiorZone);
+    await expect(inferiorZone).toHaveAttribute("aria-selected", "true");
+    await userEvent.click(canvas.getByRole("option", {
+      name: /Central/
+    }));
+  }
+}`,...S.parameters?.docs?.source}}},C.parameters={...C.parameters,docs:{...C.parameters?.docs,source:{originalSource:`{
+  args: {
+    state: "partial",
+    data: {
+      ...syntheticCorneaData,
+      dryEyeScore: 0,
+      lensStatus: "Non documenté"
+    }
+  }
+}`,...C.parameters?.docs?.source}}},w.parameters={...w.parameters,docs:{...w.parameters?.docs,source:{originalSource:`{
+  args: {
+    data: {
+      ...syntheticCorneaData,
+      eye: "OG"
+    }
+  }
+}`,...w.parameters?.docs?.source}}},T=[`Topographie`,`InteractionCarte`,`SurfacePartielle`,`MonoculaireOG`]})))()}E();export{S as InteractionCarte,w as MonoculaireOG,C as SurfacePartielle,x as Topographie,T as __namedExportsOrder,b as default};
