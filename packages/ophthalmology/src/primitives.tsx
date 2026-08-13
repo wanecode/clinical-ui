@@ -1,6 +1,11 @@
 import { ClinicalStatusBadge } from "@clinical-ui/core";
 import type { HTMLAttributes, ReactNode } from "react";
-import type { ClinicalDataState, Eye, OphthalmologyDataMode } from "./types";
+import type {
+  ClinicalDataState,
+  Eye,
+  OphthalmologyDataMode,
+  OphthalmologyPresentation,
+} from "./types";
 
 export interface OphthalmologyDataBoundaryProps {
   state?: ClinicalDataState;
@@ -79,6 +84,47 @@ export function DataModeStamp({
   compact?: boolean;
 }) {
   return mode === "synthetic" ? <SyntheticStamp compact={compact} /> : null;
+}
+
+export function OphthalmologyWorkbenchHeader({
+  kicker,
+  title,
+  description,
+  dataMode = "clinical",
+  presentation = "standalone",
+  actions,
+}: {
+  kicker: string;
+  title: string;
+  description: string;
+  dataMode?: OphthalmologyDataMode;
+  presentation?: OphthalmologyPresentation;
+  actions?: ReactNode;
+}) {
+  if (presentation === "embedded") {
+    return actions || dataMode === "synthetic" ? (
+      <div className="oph-embedded-meta">
+        <div className="oph-heading-actions">
+          {actions}
+          <DataModeStamp mode={dataMode} />
+        </div>
+      </div>
+    ) : null;
+  }
+
+  return (
+    <header className="oph-workbench-heading">
+      <div>
+        <p className="oph-kicker">{kicker}</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </div>
+      <div className="oph-heading-actions">
+        {actions}
+        <DataModeStamp mode={dataMode} />
+      </div>
+    </header>
+  );
 }
 
 export function EyeLabel({ eye, long = false }: { eye: Eye; long?: boolean }) {

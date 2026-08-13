@@ -3,6 +3,12 @@
 All notable changes are documented here. The project follows Semantic
 Versioning once package distribution begins.
 
+## 0.1.0-rc.7 — 2026-08-13
+
+- Extend embedded presentation mode to every ophthalmology workbench.
+- Make clinical-host rendering explicit: no substitute retina scan, corneal map, motility grid, implant option or emergency protocol is generated from missing data.
+- Add partial clinical-host stories and regression tests for provenance-safe rendering.
+
 ## 0.1.0-rc.6 — 2026-08-13
 
 - Rebalance ophthalmology workbench headings for dense clinical interfaces.

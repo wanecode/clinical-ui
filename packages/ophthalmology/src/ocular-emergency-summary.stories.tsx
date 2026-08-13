@@ -7,7 +7,7 @@ const meta = {
   title: "Ophthalmology/OcularEmergencySummary",
   component: OcularEmergencySummary,
   tags: ["autodocs", "test"],
-  args: { data: syntheticEmergencyData, onDisposition: fn() },
+  args: { data: syntheticEmergencyData, onDisposition: fn(), dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -50,3 +50,19 @@ export const SansDrapeauRouge: Story = {
 };
 
 export const CompactMobile: Story = { parameters: { viewport: { defaultViewport: "mobile1" } } };
+
+export const EmbarqueAvecTriagePartiel: Story = {
+  args: {
+    presentation: "embedded",
+    dataMode: "clinical",
+    readOnly: true,
+    state: "partial",
+    data: {
+      triageLevel: "Urgent",
+      disposition: "Orientation documentée dans le dossier",
+      findings: [],
+      immediateActions: [],
+      source: "FHIR Observation/triage-ocular-1",
+    },
+  },
+};

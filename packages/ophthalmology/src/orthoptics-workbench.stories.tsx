@@ -7,7 +7,7 @@ const meta = {
   title: "Ophthalmology/OrthopticsWorkbench",
   component: OrthopticsWorkbench,
   tags: ["autodocs", "test"],
-  args: { data: syntheticOrthopticsData },
+  args: { data: syntheticOrthopticsData, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -55,3 +55,17 @@ export const NonTestable: Story = {
 };
 
 export const CompactMobile: Story = { parameters: { viewport: { defaultViewport: "mobile1" } } };
+
+export const EmbarqueSansMotiliteDetaillee: Story = {
+  args: {
+    presentation: "embedded",
+    dataMode: "clinical",
+    state: "partial",
+    data: {
+      cells: [],
+      coverDistance: "Ésotropie 18 Δ",
+      stereopsis: "100 sec d’arc",
+      source: "FHIR Observation/orthoptics-1",
+    },
+  },
+};

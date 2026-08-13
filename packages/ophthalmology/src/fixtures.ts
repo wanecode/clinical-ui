@@ -438,6 +438,7 @@ export const syntheticRetinaCareEvents: RetinaCareEvent[] = [
 
 export const syntheticCorneaData: CorneaData = {
   eye: "OD",
+  kmax: 45.4,
   k1: 42.1,
   k2: 44.8,
   axis: 92,
@@ -452,6 +453,7 @@ export const syntheticCorneaData: CorneaData = {
     { zone: "Nasal", value: 42.7, interpretation: "Stable" },
     { zone: "Inférieur", value: 45.4, interpretation: "Asymétrique" },
   ],
+  source: "DiagnosticReport/topography-synthetic-od",
 };
 
 export const syntheticCataractPlan: CataractPlan = {
@@ -463,6 +465,8 @@ export const syntheticCataractPlan: CataractPlan = {
   selectedIol: "Monofocale asphérique — modèle synthétique A",
   plannedPower: 21.5,
   procedureStatus: "preliminary",
+  currentStep: 1,
+  source: "DiagnosticReport/biometry-synthetic-og",
   documents: [
     { label: "Consentement", status: "signed" },
     { label: "Biométrie", status: "complete" },
@@ -496,6 +500,7 @@ export const syntheticOrthopticsData: OrthopticsData = {
       finding: limited ? "limited" : "normal",
     };
   }),
+  source: "DiagnosticReport/orthoptics-synthetic-binocular",
 };
 
 export const syntheticEmergencyData: OcularEmergencyData = {
@@ -516,8 +521,15 @@ export const syntheticEmergencyData: OcularEmergencyData = {
     { id: "photophobia", label: "Photophobie", present: true, severity: "urgent" },
   ],
   disposition: "Protection sans compression · avis ophtalmologique immédiat",
+  immediateActions: [
+    "Protéger l’œil sans compression.",
+    "Maintenir à jeun selon le contexte clinique.",
+    "Ne pas retirer un corps étranger pénétrant.",
+    "Tracer l’heure, la latéralité et l’évolution.",
+  ],
   lowVisionReferral: "À réévaluer après prise en charge de la phase aiguë",
   fitnessStatement: "Aptitude à la conduite non évaluée en phase aiguë",
+  source: "ServiceRequest/urgent-ophthalmology-review-synthetic",
 };
 
 export function isSyntheticOphthalmologyResource(

@@ -4,9 +4,16 @@ import {
   EyeLabel,
   OphthalmologyDataBoundary,
   OphthalmologyPanel,
-  SyntheticStamp,
+  OphthalmologyWorkbenchHeader,
 } from "./primitives";
-import type { AcuityReading, ClinicalDataState, Eye, RefractionReading } from "./types";
+import type {
+  AcuityReading,
+  ClinicalDataState,
+  Eye,
+  OphthalmologyDataMode,
+  OphthalmologyPresentation,
+  RefractionReading,
+} from "./types";
 
 export type AcuityDisplayScale = "decimal" | "logmar" | "snellen";
 
@@ -60,6 +67,8 @@ export interface VisualAcuityRefractionWorkbenchProps {
   state?: ClinicalDataState;
   initialScale?: AcuityDisplayScale;
   readOnly?: boolean;
+  dataMode?: OphthalmologyDataMode;
+  presentation?: OphthalmologyPresentation;
   onRefractionChange?: (readings: RefractionReading[]) => void;
 }
 
@@ -69,6 +78,8 @@ export function VisualAcuityRefractionWorkbench({
   state = "ready",
   initialScale = "decimal",
   readOnly = false,
+  dataMode = "clinical",
+  presentation = "standalone",
   onRefractionChange,
 }: VisualAcuityRefractionWorkbenchProps) {
   const [scale, setScale] = useState<AcuityDisplayScale>(initialScale);
@@ -95,15 +106,14 @@ export function VisualAcuityRefractionWorkbench({
 
   return (
     <OphthalmologyDataBoundary state={state} label="Acuité et réfraction">
-      <article className="oph-workbench oph-refraction">
-        <header className="oph-workbench-heading">
-          <div>
-            <p className="oph-kicker">Réfraction & acuité</p>
-            <h2>Du mesuré à la prescription</h2>
-            <p>La valeur source ne change jamais ; seule sa représentation est convertie.</p>
-          </div>
-          <SyntheticStamp />
-        </header>
+      <article className="oph-workbench oph-refraction" data-presentation={presentation}>
+        <OphthalmologyWorkbenchHeader
+          kicker="Réfraction & acuité"
+          title="Du mesuré à la prescription"
+          description="La valeur source ne change jamais ; seule sa représentation est convertie."
+          dataMode={dataMode}
+          presentation={presentation}
+        />
 
         <fieldset className="oph-scale-switch">
           <legend>Afficher</legend>
@@ -208,7 +218,10 @@ export function VisualAcuityRefractionWorkbench({
         <OphthalmologyPanel title="Prescription optique" eyebrow="Synthèse amendable">
           <div className="oph-table-wrap">
             <table className="oph-table">
-              <caption>Prescription issue des valeurs synthétiques saisies ci-dessus</caption>
+              <caption>
+                Prescription issue des valeurs{" "}
+                {dataMode === "synthetic" ? "synthétiques" : "cliniques"} affichées ci-dessus
+              </caption>
               <thead>
                 <tr>
                   <th>Œil</th>

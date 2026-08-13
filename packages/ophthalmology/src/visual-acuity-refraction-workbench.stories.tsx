@@ -7,7 +7,11 @@ const meta = {
   title: "Ophthalmology/VisualAcuityRefractionWorkbench",
   component: VisualAcuityRefractionWorkbench,
   tags: ["autodocs", "test"],
-  args: { acuities: syntheticAcuityReadings, refractions: syntheticRefractions },
+  args: {
+    acuities: syntheticAcuityReadings,
+    refractions: syntheticRefractions,
+    dataMode: "synthetic",
+  },
   parameters: {
     docs: {
       description: {
@@ -60,3 +64,7 @@ export const Amende: Story = {
 };
 
 export const LectureSeule: Story = { args: { readOnly: true } };
+
+export const EmbarqueDansUneApplication: Story = {
+  args: { presentation: "embedded", readOnly: true },
+};

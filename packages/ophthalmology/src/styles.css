@@ -337,6 +337,43 @@
   color: var(--foreground);
 }
 
+.oph-structured-empty {
+  display: grid;
+  place-items: center;
+  min-height: 8rem;
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: color-mix(in oklch, var(--muted) 42%, transparent);
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+.oph-structured-empty strong,
+.oph-structured-empty span {
+  display: block;
+}
+
+.oph-structured-empty strong {
+  color: var(--foreground);
+  font-size: 0.82rem;
+}
+
+.oph-structured-empty span {
+  max-width: 46ch;
+  margin-top: 0.25rem;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.oph-empty-inline {
+  margin: 0;
+  padding: 0.8rem;
+  border: 1px dashed var(--border);
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+
 .oph-source-details {
   margin-top: 0.7rem;
   padding-top: 0.6rem;

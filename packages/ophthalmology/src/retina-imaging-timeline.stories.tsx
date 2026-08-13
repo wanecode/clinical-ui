@@ -27,7 +27,11 @@ const meta = {
   title: "Ophthalmology/RetinaImagingTimeline",
   component: RetinaImagingTimeline,
   tags: ["autodocs", "test"],
-  args: { images: storyRetinaImages, careEvents: syntheticRetinaCareEvents },
+  args: {
+    images: storyRetinaImages,
+    careEvents: syntheticRetinaCareEvents,
+    dataMode: "synthetic",
+  },
   parameters: {
     docs: {
       description: {
@@ -73,5 +77,14 @@ export const ProvenancePartielle: Story = {
     images: storyRetinaImages.map((image, index) =>
       index === 0 ? { ...image, source: "Source non résolue" } : image,
     ),
+  },
+};
+
+export const EmbarqueSansApercuTransmis: Story = {
+  args: {
+    presentation: "embedded",
+    dataMode: "clinical",
+    state: "partial",
+    images: syntheticRetinaImages,
   },
 };

@@ -5,13 +5,22 @@ import {
   Metric,
   OphthalmologyDataBoundary,
   OphthalmologyPanel,
-  SyntheticStamp,
+  OphthalmologyWorkbenchHeader,
 } from "./primitives";
-import type { CataractPlan, ClinicalDataState } from "./types";
+import type {
+  CataractPlan,
+  ClinicalDataState,
+  OphthalmologyDataMode,
+  OphthalmologyPresentation,
+} from "./types";
 
 export interface CataractSurgeryPlannerProps {
   plan: CataractPlan;
   state?: ClinicalDataState;
+  dataMode?: OphthalmologyDataMode;
+  presentation?: OphthalmologyPresentation;
+  readOnly?: boolean;
+  iolOptions?: string[];
 }
 
 const IOL_OPTIONS = [
@@ -20,26 +29,33 @@ const IOL_OPTIONS = [
   "Profondeur de champ — modèle synthétique C",
 ];
 
-export function CataractSurgeryPlanner({ plan, state = "ready" }: CataractSurgeryPlannerProps) {
+export function CataractSurgeryPlanner({
+  plan,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+  readOnly = false,
+  iolOptions,
+}: CataractSurgeryPlannerProps) {
   const [selectedIol, setSelectedIol] = useState(plan.selectedIol);
   const [power, setPower] = useState(plan.plannedPower);
+  const options =
+    iolOptions ??
+    (dataMode === "synthetic" ? IOL_OPTIONS : plan.selectedIol ? [plan.selectedIol] : []);
   return (
     <OphthalmologyDataBoundary state={state} label="Planification de chirurgie de cataracte">
-      <article className="oph-workbench oph-cataract">
-        <header className="oph-workbench-heading">
-          <div>
-            <p className="oph-kicker">Cataracte & chirurgie</p>
-            <h2>Planifier, opérer, auditer</h2>
-            <p>Une continuité documentaire de la biométrie au résultat réfractif.</p>
-          </div>
-          <div className="oph-heading-actions">
-            <EyeLabel eye={plan.eye} long />
-            <SyntheticStamp />
-          </div>
-        </header>
+      <article className="oph-workbench oph-cataract" data-presentation={presentation}>
+        <OphthalmologyWorkbenchHeader
+          kicker="Cataracte & chirurgie"
+          title="Planifier, opérer, auditer"
+          description="Une continuité documentaire de la biométrie au résultat réfractif."
+          dataMode={dataMode}
+          presentation={presentation}
+          actions={<EyeLabel eye={plan.eye} long />}
+        />
         <nav className="oph-cataract__flow" aria-label="Cycle chirurgical">
           {["Biométrie", "Choix implant", "Validation", "Procédure", "Audit"].map((step, index) => (
-            <div key={step} data-current={index === 1 || undefined}>
+            <div key={step} data-current={index === plan.currentStep || undefined}>
               <span>{index + 1}</span>
               <strong>{step}</strong>
             </div>
@@ -48,18 +64,18 @@ export function CataractSurgeryPlanner({ plan, state = "ready" }: CataractSurger
         <div className="oph-cataract__grid">
           <OphthalmologyPanel title="Biométrie" eyebrow="Mesures importées">
             <dl className="oph-metric-grid">
-              <Metric label="Longueur axiale" value={plan.axialLength.toFixed(2)} unit="mm" />
+              <Metric label="Longueur axiale" value={plan.axialLength?.toFixed(2)} unit="mm" />
               <Metric
                 label="Profondeur chambre"
-                value={plan.anteriorChamberDepth.toFixed(2)}
+                value={plan.anteriorChamberDepth?.toFixed(2)}
                 unit="mm"
               />
-              <Metric label="K moyenne" value={plan.keratometry.toFixed(2)} unit="D" />
-              <Metric label="Cible" value={plan.targetRefraction.toFixed(2)} unit="D" />
+              <Metric label="K moyenne" value={plan.keratometry?.toFixed(2)} unit="D" />
+              <Metric label="Cible" value={plan.targetRefraction?.toFixed(2)} unit="D" />
             </dl>
             <p className="oph-source-line">
-              <span>Nature</span>
-              <code>Importé · biomètre synthétique</code>
+              <span>Source</span>
+              <code>{plan.source ?? "Non renseignée"}</code>
             </p>
           </OphthalmologyPanel>
           <OphthalmologyPanel
@@ -67,64 +83,77 @@ export function CataractSurgeryPlanner({ plan, state = "ready" }: CataractSurger
             eyebrow="Décision préliminaire"
             action={<ClinicalStatusBadge status={plan.procedureStatus} compact />}
           >
-            <fieldset className="oph-iol-options">
+            <fieldset className="oph-iol-options" disabled={readOnly}>
               <legend>Type d’implant intraoculaire</legend>
-              {IOL_OPTIONS.map((option) => (
-                <label key={option}>
-                  <input
-                    type="radio"
-                    name="iol"
-                    checked={selectedIol === option}
-                    onChange={() => setSelectedIol(option)}
-                  />
-                  <span>
-                    <strong>{option}</strong>
-                    <small>
-                      {option === plan.selectedIol ? "Proposition calculée" : "Alternative"}
-                    </small>
-                  </span>
-                </label>
-              ))}
+              {options.length ? (
+                options.map((option) => (
+                  <label key={option}>
+                    <input
+                      type="radio"
+                      name="iol"
+                      checked={selectedIol === option}
+                      onChange={() => setSelectedIol(option)}
+                    />
+                    <span>
+                      <strong>{option}</strong>
+                      <small>
+                        {option === plan.selectedIol ? "Proposition documentée" : "Alternative"}
+                      </small>
+                    </span>
+                  </label>
+                ))
+              ) : (
+                <p className="oph-empty-inline">Aucun implant documenté</p>
+              )}
             </fieldset>
             <label className="oph-power-control">
               <span>Puissance planifiée</span>
               <input
                 type="number"
                 step="0.5"
-                value={power}
-                onChange={(event) => setPower(Number(event.target.value))}
+                value={power ?? ""}
+                disabled={readOnly}
+                onChange={(event) =>
+                  setPower(event.target.value === "" ? undefined : Number(event.target.value))
+                }
               />
               <b>D</b>
             </label>
           </OphthalmologyPanel>
           <OphthalmologyPanel title="Cycle documentaire" eyebrow="Complétude">
-            <ul className="oph-document-list">
-              {plan.documents.map((document) => (
-                <li key={document.label} data-status={document.status}>
-                  <span aria-hidden="true">
-                    {document.status === "signed"
-                      ? "✓"
-                      : document.status === "complete"
-                        ? "●"
-                        : "!"}
-                  </span>
-                  <strong>{document.label}</strong>
-                  <small>
-                    {document.status === "signed"
-                      ? "Signé"
-                      : document.status === "complete"
-                        ? "Complet"
-                        : "Manquant"}
-                  </small>
-                </li>
-              ))}
-            </ul>
+            {plan.documents.length ? (
+              <ul className="oph-document-list">
+                {plan.documents.map((document) => (
+                  <li key={document.label} data-status={document.status}>
+                    <span aria-hidden="true">
+                      {document.status === "signed"
+                        ? "✓"
+                        : document.status === "complete"
+                          ? "●"
+                          : "!"}
+                    </span>
+                    <strong>{document.label}</strong>
+                    <small>
+                      {document.status === "signed"
+                        ? "Signé"
+                        : document.status === "complete"
+                          ? "Complet"
+                          : "Manquant"}
+                    </small>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="oph-empty-inline">Cycle documentaire non renseigné</p>
+            )}
           </OphthalmologyPanel>
         </div>
         <OphthalmologyPanel title="Audit réfractif" eyebrow="Cible versus résultat">
           <div className="oph-table-wrap">
             <table className="oph-table">
-              <caption>Résultats postopératoires synthétiques</caption>
+              <caption>
+                Résultats postopératoires {dataMode === "synthetic" ? "synthétiques" : "documentés"}
+              </caption>
               <thead>
                 <tr>
                   <th>Indicateur</th>
@@ -139,7 +168,7 @@ export function CataractSurgeryPlanner({ plan, state = "ready" }: CataractSurger
                     <th scope="row">{row.label}</th>
                     <td>{row.target}</td>
                     <td>{row.observed ?? "Non encore mesuré"}</td>
-                    <td>{row.observed && row.observed !== "En attente" ? "À calculer" : "—"}</td>
+                    <td>{row.delta ?? "—"}</td>
                   </tr>
                 ))}
               </tbody>

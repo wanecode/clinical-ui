@@ -1,5 +1,10 @@
 import { ClinicalStatusBadge } from "@clinical-ui/core";
-import { DataModeStamp, EyeLabel, Metric, OphthalmologyDataBoundary } from "./primitives";
+import {
+  EyeLabel,
+  Metric,
+  OphthalmologyDataBoundary,
+  OphthalmologyWorkbenchHeader,
+} from "./primitives";
 import type {
   BilateralAlert,
   ClinicalDataState,
@@ -102,20 +107,13 @@ export function BilateralClinicalRail({
         data-compact={compact || undefined}
         data-presentation={presentation}
       >
-        {presentation === "standalone" ? (
-          <header className="oph-workbench-heading">
-            <div>
-              <p className="oph-kicker">Rail clinique bilatéral</p>
-              <h2>Lecture OD / OG</h2>
-              <p>Deux yeux, une seule trajectoire clinique lisible.</p>
-            </div>
-            <DataModeStamp mode={dataMode} />
-          </header>
-        ) : dataMode === "synthetic" ? (
-          <div className="oph-embedded-meta">
-            <DataModeStamp mode={dataMode} />
-          </div>
-        ) : null}
+        <OphthalmologyWorkbenchHeader
+          kicker="Rail clinique bilatéral"
+          title="Lecture OD / OG"
+          description="Deux yeux, une seule trajectoire clinique lisible."
+          dataMode={dataMode}
+          presentation={presentation}
+        />
 
         {discordant ? (
           <div className="oph-inline-notice" data-tone="information" role="status">

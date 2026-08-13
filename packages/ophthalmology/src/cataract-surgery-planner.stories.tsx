@@ -7,7 +7,7 @@ const meta = {
   title: "Ophthalmology/CataractSurgeryPlanner",
   component: CataractSurgeryPlanner,
   tags: ["autodocs", "test"],
-  args: { plan: syntheticCataractPlan },
+  args: { plan: syntheticCataractPlan, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -56,3 +56,16 @@ export const CycleFinal: Story = {
 };
 
 export const DocumentManquant: Story = { args: { state: "partial" } };
+
+export const EmbarqueDansUneApplication: Story = {
+  args: {
+    presentation: "embedded",
+    dataMode: "clinical",
+    readOnly: true,
+    plan: {
+      ...syntheticCataractPlan,
+      selectedIol: "Implant documenté dans le dossier",
+      source: "FHIR Observation/biometry-od",
+    },
+  },
+};

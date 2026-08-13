@@ -1,27 +1,47 @@
 import { useId, useRef, useState } from "react";
-import { OphthalmologyDataBoundary, SyntheticStamp } from "./primitives";
-import type { ClinicalDataState, RetinaCareEvent, RetinaImage } from "./types";
+import {
+  DataModeStamp,
+  OphthalmologyDataBoundary,
+  OphthalmologyWorkbenchHeader,
+} from "./primitives";
+import type {
+  ClinicalDataState,
+  OphthalmologyDataMode,
+  OphthalmologyPresentation,
+  RetinaCareEvent,
+  RetinaImage,
+} from "./types";
 
 export interface RetinaImagingTimelineProps {
   images: RetinaImage[];
   state?: ClinicalDataState;
   initialImageId?: string;
   careEvents?: RetinaCareEvent[];
+  dataMode?: OphthalmologyDataMode;
+  presentation?: OphthalmologyPresentation;
 }
 
 function RetinaViewer({
   image,
   comparison = false,
+  dataMode,
 }: {
   image?: RetinaImage | undefined;
   comparison?: boolean;
+  dataMode: OphthalmologyDataMode;
 }) {
-  if (!image || image.quality === "unavailable") {
+  if (!image || image.quality === "unavailable" || (dataMode === "clinical" && !image.imageUrl)) {
     return (
       <div className="oph-retina-viewer oph-retina-viewer--empty">
         <span aria-hidden="true">⊘</span>
-        <strong>Image indisponible</strong>
-        <small>{image?.source ?? "Aucune source"}</small>
+        <strong>
+          {image && image.quality !== "unavailable" ? "Aperçu non transmis" : "Image indisponible"}
+        </strong>
+        <small>
+          {image
+            ? `${image.modality} · ${image.eye} · ${image.date} · ${image.source}`
+            : "Aucune source"}
+        </small>
       </div>
     );
   }
@@ -45,7 +65,9 @@ function RetinaViewer({
             src={image.imageUrl}
             alt={
               image.imageAlt ??
-              `${image.modality} synthétique ${image.eye}, ${image.date}, coupe rétinienne simulée`
+              (dataMode === "synthetic"
+                ? `${image.modality} synthétique ${image.eye}, ${image.date}, coupe rétinienne simulée`
+                : `${image.modality} ${image.eye}, ${image.date}`)
             }
           />
         ) : (
@@ -61,8 +83,8 @@ function RetinaViewer({
         <span className="oph-scan-caliper" aria-hidden="true" />
       </div>
       <figcaption>
-        <SyntheticStamp compact />
-        <span>{image.cst ? `CST ${image.cst} µm` : "Mesure non disponible"}</span>
+        <DataModeStamp mode={dataMode} compact />
+        <span>{image.cst !== undefined ? `CST ${image.cst} µm` : "Mesure non disponible"}</span>
         <span data-quality={image.quality}>
           {image.quality === "insufficient" ? "△ Qualité insuffisante" : "✓ Qualité exploitable"}
         </span>
@@ -76,6 +98,8 @@ export function RetinaImagingTimeline({
   state = "ready",
   initialImageId,
   careEvents = [],
+  dataMode = "clinical",
+  presentation = "standalone",
 }: RetinaImagingTimelineProps) {
   const initial = Math.max(
     0,
@@ -97,15 +121,14 @@ export function RetinaImagingTimeline({
 
   return (
     <OphthalmologyDataBoundary state={state} label="Imagerie rétinienne">
-      <article className="oph-workbench oph-retina">
-        <header className="oph-workbench-heading">
-          <div>
-            <p className="oph-kicker">Rétine médicale</p>
-            <h2>Imagerie dans le temps</h2>
-            <p>Comparer sans masquer qualité, absence ni provenance.</p>
-          </div>
-          <SyntheticStamp />
-        </header>
+      <article className="oph-workbench oph-retina" data-presentation={presentation}>
+        <OphthalmologyWorkbenchHeader
+          kicker="Rétine médicale"
+          title="Imagerie dans le temps"
+          description="Comparer sans masquer qualité, absence ni provenance."
+          dataMode={dataMode}
+          presentation={presentation}
+        />
         <div
           className="oph-retina-timeline"
           id={timelineId}
@@ -178,8 +201,8 @@ export function RetinaImagingTimeline({
           </button>
         </div>
         <div className="oph-retina__comparison">
-          <RetinaViewer image={selected} />
-          <RetinaViewer image={comparison} comparison />
+          <RetinaViewer image={selected} dataMode={dataMode} />
+          <RetinaViewer image={comparison} comparison dataMode={dataMode} />
         </div>
         {selected?.quality === "insufficient" || comparison?.quality === "insufficient" ? (
           <div className="oph-inline-notice" data-tone="warning" role="alert">
@@ -218,7 +241,9 @@ export function RetinaImagingTimeline({
         {showTable ? (
           <div className="oph-table-wrap">
             <table className="oph-table">
-              <caption>Inventaire d’imagerie synthétique</caption>
+              <caption>
+                Inventaire d’imagerie {dataMode === "synthetic" ? "synthétique" : "clinique"}
+              </caption>
               <thead>
                 <tr>
                   <th>Date</th>

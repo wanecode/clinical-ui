@@ -7,7 +7,7 @@ const meta = {
   title: "Ophthalmology/CorneaWorkbench",
   component: CorneaWorkbench,
   tags: ["autodocs", "test"],
-  args: { data: syntheticCorneaData },
+  args: { data: syntheticCorneaData, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -41,3 +41,19 @@ export const SurfacePartielle: Story = {
 };
 
 export const MonoculaireOG: Story = { args: { data: { ...syntheticCorneaData, eye: "OG" } } };
+
+export const EmbarqueSansCarteTransmise: Story = {
+  args: {
+    presentation: "embedded",
+    dataMode: "clinical",
+    state: "partial",
+    data: {
+      eye: "OD",
+      map: [],
+      trajectory: [],
+      kmax: 47.2,
+      thinnest: 482,
+      source: "FHIR Observation/keratometry-od",
+    },
+  },
+};

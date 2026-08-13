@@ -118,27 +118,33 @@ export interface CorneaMapPoint {
 
 export interface CorneaData {
   eye: Eye;
-  k1: number;
-  k2: number;
-  axis: number;
-  thinnest: number;
-  dryEyeScore: number;
-  lensStatus: string;
+  kmax?: number;
+  k1?: number;
+  k2?: number;
+  axis?: number;
+  thinnest?: number;
+  dryEyeScore?: number;
+  lensStatus?: string;
   trajectory: TrajectoryPoint[];
+  trajectoryLabel?: string;
+  trajectoryUnit?: string;
   map: CorneaMapPoint[];
+  source?: string;
 }
 
 export interface CataractPlan {
   eye: Eye;
-  axialLength: number;
-  anteriorChamberDepth: number;
-  keratometry: number;
-  targetRefraction: number;
-  selectedIol: string;
-  plannedPower: number;
+  axialLength?: number;
+  anteriorChamberDepth?: number;
+  keratometry?: number;
+  targetRefraction?: number;
+  selectedIol?: string;
+  plannedPower?: number;
   procedureStatus: ClinicalStatus;
+  currentStep?: number;
+  source?: string;
   documents: Array<{ label: string; status: "complete" | "missing" | "signed" }>;
-  audit: Array<{ label: string; target: string; observed?: string }>;
+  audit: Array<{ label: string; target: string; observed?: string; delta?: string }>;
 }
 
 export interface OrthopticsCell {
@@ -151,12 +157,13 @@ export interface OrthopticsCell {
 }
 
 export interface OrthopticsData {
-  cooperation: "good" | "variable" | "not-testable";
-  coverDistance: string;
-  coverNear: string;
-  stereopsis: string;
-  amblyopiaRisk: string;
+  cooperation?: "good" | "variable" | "not-testable";
+  coverDistance?: string;
+  coverNear?: string;
+  stereopsis?: string;
+  amblyopiaRisk?: string;
   cells: OrthopticsCell[];
+  source?: string;
 }
 
 export interface EmergencyFinding {
@@ -167,14 +174,17 @@ export interface EmergencyFinding {
 }
 
 export interface OcularEmergencyData {
-  onset: string;
-  painScore: number;
-  affectedEye: Laterality;
-  mechanism: string;
+  onset?: string;
+  painScore?: number;
+  affectedEye?: Laterality;
+  mechanism?: string;
+  triageLevel?: string;
   findings: EmergencyFinding[];
-  disposition: string;
+  disposition?: string;
+  immediateActions?: string[];
   lowVisionReferral?: string;
   fitnessStatement?: string;
+  source?: string;
 }
 
 export interface OphthalmologyResourceMeta {

@@ -1,5 +1,9 @@
 import { AccessibleTrajectory } from "./accessible-trajectory";
-import { DataModeStamp, OphthalmologyDataBoundary, OphthalmologyPanel } from "./primitives";
+import {
+  OphthalmologyDataBoundary,
+  OphthalmologyPanel,
+  OphthalmologyWorkbenchHeader,
+} from "./primitives";
 import type {
   ClinicalDataState,
   Eye,
@@ -57,20 +61,13 @@ export function GlaucomaProgressionWorkbench({
   return (
     <OphthalmologyDataBoundary state={state} label="Progression glaucomateuse">
       <article className="oph-workbench oph-glaucoma" data-presentation={presentation}>
-        {presentation === "standalone" ? (
-          <header className="oph-workbench-heading">
-            <div>
-              <p className="oph-kicker">Glaucome longitudinal</p>
-              <h2>Trajectoires explicables</h2>
-              <p>Mesures observées, imports et projections gardent une grammaire distincte.</p>
-            </div>
-            <DataModeStamp mode={dataMode} />
-          </header>
-        ) : dataMode === "synthetic" ? (
-          <div className="oph-embedded-meta">
-            <DataModeStamp mode={dataMode} />
-          </div>
-        ) : null}
+        <OphthalmologyWorkbenchHeader
+          kicker="Glaucome longitudinal"
+          title="Trajectoires explicables"
+          description="Mesures observées, imports et projections gardent une grammaire distincte."
+          dataMode={dataMode}
+          presentation={presentation}
+        />
         <div className="oph-glaucoma__summary">
           <div>
             <span>PIO cible</span>
