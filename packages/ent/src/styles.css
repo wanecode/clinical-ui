@@ -1,1 +1,1994 @@
-/* ENT / ORL UI styles are authored against the shared semantic token contract. */
+/* ENT / ORL UI — semantic-token-only, multitheme clinical instrumentation. */
+
+.ent-workbench {
+  --ent-right: var(--chart-5);
+  --ent-left: var(--chart-1);
+  --ent-ink-faint: color-mix(in oklch, var(--foreground) 6%, transparent);
+  --ent-ink-soft: color-mix(in oklch, var(--foreground) 12%, transparent);
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 0.45rem);
+  background:
+    linear-gradient(90deg, var(--ent-ink-faint) 1px, transparent 1px) 0 0 / 5rem 100%,
+    var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 1.4rem 3.2rem color-mix(in oklch, var(--foreground) 8%, transparent);
+}
+
+.ent-visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.ent-workbench__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1rem, 2.2vw, 1.65rem) clamp(1rem, 2.5vw, 2rem) 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--card) 94%, var(--primary));
+}
+
+.ent-workbench__heading {
+  min-width: 0;
+}
+
+.ent-workbench__heading h2,
+.ent-section-heading h3,
+.ent-panel h3,
+.ent-facts h3,
+.ent-risk-register h3,
+.ent-safety h3,
+.ent-traceability h3 {
+  margin: 0;
+  color: var(--foreground);
+  font-weight: 680;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.ent-workbench__heading h2 {
+  font-size: clamp(1.45rem, 2.3vw, 2.15rem);
+}
+
+.ent-workbench__heading > p:last-child {
+  max-width: 66ch;
+  margin: 0.55rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+}
+
+.ent-eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.ent-workbench__meta {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.65rem;
+}
+
+.ent-workbench__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.ent-status,
+.ent-maturity,
+.ent-laterality {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.ent-status {
+  min-height: 1.8rem;
+  padding: 0.28rem 0.62rem;
+  border: 1px solid var(--status-unknown-border);
+  border-radius: 99rem;
+  background: var(--status-unknown);
+  color: var(--status-unknown-foreground);
+  font-size: 0.74rem;
+  font-weight: 750;
+}
+
+.ent-status__mark {
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.ent-status[data-tone="pending"] {
+  border-color: var(--status-pending-border);
+  background: var(--status-pending);
+  color: var(--status-pending-foreground);
+}
+
+.ent-status[data-tone="pending"] .ent-status__mark {
+  border-style: dashed;
+}
+
+.ent-status[data-tone="success"] {
+  border-color: var(--status-success-border);
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+
+.ent-status[data-tone="success"] .ent-status__mark {
+  border-radius: 0.05rem;
+  background: currentColor;
+  transform: rotate(45deg) scale(0.72);
+}
+
+.ent-status[data-tone="warning"] {
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+.ent-status[data-tone="warning"] .ent-status__mark {
+  border-radius: 0;
+  transform: rotate(45deg) scale(0.72);
+}
+
+.ent-workbench__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem clamp(1rem, 2.5vw, 2rem);
+  border-top: 1px solid var(--border);
+  background: var(--clinical-surface-inset);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.015em;
+}
+
+.ent-button,
+.ent-segments button {
+  min-height: 2.1rem;
+  border: 1px solid color-mix(in oklch, var(--primary) 65%, var(--border));
+  border-radius: calc(var(--radius) - 0.12rem);
+  font: inherit;
+  font-size: 0.77rem;
+  font-weight: 720;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.ent-button {
+  padding: 0.42rem 0.78rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.ent-button:hover,
+.ent-segments button:hover {
+  transform: translateY(-1px);
+}
+
+.ent-button--quiet {
+  background: var(--card);
+  color: var(--primary);
+}
+
+.ent-segments {
+  display: inline-flex;
+  overflow: hidden;
+  min-width: 0;
+  margin: 0;
+  padding: 0.18rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 0.05rem);
+  background: var(--clinical-surface-inset);
+}
+
+.ent-segments button {
+  padding: 0.32rem 0.64rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+}
+
+.ent-segments button[aria-pressed="true"] {
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: 0 0.18rem 0.6rem color-mix(in oklch, var(--foreground) 10%, transparent);
+}
+
+.ent-state {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  min-height: 18rem;
+  margin: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1rem, 4vw, 3rem);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--clinical-surface-inset);
+}
+
+.ent-state[data-compact] {
+  min-height: 12rem;
+  margin: 0;
+  padding: 1rem;
+}
+
+.ent-state[data-state="error"],
+.ent-state[data-state="forbidden"] {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+
+.ent-state[data-state="partial"],
+.ent-state[data-state="not-calculable"] {
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+.ent-state__glyph {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+}
+
+.ent-state[data-state="loading"] .ent-state__glyph {
+  animation: ent-pulse 1.4s ease-in-out infinite;
+}
+
+.ent-state p,
+.ent-state strong,
+.ent-state span {
+  display: block;
+}
+
+.ent-state p {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ent-state strong {
+  color: inherit;
+  font-size: 1.12rem;
+}
+
+.ent-state div > span {
+  max-width: 58ch;
+  margin-top: 0.35rem;
+  color: inherit;
+  font-size: 0.82rem;
+}
+
+.ent-maturity {
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+
+.ent-maturity__mark {
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.ent-maturity[data-maturity="observed"] {
+  color: var(--foreground);
+}
+
+.ent-maturity[data-maturity="observed"] .ent-maturity__mark {
+  background: currentColor;
+}
+
+.ent-maturity[data-maturity="imported"] {
+  color: var(--chart-1);
+}
+
+.ent-maturity[data-maturity="imported"] .ent-maturity__mark {
+  border-style: dashed;
+}
+
+.ent-maturity[data-maturity="derived"] {
+  color: var(--foreground);
+}
+
+.ent-maturity[data-maturity="derived"] .ent-maturity__mark {
+  border-radius: 0;
+  transform: rotate(45deg);
+}
+
+.ent-maturity[data-maturity="projected"] {
+  color: var(--muted-foreground);
+}
+
+.ent-maturity[data-maturity="projected"] .ent-maturity__mark {
+  border-style: dotted;
+  background: color-mix(in oklch, currentColor 35%, transparent);
+}
+
+.ent-maturity[data-maturity="preliminary"] {
+  color: var(--status-pending-foreground);
+}
+
+.ent-maturity[data-maturity="preliminary"] .ent-maturity__mark {
+  border-style: dashed;
+  border-radius: 0;
+}
+
+.ent-maturity[data-maturity="validated"] {
+  color: var(--status-success-foreground);
+}
+
+.ent-maturity[data-maturity="validated"] .ent-maturity__mark {
+  border-radius: 0;
+  background: currentColor;
+  transform: rotate(45deg) scale(0.75);
+}
+
+.ent-laterality {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.ent-laterality > span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.55rem;
+  height: 1.55rem;
+  padding-inline: 0.2rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+.ent-laterality[data-laterality="right"] {
+  color: var(--ent-right);
+}
+
+.ent-laterality[data-laterality="left"] {
+  color: var(--ent-left);
+}
+
+.ent-laterality[data-laterality="left"] > span {
+  border-radius: 0.18rem;
+}
+
+.ent-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.ent-section-heading h3,
+.ent-panel h3,
+.ent-facts h3 {
+  font-size: 1.02rem;
+}
+
+.ent-panel {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.ent-instrument-bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid var(--border);
+  background: var(--clinical-surface-inset);
+}
+
+.ent-instrument-bar > span {
+  overflow: hidden;
+  padding: 0.7rem 1rem;
+  border-right: 1px solid var(--border);
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ent-instrument-bar > span:last-child {
+  border-right: 0;
+}
+
+.ent-instrument-bar strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ent-metric-grid {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.ent-metric-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ent-metric-grid--four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ent-metric {
+  min-width: 0;
+  padding: 0.7rem;
+  border-left: 2px solid var(--border);
+  background: var(--clinical-surface-inset);
+}
+
+.ent-metric dt {
+  margin-bottom: 0.2rem;
+  color: var(--muted-foreground);
+  font-size: 0.68rem;
+}
+
+.ent-metric dd {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 720;
+}
+
+.ent-metric__value {
+  display: block;
+}
+
+.ent-metric__note {
+  display: block;
+  margin-top: 0.18rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 400;
+}
+
+.ent-source {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ent-table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 0.12rem);
+}
+
+.ent-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  font-size: 0.72rem;
+}
+
+.ent-table caption {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.ent-table th,
+.ent-table td {
+  padding: 0.62rem 0.55rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.ent-table th:last-child,
+.ent-table td:last-child {
+  border-right: 0;
+}
+
+.ent-table tr:last-child th,
+.ent-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.ent-table thead th {
+  background: var(--clinical-surface-inset);
+  color: var(--muted-foreground);
+  font-size: 0.64rem;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.ent-table tbody th {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.ent-table td {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.ent-table tr[data-side="right"] th,
+.ent-table tr[data-side="right"] td {
+  color: var(--ent-right);
+}
+
+.ent-table tr[data-side="left"] th,
+.ent-table tr[data-side="left"] td {
+  color: var(--ent-left);
+}
+
+.ent-clinical-note,
+.ent-inline-notice {
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--clinical-information-border);
+  border-radius: calc(var(--radius) - 0.12rem);
+  background: var(--clinical-information);
+  color: var(--clinical-information-foreground);
+  font-size: 0.72rem;
+}
+
+.ent-inline-notice {
+  display: grid;
+  gap: 0.15rem;
+  margin-top: 0.8rem;
+}
+
+.ent-inline-notice strong,
+.ent-inline-notice span {
+  display: block;
+}
+
+.ent-inline-notice[data-tone="warning"] {
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+/* Audiogram */
+
+.ent-audiogram__layout {
+  display: grid;
+  grid-template-columns: minmax(26rem, 1.15fr) minmax(28rem, 0.85fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.ent-audiogram__data {
+  min-width: 0;
+  padding: 0.2rem 0;
+}
+
+.ent-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  margin-bottom: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.ent-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.ent-legend b {
+  min-width: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.ent-legend [data-side="right"] {
+  color: var(--ent-right);
+}
+
+.ent-legend [data-side="left"] {
+  color: var(--ent-left);
+}
+
+.ent-audiogram-plot {
+  overflow: hidden;
+  border: 1px solid var(--viewer-border);
+  border-radius: var(--radius);
+  background: var(--viewer-surface);
+}
+
+.ent-audiogram-plot svg,
+.ent-panel > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ent-plot__surface {
+  fill: var(--viewer-surface);
+}
+
+.ent-plot__grid {
+  stroke: var(--viewer-border);
+  stroke-width: 1;
+}
+
+.ent-plot__grid--minor {
+  opacity: 0.55;
+}
+
+.ent-plot__axis,
+.ent-plot__label {
+  fill: var(--viewer-muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.ent-plot__label {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ent-plot__curve,
+.ent-plot__previous,
+.ent-plot__point path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ent-plot__curve {
+  stroke-width: 2.2;
+}
+
+.ent-plot__curve[data-conduction="bone"] {
+  stroke-dasharray: 5 5;
+  stroke-width: 1.6;
+}
+
+.ent-plot__curve[data-side="right"],
+.ent-plot__previous[data-side="right"],
+.ent-plot__point[data-side="right"] {
+  color: var(--ent-right);
+}
+
+.ent-plot__curve[data-side="left"],
+.ent-plot__previous[data-side="left"],
+.ent-plot__point[data-side="left"] {
+  color: var(--ent-left);
+}
+
+.ent-plot__previous {
+  opacity: 0.7;
+  stroke-dasharray: 2 7;
+  stroke-width: 1.5;
+}
+
+.ent-plot__point text {
+  fill: currentColor;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--viewer-surface);
+  stroke-width: 4px;
+}
+
+.ent-plot__point path {
+  stroke-width: 2;
+}
+
+.ent-threshold-table {
+  min-width: 39rem;
+}
+
+.ent-derived {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: 1px solid var(--clinical-warning-border);
+  border-radius: var(--radius);
+  background: color-mix(in oklch, var(--clinical-warning) 48%, var(--card));
+}
+
+.ent-derived .ent-clinical-note {
+  margin: 0.7rem 0 0;
+}
+
+.ent-speech {
+  margin: 0 1rem 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.ent-cross-tests {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid var(--border);
+}
+
+.ent-cross-tests span {
+  min-width: 0;
+  padding: 0.85rem;
+  border-right: 1px solid var(--border);
+  color: var(--muted-foreground);
+  font-size: 0.67rem;
+}
+
+.ent-cross-tests span:last-child {
+  border-right: 0;
+}
+
+.ent-cross-tests strong {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 0.2rem;
+  color: var(--foreground);
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Middle ear */
+
+.ent-middle-ear__layout {
+  display: grid;
+  grid-template-columns: minmax(24rem, 1.05fr) minmax(24rem, 0.95fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.ent-chart-paper {
+  fill: var(--clinical-surface-inset);
+}
+
+.ent-chart-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.ent-chart-axis {
+  fill: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.ent-tymp-curve {
+  fill: none;
+  stroke: var(--ent-right);
+  stroke-width: 3;
+}
+
+.ent-tymp-curve[data-side="left"] {
+  stroke: var(--ent-left);
+  stroke-dasharray: 8 4;
+}
+
+.ent-tymp-peak {
+  stroke: var(--muted-foreground);
+  stroke-dasharray: 3 4;
+}
+
+.ent-tymp-point {
+  fill: var(--card);
+  stroke: var(--ent-right);
+  stroke-width: 3;
+}
+
+.ent-tymp-point[data-side="left"] {
+  stroke: var(--ent-left);
+}
+
+.ent-side-symbol {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  color: var(--ent-right);
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
+.ent-side-symbol[data-side="left"] {
+  border-radius: 0.25rem;
+  color: var(--ent-left);
+}
+
+/* Endoscopy viewer */
+
+.ent-endoscopy {
+  display: grid;
+  grid-template-columns: 15rem minmax(25rem, 1fr);
+  grid-template-rows: minmax(30rem, auto) auto;
+  background: var(--viewer-surface);
+}
+
+.ent-endoscopy__rail {
+  grid-row: 1 / 3;
+  padding: 1rem;
+  border-right: 1px solid var(--viewer-border);
+  background: var(--viewer-panel);
+  color: var(--viewer-foreground);
+}
+
+.ent-endoscopy__rail > div {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--viewer-border);
+}
+
+.ent-endoscopy__rail > div:first-child {
+  padding-top: 0;
+}
+
+.ent-endoscopy__rail span,
+.ent-endoscopy__rail strong {
+  display: block;
+}
+
+.ent-endoscopy__rail > div > span {
+  margin-bottom: 0.25rem;
+  color: var(--viewer-muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ent-endoscopy__rail strong,
+.ent-endoscopy__rail .ent-source {
+  color: var(--viewer-foreground);
+  font-size: 0.76rem;
+  font-weight: 620;
+}
+
+.ent-endoscopy__rail .ent-laterality {
+  color: var(--viewer-foreground);
+}
+
+.ent-endoscopy__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 30rem;
+  padding: 3rem;
+  background:
+    linear-gradient(var(--viewer-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--viewer-border) 1px, transparent 1px), var(--viewer-surface);
+  background-size: 3rem 3rem;
+}
+
+.ent-viewer-label {
+  position: absolute;
+  z-index: 2;
+  top: 1rem;
+  right: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--viewer-muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+.ent-test-pattern {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(31rem, 76%);
+  aspect-ratio: 1;
+  border: 1px solid var(--viewer-border);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 34%, var(--viewer-border) 34.3%, transparent 34.8%),
+    conic-gradient(
+      from 45deg,
+      var(--viewer-panel),
+      var(--viewer-surface),
+      var(--viewer-panel),
+      var(--viewer-surface)
+    );
+  color: var(--viewer-foreground);
+  box-shadow:
+    0 0 0 1.5rem color-mix(in oklch, var(--viewer-panel) 55%, transparent),
+    0 0 0 1.55rem var(--viewer-border);
+}
+
+.ent-test-pattern::before,
+.ent-test-pattern::after {
+  position: absolute;
+  width: 76%;
+  height: 1px;
+  background: var(--viewer-border);
+  content: "";
+}
+
+.ent-test-pattern::after {
+  transform: rotate(90deg);
+}
+
+.ent-test-pattern strong,
+.ent-test-pattern small {
+  position: absolute;
+  z-index: 2;
+  padding: 0.25rem 0.45rem;
+  background: var(--viewer-surface);
+  font-family: var(--font-mono);
+}
+
+.ent-test-pattern strong {
+  top: calc(50% - 1.3rem);
+  letter-spacing: 0.08em;
+}
+
+.ent-test-pattern small {
+  top: calc(50% + 0.65rem);
+  color: var(--viewer-muted-foreground);
+}
+
+.ent-test-pattern__bars {
+  position: absolute;
+  top: 22%;
+  width: 45%;
+  height: 8%;
+  background: repeating-linear-gradient(90deg, var(--viewer-foreground) 0 4px, transparent 4px 9px);
+  opacity: 0.55;
+}
+
+.ent-test-pattern__cross {
+  position: absolute;
+  bottom: 22%;
+  width: 45%;
+  height: 8%;
+  background: linear-gradient(
+    90deg,
+    var(--viewer-muted-foreground),
+    var(--viewer-foreground),
+    var(--viewer-muted-foreground)
+  );
+  opacity: 0.45;
+}
+
+.ent-viewer-scale {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ent-viewer-scale span {
+  width: 1px;
+  height: 0.6rem;
+  background: var(--viewer-border);
+}
+
+.ent-endoscopy__stage .ent-state {
+  width: min(34rem, 80%);
+  border-color: var(--viewer-border);
+  background: var(--viewer-panel);
+  color: var(--viewer-foreground);
+}
+
+.ent-endoscopy__strip {
+  display: flex;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding: 0.85rem;
+  border-top: 1px solid var(--viewer-border);
+  background: var(--viewer-panel);
+}
+
+.ent-endoscopy__strip button {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  flex: 0 0 10rem;
+  gap: 0.3rem 0.5rem;
+  min-height: 6rem;
+  padding: 0.45rem;
+  border: 1px solid var(--viewer-border);
+  border-radius: calc(var(--radius) - 0.12rem);
+  background: var(--viewer-surface);
+  color: var(--viewer-foreground);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ent-endoscopy__strip button[aria-current="true"] {
+  border-color: var(--viewer-accent);
+  box-shadow: inset 0 0 0 1px var(--viewer-accent);
+}
+
+.ent-media-index {
+  color: var(--viewer-accent);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.ent-media-thumb {
+  grid-row: 1 / 4;
+  width: 2.8rem;
+  height: 100%;
+  border: 1px solid var(--viewer-border);
+  border-radius: 50%;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--viewer-panel) 0 6px,
+    var(--viewer-surface) 6px 12px
+  );
+}
+
+.ent-media-thumb[data-availability="unavailable"],
+.ent-media-thumb[data-availability="restricted"] {
+  border-style: dashed;
+  border-radius: 0.2rem;
+  opacity: 0.55;
+}
+
+.ent-endoscopy__strip strong,
+.ent-endoscopy__strip small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ent-endoscopy__strip strong {
+  font-size: 0.7rem;
+}
+
+.ent-endoscopy__strip small {
+  color: var(--viewer-muted-foreground);
+  font-size: 0.62rem;
+}
+
+/* Specialty workbenches */
+
+.ent-module-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.ent-module-grid--vestibular {
+  grid-template-columns: 15rem minmax(22rem, 1fr) minmax(14rem, 0.55fr);
+}
+
+.ent-module-grid--voice {
+  grid-template-columns: minmax(25rem, 1fr) minmax(16rem, 0.45fr);
+}
+
+.ent-module-grid--rhino {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 0;
+}
+
+.ent-test-list {
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+}
+
+.ent-test-list button {
+  display: grid;
+  grid-template-columns: 1.7rem minmax(0, 1fr);
+  gap: 0.1rem 0.55rem;
+  padding: 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ent-test-list button[aria-current="true"] {
+  border-color: var(--primary);
+  background: var(--accent);
+}
+
+.ent-test-list button > span {
+  grid-row: 1 / 3;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.ent-test-list strong,
+.ent-test-list small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ent-test-list strong {
+  font-size: 0.76rem;
+}
+
+.ent-test-list small {
+  color: var(--muted-foreground);
+  font-size: 0.63rem;
+}
+
+.ent-balance-trace {
+  position: relative;
+  overflow: hidden;
+  height: 10rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 0.12rem);
+  background:
+    linear-gradient(var(--ent-ink-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ent-ink-soft) 1px, transparent 1px), var(--clinical-surface-inset);
+  background-size: 1.4rem 1.4rem;
+}
+
+.ent-balance-trace::after {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  width: 90%;
+  height: 32%;
+  border: 2px solid var(--primary);
+  border-radius: 47% 53% 62% 38% / 42% 48% 52% 58%;
+  content: "";
+  transform: translateY(-50%) rotate(-6deg);
+}
+
+.ent-balance-trace span {
+  position: absolute;
+  z-index: 1;
+  width: 0.45rem;
+  height: 0.45rem;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  background: var(--card);
+}
+
+.ent-balance-trace span:nth-child(1) {
+  top: 35%;
+  left: 18%;
+}
+.ent-balance-trace span:nth-child(2) {
+  top: 58%;
+  left: 42%;
+}
+.ent-balance-trace span:nth-child(3) {
+  top: 32%;
+  left: 66%;
+}
+.ent-balance-trace span:nth-child(4) {
+  top: 54%;
+  left: 82%;
+}
+
+.ent-facts {
+  padding: 1rem;
+  border-left: 3px solid var(--primary);
+  background: var(--clinical-surface-inset);
+}
+
+.ent-facts > dl {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.9rem 0 0;
+}
+
+.ent-waveform {
+  display: flex;
+  align-items: center;
+  gap: 5%;
+  height: 8rem;
+  padding: 1rem;
+  border-block: 1px solid var(--border);
+  background: var(--clinical-surface-inset);
+}
+
+.ent-waveform span {
+  width: 2px;
+  height: 22%;
+  background: var(--primary);
+}
+
+.ent-waveform span:nth-child(2),
+.ent-waveform span:nth-child(8) {
+  height: 48%;
+}
+.ent-waveform span:nth-child(3),
+.ent-waveform span:nth-child(7) {
+  height: 76%;
+}
+.ent-waveform span:nth-child(4),
+.ent-waveform span:nth-child(6) {
+  height: 58%;
+}
+.ent-waveform span:nth-child(5) {
+  height: 92%;
+}
+
+.ent-finding-list,
+.ent-risk-register ul,
+.ent-signal-ledger ul,
+.ent-checklist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ent-finding-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ent-finding-list li:last-child {
+  border-bottom: 0;
+}
+
+.ent-finding-list strong,
+.ent-finding-list div > span {
+  display: block;
+}
+
+.ent-finding-list strong {
+  font-size: 0.75rem;
+}
+
+.ent-finding-list div > span {
+  margin-top: 0.18rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.ent-rhinology {
+  padding: 1rem;
+}
+
+.ent-rhinology__index {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  background: var(--card);
+}
+
+.ent-score-band {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.ent-score-band > strong {
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 2.6rem;
+  letter-spacing: -0.08em;
+}
+
+.ent-score-band > span {
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+
+.ent-score-band > div {
+  grid-column: 1 / 4;
+  overflow: hidden;
+  height: 0.45rem;
+  border-radius: 99rem;
+  background: var(--muted);
+}
+
+.ent-score-band i {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+}
+
+.ent-risk-register ul {
+  margin-top: 0.85rem;
+}
+
+.ent-risk-register li {
+  position: relative;
+  padding: 0.65rem 0 0.65rem 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+}
+
+.ent-risk-register li::before {
+  position: absolute;
+  top: 0.95rem;
+  left: 0;
+  width: 0.38rem;
+  height: 0.38rem;
+  border: 1px solid var(--muted-foreground);
+  content: "";
+}
+
+.ent-risk-register[data-alert] {
+  border-color: var(--clinical-critical-border);
+  background: color-mix(in oklch, var(--clinical-critical) 55%, var(--card));
+}
+
+.ent-risk-register[data-alert] li::before {
+  border-color: var(--clinical-critical-foreground);
+  background: var(--clinical-critical-foreground);
+}
+
+.ent-risk-register .ent-button {
+  margin-top: 0.75rem;
+}
+
+.ent-alert-count {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid var(--clinical-critical-border);
+  border-radius: 50%;
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.ent-sleep {
+  display: grid;
+  grid-template-columns: 0.75fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.ent-sleep__import {
+  border-left: 3px solid var(--chart-1);
+}
+
+.ent-hero-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin: 1rem 0;
+}
+
+.ent-hero-metric strong {
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+  font-weight: 620;
+  letter-spacing: -0.09em;
+}
+
+.ent-hero-metric span,
+.ent-sleep__import > p {
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+
+.ent-signal-ledger {
+  grid-column: 1 / 3;
+}
+
+.ent-signal-ledger ul {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+}
+
+.ent-signal-ledger li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.1rem 0.5rem;
+  padding: 0.7rem;
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+}
+
+.ent-signal-ledger li > span {
+  grid-row: 1 / 3;
+}
+
+.ent-signal-ledger li small {
+  color: var(--muted-foreground);
+}
+
+.ent-signal-ledger li[data-available="true"] > span {
+  color: var(--status-success-foreground);
+}
+
+.ent-signal-ledger li[data-available="false"] {
+  border-style: dashed;
+}
+
+/* Oncology timeline */
+
+.ent-oncology {
+  padding: 1rem;
+}
+
+.ent-oncology__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.2rem;
+  margin-bottom: 1rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border);
+  background: var(--clinical-surface-inset);
+}
+
+.ent-timeline {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ent-timeline::before {
+  position: absolute;
+  top: 1.4rem;
+  bottom: 1.4rem;
+  left: 10.7rem;
+  width: 1px;
+  background: var(--clinical-divider-strong);
+  content: "";
+}
+
+.ent-timeline > li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 9.2rem 1.7rem minmax(0, 1fr);
+  gap: 0.65rem;
+  padding: 0 0 0.75rem;
+}
+
+.ent-timeline > li > time {
+  padding-top: 0.75rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-align: right;
+}
+
+.ent-timeline__node {
+  z-index: 1;
+  align-self: start;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin: 0.85rem auto 0;
+  border: 2px solid var(--foreground);
+  border-radius: 50%;
+  background: var(--card);
+}
+
+.ent-timeline > li[data-maturity="imported"] .ent-timeline__node {
+  border-color: var(--chart-1);
+  border-style: dashed;
+}
+
+.ent-timeline > li[data-maturity="preliminary"] .ent-timeline__node {
+  border-color: var(--status-pending-foreground);
+  border-style: dashed;
+  border-radius: 0;
+}
+
+.ent-timeline > li[data-maturity="validated"] .ent-timeline__node {
+  border-color: var(--status-success-foreground);
+  border-radius: 0;
+  background: var(--status-success-foreground);
+  transform: rotate(45deg) scale(0.78);
+}
+
+.ent-timeline > li[data-maturity="projected"] .ent-timeline__node {
+  border-color: var(--muted-foreground);
+  border-style: dotted;
+}
+
+.ent-timeline article {
+  padding: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.ent-timeline > li[data-maturity="imported"] article,
+.ent-timeline > li[data-maturity="preliminary"] article,
+.ent-timeline > li[data-maturity="projected"] article {
+  border-style: dashed;
+}
+
+.ent-timeline > li[data-maturity="imported"] article {
+  border-color: color-mix(in oklch, var(--chart-1) 60%, var(--border));
+}
+
+.ent-timeline > li[data-maturity="preliminary"] article {
+  border-color: var(--status-pending-border);
+}
+
+.ent-timeline article > p {
+  margin: 0.55rem 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+.ent-timeline article > .ent-signature {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--status-success-foreground);
+  font-weight: 720;
+}
+
+.ent-signature > span {
+  display: grid;
+  place-items: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.ent-oncology > .ent-clinical-note {
+  margin: 0.35rem 0 0 11.55rem;
+}
+
+/* Safety and traceability */
+
+.ent-safety,
+.ent-traceability {
+  padding: 1rem;
+}
+
+.ent-safety > .ent-segments {
+  margin-bottom: 1rem;
+}
+
+.ent-safety__layout {
+  display: grid;
+  grid-template-columns: minmax(26rem, 1fr) minmax(17rem, 0.42fr);
+  gap: 1rem;
+}
+
+.ent-checklist {
+  margin-top: 0.85rem;
+}
+
+.ent-checklist li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.ent-checklist__box {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid var(--status-unknown-border);
+  border-radius: 0.2rem;
+  background: var(--status-unknown);
+  color: var(--status-unknown-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.ent-checklist li[data-status="checked"] .ent-checklist__box {
+  border-color: var(--status-success-border);
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+
+.ent-checklist li[data-status="pending"] .ent-checklist__box {
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+.ent-checklist strong,
+.ent-checklist div > span {
+  display: block;
+}
+
+.ent-checklist strong {
+  font-size: 0.76rem;
+}
+
+.ent-checklist div > span {
+  margin-top: 0.18rem;
+  color: var(--muted-foreground);
+  font-size: 0.65rem;
+}
+
+.ent-checklist em {
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.ent-vigilance {
+  align-self: start;
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+.ent-vigilance[data-acknowledged] {
+  border-color: var(--status-success-border);
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+
+.ent-vigilance h3 {
+  color: currentColor;
+}
+
+.ent-vigilance > p:not(.ent-eyebrow) {
+  color: currentColor;
+  font-size: 0.74rem;
+}
+
+.ent-vigilance__shield {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  margin-bottom: 0.85rem;
+  border: 2px solid currentColor;
+  transform: rotate(45deg) scale(0.72);
+}
+
+.ent-vigilance .ent-button {
+  margin-top: 0.45rem;
+}
+
+.ent-traceability {
+  display: grid;
+  gap: 1rem;
+}
+
+.ent-traceability__identity {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  background: var(--clinical-surface-inset);
+}
+
+.ent-traceability__identity .ent-eyebrow {
+  grid-column: 1 / 4;
+}
+
+.ent-traceability__identity > strong {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+}
+
+.ent-process {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ent-process li {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-right: 0;
+  background: var(--card);
+}
+
+.ent-process li:last-child {
+  border-right: 1px solid var(--border);
+}
+
+.ent-process li > span {
+  display: grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1px solid var(--status-unknown-border);
+  border-radius: 50%;
+  color: var(--status-unknown-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+}
+
+.ent-process li[data-status="complete"] > span {
+  border-color: var(--status-success-border);
+  border-radius: 0.15rem;
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+
+.ent-process li[data-status="incomplete"] {
+  border-style: dashed;
+}
+
+.ent-process strong,
+.ent-process small {
+  display: block;
+}
+
+.ent-process strong {
+  font-size: 0.73rem;
+}
+
+.ent-process small {
+  margin-top: 0.16rem;
+  color: var(--muted-foreground);
+  font-size: 0.63rem;
+}
+
+.ent-audit {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem;
+  border: 1px dashed var(--primary);
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.ent-audit code {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.ent-audit span {
+  font-size: 0.68rem;
+}
+
+@keyframes ent-pulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 72rem) {
+  .ent-audiogram__layout,
+  .ent-middle-ear__layout,
+  .ent-module-grid--vestibular,
+  .ent-module-grid--voice,
+  .ent-safety__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ent-module-grid--vestibular .ent-test-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ent-cross-tests {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ent-cross-tests span:nth-child(3) {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 52rem) {
+  .ent-workbench__header {
+    flex-direction: column;
+  }
+
+  .ent-workbench__meta {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .ent-workbench__actions {
+    justify-content: flex-start;
+  }
+
+  .ent-instrument-bar,
+  .ent-metric-grid--four,
+  .ent-module-grid--rhino,
+  .ent-signal-ledger ul,
+  .ent-process {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ent-endoscopy {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .ent-endoscopy__rail {
+    display: grid;
+    grid-row: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--viewer-border);
+  }
+
+  .ent-endoscopy__stage {
+    min-height: 24rem;
+  }
+
+  .ent-sleep {
+    grid-template-columns: 1fr;
+  }
+
+  .ent-signal-ledger {
+    grid-column: auto;
+  }
+
+  .ent-timeline::before {
+    left: 0.65rem;
+  }
+
+  .ent-timeline > li {
+    grid-template-columns: 1.3rem minmax(0, 1fr);
+  }
+
+  .ent-timeline > li > time {
+    grid-column: 2;
+    padding-top: 0;
+    text-align: left;
+  }
+
+  .ent-timeline__node {
+    grid-row: 1 / 3;
+    grid-column: 1;
+  }
+
+  .ent-timeline article {
+    grid-column: 2;
+  }
+
+  .ent-oncology > .ent-clinical-note {
+    margin-left: 1.95rem;
+  }
+}
+
+@media (max-width: 36rem) {
+  .ent-workbench__footer,
+  .ent-section-heading,
+  .ent-finding-list li {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ent-instrument-bar,
+  .ent-metric-grid--two,
+  .ent-metric-grid--four,
+  .ent-module-grid--vestibular .ent-test-list,
+  .ent-module-grid--rhino,
+  .ent-signal-ledger ul,
+  .ent-process,
+  .ent-cross-tests {
+    grid-template-columns: 1fr;
+  }
+
+  .ent-audiogram__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ent-audiogram-plot {
+    overflow-x: auto;
+  }
+
+  .ent-audiogram-plot svg {
+    min-width: 36rem;
+  }
+
+  .ent-endoscopy__rail {
+    grid-template-columns: 1fr;
+  }
+
+  .ent-endoscopy__stage {
+    min-height: 20rem;
+    padding: 2rem;
+  }
+
+  .ent-test-pattern {
+    width: 88%;
+  }
+
+  .ent-safety > .ent-segments {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .ent-checklist li {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .ent-checklist em {
+    grid-column: 2;
+  }
+
+  .ent-traceability__identity {
+    grid-template-columns: 1fr;
+  }
+
+  .ent-traceability__identity .ent-eyebrow {
+    grid-column: 1;
+  }
+}
