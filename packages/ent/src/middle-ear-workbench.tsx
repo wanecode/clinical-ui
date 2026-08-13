@@ -105,7 +105,7 @@ export function MiddleEarWorkbench({
             </span>
             <span>
               <strong>Sonde</strong>
-              {data.probeToneHz} Hz
+              {data.probeToneHz === undefined ? "Non renseignée" : `${data.probeToneHz} Hz`}
             </span>
             <span>
               <strong>Qualité</strong>

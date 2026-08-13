@@ -99,7 +99,7 @@ export interface AcousticReflexResult {
 
 export interface MiddleEarDataset {
   device: string;
-  probeToneHz: number;
+  probeToneHz?: number;
   quality: "acceptable" | "limited" | "unknown";
   tympanograms: TympanogramResult[];
   reflexes: AcousticReflexResult[];
@@ -177,8 +177,8 @@ export interface EndoscopeTraceabilityRecord {
   procedureReference: string;
   cycleIdentifier: string;
   leakTest: "passed" | "failed" | "not-recorded";
-  cleaning: "complete" | "incomplete";
-  disinfection: "released" | "quarantined" | "pending";
+  cleaning: "complete" | "incomplete" | "not-recorded";
+  disinfection: "released" | "quarantined" | "pending" | "not-recorded";
   operator?: string;
   releasedAt?: string;
   vigilanceAcknowledged?: boolean;

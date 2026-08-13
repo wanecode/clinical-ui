@@ -69,7 +69,13 @@ export function EndoscopeTraceability({
               <span>02</span>
               <div>
                 <strong>Nettoyage</strong>
-                <small>{record.cleaning === "complete" ? "Complet" : "Incomplet"}</small>
+                <small>
+                  {record.cleaning === "complete"
+                    ? "Complet"
+                    : record.cleaning === "incomplete"
+                      ? "Incomplet"
+                      : "Non enregistré"}
+                </small>
               </div>
             </li>
             <li data-status={record.disinfection === "released" ? "complete" : "incomplete"}>
@@ -81,7 +87,9 @@ export function EndoscopeTraceability({
                     ? "Cycle libéré"
                     : record.disinfection === "quarantined"
                       ? "Quarantaine"
-                      : "En attente"}
+                      : record.disinfection === "pending"
+                        ? "En attente"
+                        : "Non enregistré"}
                 </small>
               </div>
             </li>
