@@ -210,8 +210,16 @@ export function AudiogramWorkbench({
       title="Audiométrie tonale"
       eyebrow="Signal desk · Audition"
       description="Seuils point par point, conventions audiologiques redondantes et table textuelle équivalente."
-      status={data.status === "signed" ? "Signé" : "Préliminaire"}
-      statusTone={data.status === "signed" ? "success" : "pending"}
+      status={
+        data.status === "signed"
+          ? "Signé"
+          : data.status === "preliminary"
+            ? "Préliminaire"
+            : "Statut non renseigné"
+      }
+      statusTone={
+        data.status === "signed" ? "success" : data.status === "preliminary" ? "pending" : "warning"
+      }
       className="ent-audiogram"
       actions={
         <button
@@ -243,7 +251,11 @@ export function AudiogramWorkbench({
             </span>
             <span>
               <strong>Qualité</strong>
-              {data.quality === "acceptable" ? "Acceptable" : "Limitée"}
+              {data.quality === "acceptable"
+                ? "Acceptable"
+                : data.quality === "limited"
+                  ? "Limitée"
+                  : "Non renseignée"}
             </span>
           </section>
 

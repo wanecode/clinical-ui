@@ -109,7 +109,11 @@ export function MiddleEarWorkbench({
             </span>
             <span>
               <strong>Qualité</strong>
-              {data.quality === "acceptable" ? "Acceptable" : "Limitée · bruit intermittent"}
+              {data.quality === "acceptable"
+                ? "Acceptable"
+                : data.quality === "limited"
+                  ? "Limitée · bruit intermittent"
+                  : "Non renseignée"}
             </span>
           </div>
           <div className="ent-middle-ear__layout">

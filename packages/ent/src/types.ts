@@ -69,10 +69,10 @@ export interface SpeechAudiometryResult {
 
 export interface AudiogramDataset {
   id: string;
-  status: "preliminary" | "signed";
+  status: "preliminary" | "signed" | "unknown";
   device: string;
   calibrationDate: string;
-  quality: "acceptable" | "limited";
+  quality: "acceptable" | "limited" | "unknown";
   transducer: string;
   points: AudiogramPoint[];
   speech: SpeechAudiometryResult[];
@@ -100,7 +100,7 @@ export interface AcousticReflexResult {
 export interface MiddleEarDataset {
   device: string;
   probeToneHz: number;
-  quality: "acceptable" | "limited";
+  quality: "acceptable" | "limited" | "unknown";
   tympanograms: TympanogramResult[];
   reflexes: AcousticReflexResult[];
 }
@@ -139,7 +139,7 @@ export interface RhinologyDataset {
   laterality: EntLaterality;
   riskFactors: string[];
   redFlags: string[];
-  questionnaire: QuestionnaireScore;
+  questionnaire?: QuestionnaireScore;
   rightNasalScore?: number;
   leftNasalScore?: number;
 }

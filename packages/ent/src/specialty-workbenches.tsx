@@ -285,21 +285,27 @@ export function RhinologyWorkbench({
               <div className="ent-section-heading">
                 <div>
                   <p className="ent-eyebrow">Questionnaire</p>
-                  <h3>{data.questionnaire.label}</h3>
+                  <h3>{data.questionnaire?.label ?? "Non renseigné"}</h3>
                 </div>
-                <SourceLine reference={data.questionnaire.source.reference} />
+                {data.questionnaire ? (
+                  <SourceLine reference={data.questionnaire.source.reference} />
+                ) : null}
               </div>
-              <div className="ent-score-band">
-                <strong>{data.questionnaire.score}</strong>
-                <span>/ {data.questionnaire.maximum}</span>
-                <div aria-hidden="true">
-                  <i
-                    style={{
-                      width: `${(data.questionnaire.score / data.questionnaire.maximum) * 100}%`,
-                    }}
-                  />
+              {data.questionnaire ? (
+                <div className="ent-score-band">
+                  <strong>{data.questionnaire.score}</strong>
+                  <span>/ {data.questionnaire.maximum}</span>
+                  <div aria-hidden="true">
+                    <i
+                      style={{
+                        width: `${(data.questionnaire.score / data.questionnaire.maximum) * 100}%`,
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <EntStatePanel state="partial" compact />
+              )}
               <p className="ent-clinical-note">
                 Score rapporté tel quel. Aucun seuil d’indication n’est appliqué par le composant.
               </p>
