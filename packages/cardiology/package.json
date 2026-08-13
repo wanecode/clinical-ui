@@ -1,6 +1,6 @@
 {
   "name": "@clinical-ui/cardiology",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "private": false,
   "license": "Apache-2.0",
   "type": "module",
@@ -19,7 +19,7 @@
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/normalize-esm-specifiers.mjs dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests",
     "prepack": "pnpm build"

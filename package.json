@@ -1,6 +1,6 @@
 {
   "name": "clinical-ui-workspace",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "description": "FHIR R5-native React components for specialist clinical workstations",
   "private": true,
   "license": "Apache-2.0",
@@ -35,6 +35,8 @@
     "test:all": "pnpm test && pnpm test:stories",
     "qa:visual": "python3 scripts/visual-qa.py",
     "check:isolation": "node scripts/check-isolation.mjs",
+    "verify:release": "node scripts/verify-release.mjs",
+    "smoke:release": "node scripts/smoke-release.mjs",
     "verify": "pnpm check:isolation && pnpm typecheck && pnpm test:all && pnpm lint && pnpm build:storybook",
     "lint": "biome check .",
     "format": "biome format --write ."

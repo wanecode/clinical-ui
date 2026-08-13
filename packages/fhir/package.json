@@ -1,6 +1,6 @@
 {
   "name": "@clinical-ui/fhir",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "private": false,
   "license": "Apache-2.0",
   "type": "module",
@@ -14,7 +14,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/normalize-esm-specifiers.mjs dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "prepack": "pnpm build"

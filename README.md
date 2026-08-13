@@ -35,9 +35,20 @@ under [`domains/`](./domains/).
 
 ## Release status
 
-The current checkpoint is `v0.1.0-rc.1`. Source code and Storybook are public.
-The `@clinical-ui/*` packages are not yet distributed through npm: publishing
-will begin only after ownership and governance of that npm scope are verified.
+The current checkpoint is `v0.1.0-rc.2`. Source code, Storybook and release-candidate packages are
+public. Install packages from the `next` channel while the API is still in preview:
+
+```bash
+pnpm add @clinical-ui/core@next @clinical-ui/theme@next @clinical-ui/ophthalmology@next
+```
+
+Import the shared and specialty styles explicitly:
+
+```ts
+import "@clinical-ui/theme/styles.css";
+import "@clinical-ui/core/styles.css";
+import "@clinical-ui/ophthalmology/styles.css";
+```
 
 ## Local development
 
