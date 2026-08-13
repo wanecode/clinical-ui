@@ -2,7 +2,13 @@
 import { useMemo, useState } from "react";
 import { calculateAirBoneGap, calculateGovernedPta } from "./calculations";
 import { DataMaturityBadge, EntStatePanel, EntWorkbenchFrame, Metric } from "./common";
-import type { AudiogramDataset, AudiogramPoint, EarSide, EntDisplayState } from "./types";
+import type {
+  AudiogramDataset,
+  AudiogramPoint,
+  EarSide,
+  EntDisplayState,
+  EntHostPresentationProps,
+} from "./types";
 
 const FREQUENCIES = [250, 500, 1000, 2000, 4000, 8000] as const;
 const LEVELS = [-10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120] as const;
@@ -40,7 +46,15 @@ function pathFor(points: AudiogramPoint[], side: EarSide, conduction: "air" | "b
     .join(" ");
 }
 
-function AudiogramPlot({ data, showPrevious }: { data: AudiogramDataset; showPrevious: boolean }) {
+function AudiogramPlot({
+  data,
+  dataMode,
+  showPrevious,
+}: {
+  data: AudiogramDataset;
+  dataMode: EntHostPresentationProps["dataMode"];
+  showPrevious: boolean;
+}) {
   return (
     <div className="ent-audiogram-plot">
       <svg
@@ -48,7 +62,9 @@ function AudiogramPlot({ data, showPrevious }: { data: AudiogramDataset; showPre
         role="img"
         aria-labelledby="ent-audio-plot-title ent-audio-plot-desc"
       >
-        <title id="ent-audio-plot-title">Audiogramme tonal synthétique</title>
+        <title id="ent-audio-plot-title">
+          {dataMode === "synthetic" ? "Audiogramme tonal synthétique" : "Audiogramme tonal"}
+        </title>
         <desc id="ent-audio-plot-desc">
           Seuils par fréquence. Cercles rouges pour l’oreille droite, croix bleues pour l’oreille
           gauche, crochets pour les voies osseuses masquées et flèches pour les non-réponses. La
@@ -167,12 +183,17 @@ function ThresholdCell({ point }: { point: AudiogramPoint | undefined }) {
   );
 }
 
-export interface AudiogramWorkbenchProps {
+export interface AudiogramWorkbenchProps extends EntHostPresentationProps {
   data: AudiogramDataset;
   state?: EntDisplayState;
 }
 
-export function AudiogramWorkbench({ data, state = "ready" }: AudiogramWorkbenchProps) {
+export function AudiogramWorkbench({
+  data,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: AudiogramWorkbenchProps) {
   const [showPrevious, setShowPrevious] = useState(false);
   const pta = useMemo(
     () => ({
@@ -184,11 +205,21 @@ export function AudiogramWorkbench({ data, state = "ready" }: AudiogramWorkbench
 
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Audiométrie tonale"
       eyebrow="Signal desk · Audition"
       description="Seuils point par point, conventions audiologiques redondantes et table textuelle équivalente."
-      status={data.status === "signed" ? "Signé" : "Préliminaire"}
-      statusTone={data.status === "signed" ? "success" : "pending"}
+      status={
+        data.status === "signed"
+          ? "Signé"
+          : data.status === "preliminary"
+            ? "Préliminaire"
+            : "Statut non renseigné"
+      }
+      statusTone={
+        data.status === "signed" ? "success" : data.status === "preliminary" ? "pending" : "warning"
+      }
       className="ent-audiogram"
       actions={
         <button
@@ -220,7 +251,11 @@ export function AudiogramWorkbench({ data, state = "ready" }: AudiogramWorkbench
             </span>
             <span>
               <strong>Qualité</strong>
-              {data.quality === "acceptable" ? "Acceptable" : "Limitée"}
+              {data.quality === "acceptable"
+                ? "Acceptable"
+                : data.quality === "limited"
+                  ? "Limitée"
+                  : "Non renseignée"}
             </span>
           </section>
 
@@ -245,7 +280,7 @@ export function AudiogramWorkbench({ data, state = "ready" }: AudiogramWorkbench
                   </span>
                 ) : null}
               </aside>
-              <AudiogramPlot data={data} showPrevious={showPrevious} />
+              <AudiogramPlot data={data} dataMode={dataMode} showPrevious={showPrevious} />
             </div>
 
             <div className="ent-audiogram__data">

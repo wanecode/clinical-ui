@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/01 Audition/MiddleEarWorkbench",
   component: MiddleEarWorkbench,
   tags: ["autodocs", "test"],
-  args: { data: syntheticMiddleEar },
+  args: { data: syntheticMiddleEar, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -34,3 +34,7 @@ export const LimitedSeries: Story = {
 export const Partial: Story = { args: { state: "partial" } };
 export const PediatricAcquisition: Story = { args: { data: syntheticPediatricMiddleEar } };
 export const ErrorState: Story = { args: { state: "error" } };
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
+};

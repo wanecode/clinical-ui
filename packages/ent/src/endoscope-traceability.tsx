@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { EntStatePanel, EntWorkbenchFrame, Metric, SourceLine } from "./common";
-import type { EndoscopeTraceabilityRecord, EntDisplayState } from "./types";
+import type {
+  EndoscopeTraceabilityRecord,
+  EntDisplayState,
+  EntHostPresentationProps,
+} from "./types";
 
-export interface EndoscopeTraceabilityProps {
+export interface EndoscopeTraceabilityProps extends EntHostPresentationProps {
   record: EndoscopeTraceabilityRecord;
   state?: EntDisplayState;
 }
 
-export function EndoscopeTraceability({ record, state = "ready" }: EndoscopeTraceabilityProps) {
+export function EndoscopeTraceability({
+  record,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: EndoscopeTraceabilityProps) {
   const [showAudit, setShowAudit] = useState(false);
   const released =
     record.leakTest === "passed" &&
@@ -15,6 +24,8 @@ export function EndoscopeTraceability({ record, state = "ready" }: EndoscopeTrac
     record.disinfection === "released";
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Traçabilité de l’endoscope"
       eyebrow="Désinfection et mise à disposition"
       description="Chaîne de retraitement liée sans ambiguïté au dispositif et à la procédure."
@@ -58,7 +69,13 @@ export function EndoscopeTraceability({ record, state = "ready" }: EndoscopeTrac
               <span>02</span>
               <div>
                 <strong>Nettoyage</strong>
-                <small>{record.cleaning === "complete" ? "Complet" : "Incomplet"}</small>
+                <small>
+                  {record.cleaning === "complete"
+                    ? "Complet"
+                    : record.cleaning === "incomplete"
+                      ? "Incomplet"
+                      : "Non enregistré"}
+                </small>
               </div>
             </li>
             <li data-status={record.disinfection === "released" ? "complete" : "incomplete"}>
@@ -70,7 +87,9 @@ export function EndoscopeTraceability({ record, state = "ready" }: EndoscopeTrac
                     ? "Cycle libéré"
                     : record.disinfection === "quarantined"
                       ? "Quarantaine"
-                      : "En attente"}
+                      : record.disinfection === "pending"
+                        ? "En attente"
+                        : "Non enregistré"}
                 </small>
               </div>
             </li>
@@ -90,13 +109,17 @@ export function EndoscopeTraceability({ record, state = "ready" }: EndoscopeTrac
           </dl>
           {showAudit ? (
             <div className="ent-audit" aria-live="polite">
-              <strong>Piste d’audit synthétique</strong>
+              <strong>
+                {dataMode === "synthetic" ? "Piste d’audit synthétique" : "Piste d’audit"}
+              </strong>
               <code>
                 {record.cycleIdentifier} → {record.scopeIdentifier} → {record.procedureReference}
               </code>
-              <span>
-                Les identifiants sont synthétiques et ne correspondent à aucun dispositif réel.
-              </span>
+              {dataMode === "synthetic" ? (
+                <span>
+                  Les identifiants sont synthétiques et ne correspondent à aucun dispositif réel.
+                </span>
+              ) : null}
             </div>
           ) : null}
         </div>

@@ -10,22 +10,30 @@ import {
 } from "./common";
 import type {
   EntDisplayState,
+  EntHostPresentationProps,
   RhinologyDataset,
   SleepDataset,
   VestibularFinding,
   VoiceSwallowingFinding,
 } from "./types";
 
-export interface VestibularWorkbenchProps {
+export interface VestibularWorkbenchProps extends EntHostPresentationProps {
   findings: VestibularFinding[];
   state?: EntDisplayState;
 }
 
-export function VestibularWorkbench({ findings, state = "ready" }: VestibularWorkbenchProps) {
+export function VestibularWorkbench({
+  findings,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: VestibularWorkbenchProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selected = findings[selectedIndex];
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Équilibre et vertiges"
       eyebrow="Vestibulaire"
       description="Séquence de tests, côté provoqué, symptômes et provenance sans conclusion automatique."
@@ -61,38 +69,53 @@ export function VestibularWorkbench({ findings, state = "ready" }: VestibularWor
                 </div>
                 <DataMaturityBadge maturity={selected.maturity} />
               </div>
-              <div
-                className="ent-balance-trace"
-                role="img"
-                aria-label="Trace synthétique de stabilité, complétée par les valeurs textuelles"
-              >
-                <span />
-                <span />
-                <span />
-                <span />
-              </div>
+              {dataMode === "synthetic" ? (
+                <div
+                  className="ent-balance-trace"
+                  role="img"
+                  aria-label="Trace synthétique de stabilité, complétée par les valeurs textuelles"
+                >
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              ) : null}
               <dl className="ent-metric-grid ent-metric-grid--two">
                 <Metric label="Résultat consigné" value={selected.result} />
                 <Metric label="Côté" value={<LateralityMark laterality={selected.side} />} />
               </dl>
-              <p className="ent-clinical-note">
-                Le tracé est une visualisation synthétique de démonstration. L’interprétation reste
-                celle du compte rendu source.
-              </p>
+              {dataMode === "synthetic" ? (
+                <p className="ent-clinical-note">
+                  Le tracé est une visualisation synthétique de démonstration. L’interprétation
+                  reste celle du compte rendu source.
+                </p>
+              ) : null}
             </section>
           ) : null}
           <aside className="ent-facts">
             <h3>Contexte du symptôme</h3>
             <dl>
-              <Metric label="Durée" value="3 semaines" />
-              <Metric label="Déclencheur" value="Positionnel déclaré" />
-              <Metric label="DHI synthétique" value="22 / 100" note="Questionnaire observé" />
+              <Metric
+                label="Durée"
+                value={dataMode === "synthetic" ? "3 semaines" : "Non renseigné"}
+              />
+              <Metric
+                label="Déclencheur"
+                value={dataMode === "synthetic" ? "Positionnel déclaré" : "Non renseigné"}
+              />
+              <Metric
+                label="DHI"
+                value={dataMode === "synthetic" ? "22 / 100" : "Non renseigné"}
+                note={dataMode === "synthetic" ? "Questionnaire observé" : "Non fourni"}
+              />
             </dl>
             <div className="ent-inline-notice">
               <strong>Drapeau rouge</strong>
               <span>
-                Aucun drapeau rouge consigné dans cette fixture. Cette absence n’est pas une
-                conclusion clinique.
+                {dataMode === "synthetic"
+                  ? "Aucun drapeau rouge consigné dans cette fixture. Cette absence n’est pas une conclusion clinique."
+                  : "Les drapeaux rouges ne sont pas fournis à ce composant. Leur absence à l’écran n’est pas une conclusion clinique."}
               </span>
             </div>
           </aside>
@@ -102,7 +125,7 @@ export function VestibularWorkbench({ findings, state = "ready" }: VestibularWor
   );
 }
 
-export interface VoiceSwallowingWorkbenchProps {
+export interface VoiceSwallowingWorkbenchProps extends EntHostPresentationProps {
   findings: VoiceSwallowingFinding[];
   state?: EntDisplayState;
 }
@@ -110,11 +133,15 @@ export interface VoiceSwallowingWorkbenchProps {
 export function VoiceSwallowingWorkbench({
   findings,
   state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
 }: VoiceSwallowingWorkbenchProps) {
   const [domain, setDomain] = useState<"voice" | "swallowing">("voice");
   const visible = findings.filter((finding) => finding.domain === domain);
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Voix et déglutition"
       eyebrow="Fonction laryngée"
       description="Mesures instrumentales, questionnaires et disponibilité des examens séparés par domaine."
@@ -179,8 +206,16 @@ export function VoiceSwallowingWorkbench({
           <aside className="ent-facts">
             <h3>Questionnaires</h3>
             <dl>
-              <Metric label="VHI-10" value="6 / 40" note="Observé · synthétique" />
-              <Metric label="EAT-10" value="7 / 40" note="Observé · synthétique" />
+              <Metric
+                label="VHI-10"
+                value={dataMode === "synthetic" ? "6 / 40" : "Non renseigné"}
+                note={dataMode === "synthetic" ? "Observé · synthétique" : "Non fourni"}
+              />
+              <Metric
+                label="EAT-10"
+                value={dataMode === "synthetic" ? "7 / 40" : "Non renseigné"}
+                note={dataMode === "synthetic" ? "Observé · synthétique" : "Non fourni"}
+              />
             </dl>
             <div className="ent-inline-notice" data-tone="warning">
               <strong>Disponibilité</strong>
@@ -196,15 +231,22 @@ export function VoiceSwallowingWorkbench({
   );
 }
 
-export interface RhinologyWorkbenchProps {
+export interface RhinologyWorkbenchProps extends EntHostPresentationProps {
   data: RhinologyDataset;
   state?: EntDisplayState;
 }
 
-export function RhinologyWorkbench({ data, state = "ready" }: RhinologyWorkbenchProps) {
+export function RhinologyWorkbench({
+  data,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: RhinologyWorkbenchProps) {
   const [acknowledged, setAcknowledged] = useState(false);
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Nez et sinus"
       eyebrow="Rhinologie"
       description="Latéralité, durée, risques, drapeaux rouges, score rapporté et examen local."
@@ -243,21 +285,27 @@ export function RhinologyWorkbench({ data, state = "ready" }: RhinologyWorkbench
               <div className="ent-section-heading">
                 <div>
                   <p className="ent-eyebrow">Questionnaire</p>
-                  <h3>{data.questionnaire.label}</h3>
+                  <h3>{data.questionnaire?.label ?? "Non renseigné"}</h3>
                 </div>
-                <SourceLine reference={data.questionnaire.source.reference} />
+                {data.questionnaire ? (
+                  <SourceLine reference={data.questionnaire.source.reference} />
+                ) : null}
               </div>
-              <div className="ent-score-band">
-                <strong>{data.questionnaire.score}</strong>
-                <span>/ {data.questionnaire.maximum}</span>
-                <div aria-hidden="true">
-                  <i
-                    style={{
-                      width: `${(data.questionnaire.score / data.questionnaire.maximum) * 100}%`,
-                    }}
-                  />
+              {data.questionnaire ? (
+                <div className="ent-score-band">
+                  <strong>{data.questionnaire.score}</strong>
+                  <span>/ {data.questionnaire.maximum}</span>
+                  <div aria-hidden="true">
+                    <i
+                      style={{
+                        width: `${(data.questionnaire.score / data.questionnaire.maximum) * 100}%`,
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <EntStatePanel state="partial" compact />
+              )}
               <p className="ent-clinical-note">
                 Score rapporté tel quel. Aucun seuil d’indication n’est appliqué par le composant.
               </p>
@@ -310,15 +358,22 @@ export function RhinologyWorkbench({ data, state = "ready" }: RhinologyWorkbench
   );
 }
 
-export interface SleepWorkbenchProps {
+export interface SleepWorkbenchProps extends EntHostPresentationProps {
   data: SleepDataset;
   state?: EntDisplayState;
 }
 
-export function SleepWorkbench({ data, state = "ready" }: SleepWorkbenchProps) {
+export function SleepWorkbench({
+  data,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: SleepWorkbenchProps) {
   const [showSignals, setShowSignals] = useState(false);
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Sommeil"
       eyebrow="Respiration nocturne"
       description="Questionnaires, provenance du résultat importé et complétude des signaux nocturnes."

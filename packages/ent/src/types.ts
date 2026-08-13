@@ -15,6 +15,14 @@ export type EntDisplayState =
   | "partial"
   | "not-calculable";
 
+export type EntDataMode = "clinical" | "synthetic";
+export type EntPresentation = "standalone" | "embedded";
+
+export interface EntHostPresentationProps {
+  dataMode?: EntDataMode;
+  presentation?: EntPresentation;
+}
+
 export type EntDataMaturity =
   | "observed"
   | "imported"
@@ -61,10 +69,10 @@ export interface SpeechAudiometryResult {
 
 export interface AudiogramDataset {
   id: string;
-  status: "preliminary" | "signed";
+  status: "preliminary" | "signed" | "unknown";
   device: string;
   calibrationDate: string;
-  quality: "acceptable" | "limited";
+  quality: "acceptable" | "limited" | "unknown";
   transducer: string;
   points: AudiogramPoint[];
   speech: SpeechAudiometryResult[];
@@ -84,15 +92,15 @@ export interface TympanogramResult {
 export interface AcousticReflexResult {
   side: EarSide;
   stimulus: "ipsilateral" | "contralateral";
-  frequencyHz: number;
+  frequencyHz?: number;
   thresholdDbHl?: number;
   outcome: "present" | "absent" | "not-tested";
 }
 
 export interface MiddleEarDataset {
   device: string;
-  probeToneHz: number;
-  quality: "acceptable" | "limited";
+  probeToneHz?: number;
+  quality: "acceptable" | "limited" | "unknown";
   tympanograms: TympanogramResult[];
   reflexes: AcousticReflexResult[];
 }
@@ -105,7 +113,10 @@ export interface EndoscopyMedia {
   bodySite: string;
   capturedAt?: string;
   consent: "recorded" | "missing" | "withdrawn";
-  synthetic: true;
+  /** URL of host-authorized media. The component never invents clinical imagery. */
+  imageUrl?: string;
+  /** Explicit fixture provenance for demos and Storybook. */
+  synthetic?: boolean;
   source: EntSourceReference;
 }
 
@@ -128,7 +139,7 @@ export interface RhinologyDataset {
   laterality: EntLaterality;
   riskFactors: string[];
   redFlags: string[];
-  questionnaire: QuestionnaireScore;
+  questionnaire?: QuestionnaireScore;
   rightNasalScore?: number;
   leftNasalScore?: number;
 }
@@ -166,8 +177,8 @@ export interface EndoscopeTraceabilityRecord {
   procedureReference: string;
   cycleIdentifier: string;
   leakTest: "passed" | "failed" | "not-recorded";
-  cleaning: "complete" | "incomplete";
-  disinfection: "released" | "quarantined" | "pending";
+  cleaning: "complete" | "incomplete" | "not-recorded";
+  disinfection: "released" | "quarantined" | "pending" | "not-recorded";
   operator?: string;
   releasedAt?: string;
   vigilanceAcknowledged?: boolean;

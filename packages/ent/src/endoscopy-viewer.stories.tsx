@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/02 Imagerie/EntEndoscopyViewer",
   component: EntEndoscopyViewer,
   tags: ["autodocs", "test"],
-  args: { media: syntheticEndoscopyMedia },
+  args: { media: syntheticEndoscopyMedia, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -33,3 +33,7 @@ export const Available: Story = {
 
 export const Empty: Story = { args: { state: "empty" } };
 export const Forbidden: Story = { args: { state: "forbidden" } };
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
+};

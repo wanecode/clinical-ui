@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/09 Traçabilité/EndoscopeTraceability",
   component: EndoscopeTraceability,
   tags: ["autodocs", "test"],
-  args: { record: syntheticTraceability },
+  args: { record: syntheticTraceability, dataMode: "synthetic" },
 } satisfies Meta<typeof EndoscopeTraceability>;
 
 export default meta;
@@ -39,4 +39,8 @@ export const Incomplete: Story = {
       vigilanceAcknowledged: false,
     },
   },
+};
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
 };

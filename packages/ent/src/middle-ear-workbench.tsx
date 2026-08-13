@@ -1,7 +1,13 @@
 // biome-ignore-all lint/a11y/noNoninteractiveTabindex: scrollable clinical tables must be keyboard focusable
 import { useState } from "react";
 import { EntStatePanel, EntWorkbenchFrame, Metric, SegmentedControl } from "./common";
-import type { EarSide, EntDisplayState, MiddleEarDataset, TympanogramResult } from "./types";
+import type {
+  EarSide,
+  EntDisplayState,
+  EntHostPresentationProps,
+  MiddleEarDataset,
+  TympanogramResult,
+} from "./types";
 
 function TympanogramPlot({ result }: { result: TympanogramResult | undefined }) {
   if (!result || result.peakPressureDapa === undefined || result.complianceMl === undefined) {
@@ -53,17 +59,25 @@ function TympanogramPlot({ result }: { result: TympanogramResult | undefined }) 
   );
 }
 
-export interface MiddleEarWorkbenchProps {
+export interface MiddleEarWorkbenchProps extends EntHostPresentationProps {
   data: MiddleEarDataset;
   state?: EntDisplayState;
 }
 
-export function MiddleEarWorkbench({ data, state = "ready" }: MiddleEarWorkbenchProps) {
+export function MiddleEarWorkbench({
+  data,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: MiddleEarWorkbenchProps) {
   const [side, setSide] = useState<EarSide>("right");
   const result = data.tympanograms.find((item) => item.side === side);
-  const seriesComplete = data.reflexes.every((reflex) => reflex.outcome !== "not-tested");
+  const seriesComplete =
+    data.reflexes.length > 0 && data.reflexes.every((reflex) => reflex.outcome !== "not-tested");
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Oreille moyenne"
       eyebrow="Impédancemétrie"
       description="Tympanogrammes, réflexes acoustiques, qualité de série et dispositif d’acquisition."
@@ -92,11 +106,15 @@ export function MiddleEarWorkbench({ data, state = "ready" }: MiddleEarWorkbench
             </span>
             <span>
               <strong>Sonde</strong>
-              {data.probeToneHz} Hz
+              {data.probeToneHz === undefined ? "Non renseignée" : `${data.probeToneHz} Hz`}
             </span>
             <span>
               <strong>Qualité</strong>
-              {data.quality === "acceptable" ? "Acceptable" : "Limitée · bruit intermittent"}
+              {data.quality === "acceptable"
+                ? "Acceptable"
+                : data.quality === "limited"
+                  ? "Limitée · bruit intermittent"
+                  : "Non renseignée"}
             </span>
           </div>
           <div className="ent-middle-ear__layout">
@@ -163,7 +181,11 @@ export function MiddleEarWorkbench({ data, state = "ready" }: MiddleEarWorkbench
                         <td>
                           {reflex.stimulus === "ipsilateral" ? "Ipsilatéral" : "Controlatéral"}
                         </td>
-                        <td>{reflex.frequencyHz} Hz</td>
+                        <td>
+                          {reflex.frequencyHz === undefined
+                            ? "Non renseignée"
+                            : `${reflex.frequencyHz} Hz`}
+                        </td>
                         <td>
                           {reflex.outcome === "present"
                             ? `Présent${reflex.thresholdDbHl ? ` · ${reflex.thresholdDbHl} dB HL` : ""}`

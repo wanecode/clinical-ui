@@ -6,23 +6,33 @@ import {
   LateralityMark,
   SourceLine,
 } from "./common";
-import type { EndoscopyMedia, EntDisplayState } from "./types";
+import type { EndoscopyMedia, EntDisplayState, EntHostPresentationProps } from "./types";
 
-export interface EntEndoscopyViewerProps {
+export interface EntEndoscopyViewerProps extends EntHostPresentationProps {
   media: EndoscopyMedia[];
   state?: EntDisplayState;
 }
 
-export function EntEndoscopyViewer({ media, state = "ready" }: EntEndoscopyViewerProps) {
+export function EntEndoscopyViewer({
+  media,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: EntEndoscopyViewerProps) {
   const [selectedId, setSelectedId] = useState(media[0]?.id ?? "");
   const selected = media.find((item) => item.id === selectedId) ?? media[0];
+  const hasRenderableMedia =
+    selected?.availability === "available" &&
+    (dataMode === "synthetic" || Boolean(selected.imageUrl));
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Endoscopie ORL"
       eyebrow="Sterile lightbox · Acquisition"
       description="Disponibilité, consentement, latéralité et provenance restent visibles autour du média."
-      status={selected?.availability === "available" ? "Média disponible" : "Indisponible"}
-      statusTone={selected?.availability === "available" ? "success" : "warning"}
+      status={hasRenderableMedia ? "Média disponible" : "Média non chargé"}
+      statusTone={hasRenderableMedia ? "success" : "warning"}
     >
       {state !== "ready" ? (
         <EntStatePanel state={state} />
@@ -71,10 +81,10 @@ export function EntEndoscopyViewer({ media, state = "ready" }: EntEndoscopyViewe
 
           <div className="ent-endoscopy__stage" data-availability={selected.availability}>
             <div className="ent-viewer-label">
-              <span>Média synthétique</span>
+              <span>{dataMode === "synthetic" ? "Média synthétique" : "Média source"}</span>
               <DataMaturityBadge maturity={selected.source.maturity} />
             </div>
-            {selected.availability === "available" ? (
+            {selected.availability === "available" && dataMode === "synthetic" ? (
               <div
                 className="ent-test-pattern"
                 role="img"
@@ -85,6 +95,14 @@ export function EntEndoscopyViewer({ media, state = "ready" }: EntEndoscopyViewe
                 <strong>MIRE SYNTHÉTIQUE</strong>
                 <small>Aucune image patient</small>
               </div>
+            ) : selected.availability === "available" && selected.imageUrl ? (
+              <img
+                className="ent-endoscopy__media"
+                src={selected.imageUrl}
+                alt={`${selected.title} — ${selected.bodySite}`}
+              />
+            ) : selected.availability === "available" ? (
+              <EntStatePanel state="partial" compact />
             ) : (
               <EntStatePanel
                 state={selected.availability === "restricted" ? "forbidden" : "empty"}

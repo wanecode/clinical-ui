@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/06 Sommeil/SleepWorkbench",
   component: SleepWorkbench,
   tags: ["autodocs", "test"],
-  args: { data: syntheticSleep },
+  args: { data: syntheticSleep, dataMode: "synthetic" },
 } satisfies Meta<typeof SleepWorkbench>;
 
 export default meta;
@@ -24,3 +24,7 @@ export const ImportedPartialStudy: Story = {
 };
 
 export const Partial: Story = { args: { state: "partial" } };
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
+};

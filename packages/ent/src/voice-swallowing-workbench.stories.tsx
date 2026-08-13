@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/04 Voix et déglutition/VoiceSwallowingWorkbench",
   component: VoiceSwallowingWorkbench,
   tags: ["autodocs", "test"],
-  args: { findings: syntheticVoiceSwallowingFindings },
+  args: { findings: syntheticVoiceSwallowingFindings, dataMode: "synthetic" },
 } satisfies Meta<typeof VoiceSwallowingWorkbench>;
 
 export default meta;
@@ -24,3 +24,7 @@ export const VoicePreliminary: Story = {
 };
 
 export const Empty: Story = { args: { state: "empty" } };
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
+};

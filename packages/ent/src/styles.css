@@ -16,6 +16,14 @@
   box-shadow: 0 1.4rem 3.2rem color-mix(in oklch, var(--foreground) 8%, transparent);
 }
 
+.ent-workbench[data-presentation="embedded"] {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: var(--card);
+  box-shadow: none;
+}
+
 .ent-visually-hidden {
   position: absolute;
   inset: 0 auto auto 0;
@@ -85,6 +93,17 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 0.65rem;
+}
+
+.ent-workbench__embedded-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  min-height: 2.9rem;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--clinical-surface-inset);
 }
 
 .ent-workbench__actions {
@@ -270,6 +289,10 @@
 
 .ent-state[data-state="loading"] .ent-state__glyph {
   animation: ent-pulse 1.4s ease-in-out infinite;
+}
+
+.ent-workbench[data-presentation="embedded"] .ent-state[data-state="loading"] .ent-state__glyph {
+  animation: none;
 }
 
 .ent-state p,
@@ -955,6 +978,16 @@
   box-shadow:
     0 0 0 1.5rem color-mix(in oklch, var(--viewer-panel) 55%, transparent),
     0 0 0 1.55rem var(--viewer-border);
+}
+
+.ent-endoscopy__media {
+  display: block;
+  width: min(100%, 48rem);
+  max-height: 34rem;
+  border: 1px solid var(--viewer-border);
+  border-radius: calc(var(--radius) - 0.1rem);
+  background: var(--viewer-panel);
+  object-fit: contain;
 }
 
 .ent-test-pattern::before,

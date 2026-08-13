@@ -1,5 +1,11 @@
 import { type ReactNode, useId } from "react";
-import type { EntDataMaturity, EntDisplayState, EntLaterality } from "./types";
+import type {
+  EntDataMaturity,
+  EntDataMode,
+  EntDisplayState,
+  EntLaterality,
+  EntPresentation,
+} from "./types";
 
 const STATE_CONTENT: Record<
   Exclude<EntDisplayState, "ready">,
@@ -67,6 +73,8 @@ export interface EntWorkbenchFrameProps {
   statusTone?: "neutral" | "pending" | "success" | "warning";
   actions?: ReactNode;
   className?: string;
+  dataMode?: EntDataMode;
+  presentation?: EntPresentation;
 }
 
 export function EntWorkbenchFrame({
@@ -74,36 +82,54 @@ export function EntWorkbenchFrame({
   eyebrow,
   description,
   children,
-  status = "Données synthétiques",
+  status,
   statusTone = "neutral",
   actions,
   className,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: EntWorkbenchFrameProps) {
   const titleId = useId();
+  const resolvedStatus =
+    status ?? (dataMode === "synthetic" ? "Données synthétiques" : "Données cliniques");
   return (
     <section
       className={["ent-workbench", className].filter(Boolean).join(" ")}
-      aria-labelledby={titleId}
+      data-mode={dataMode}
+      data-presentation={presentation}
+      {...(presentation === "embedded" ? { "aria-label": title } : { "aria-labelledby": titleId })}
     >
-      <header className="ent-workbench__header">
-        <div className="ent-workbench__heading">
-          <p className="ent-eyebrow">{eyebrow}</p>
-          <h2 id={titleId}>{title}</h2>
-          <p>{description}</p>
-        </div>
-        <div className="ent-workbench__meta">
+      {presentation === "standalone" ? (
+        <header className="ent-workbench__header">
+          <div className="ent-workbench__heading">
+            <p className="ent-eyebrow">{eyebrow}</p>
+            <h2 id={titleId}>{title}</h2>
+            <p>{description}</p>
+          </div>
+          <div className="ent-workbench__meta">
+            <span className="ent-status" data-tone={statusTone}>
+              <span aria-hidden="true" className="ent-status__mark" />
+              {resolvedStatus}
+            </span>
+            {actions ? <div className="ent-workbench__actions">{actions}</div> : null}
+          </div>
+        </header>
+      ) : (
+        <div className="ent-workbench__embedded-meta">
           <span className="ent-status" data-tone={statusTone}>
             <span aria-hidden="true" className="ent-status__mark" />
-            {status}
+            {resolvedStatus}
           </span>
           {actions ? <div className="ent-workbench__actions">{actions}</div> : null}
         </div>
-      </header>
+      )}
       {children}
-      <footer className="ent-workbench__footer">
-        <span>Données entièrement synthétiques</span>
-        <span>Aucun diagnostic automatique</span>
-      </footer>
+      {dataMode === "synthetic" ? (
+        <footer className="ent-workbench__footer">
+          <span>Données entièrement synthétiques</span>
+          <span>Aucun diagnostic automatique</span>
+        </footer>
+      ) : null}
     </section>
   );
 }
