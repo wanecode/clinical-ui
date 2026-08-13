@@ -340,11 +340,17 @@ export const syntheticGlaucomaData: GlaucomaProgressionData = {
     ...trajectory("rnfl", "OG", [84, 82, 79, 77], [75, 72], "OCT RNFL synthétique"),
   ],
   targetIop: 16,
+  stageByEye: { OD: "Modéré", OG: "Léger" },
+  vigilance: {
+    tone: "warning",
+    label: "Progression structurelle OD",
+    detail: "À corréler au champ visuel",
+  },
   visualField: [
-    { date: "2024-08-12", eye: "OD", md: -3.2, psd: 3.48, vfi: 95 },
-    { date: "2025-08-12", eye: "OD", md: -3.8, psd: 4.12, vfi: 93 },
-    { date: "2026-08-12", eye: "OD", md: -4.32, psd: 4.67, vfi: 92 },
-    { date: "2026-08-12", eye: "OG", md: -1.8, psd: 2.1, vfi: 97 },
+    { date: "2024-08-12", eye: "OD", md: -3.2, psd: 3.48, vfi: 95, reliability: "Fiable" },
+    { date: "2025-08-12", eye: "OD", md: -3.8, psd: 4.12, vfi: 93, reliability: "Fiable" },
+    { date: "2026-08-12", eye: "OD", md: -4.32, psd: 4.67, vfi: 92, reliability: "Fiable" },
+    { date: "2026-08-12", eye: "OG", md: -1.8, psd: 2.1, vfi: 97, reliability: "À interpréter" },
   ],
 };
 

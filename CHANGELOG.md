@@ -3,6 +3,14 @@
 All notable changes are documented here. The project follows Semantic
 Versioning once package distribution begins.
 
+## 0.1.0-rc.5 — 2026-08-13
+
+- Add an explicit host-theme token contract for independent application integration.
+- Make ophthalmology data provenance safe for real clinical hosts: synthetic labels are opt-in.
+- Preserve multiple FHIR sources when a bilateral summary aggregates several observations.
+- Support eye-specific glaucoma targets and stages, optional field indices and host-provided vigilance states.
+- Remove hard-coded clinical vigilance and suppress projection guidance when no projection is shown.
+
 ## 0.1.0-rc.4 — 2026-08-13
 
 - Remove internal domain-goal documents and their automation references from the public snapshot.

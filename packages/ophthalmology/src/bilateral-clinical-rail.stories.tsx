@@ -11,6 +11,7 @@ const meta = {
     right: syntheticBilateralEyes.OD,
     left: syntheticBilateralEyes.OG,
     alerts: syntheticBilateralAlerts,
+    dataMode: "synthetic",
   },
   parameters: {
     docs: {

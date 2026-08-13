@@ -95,10 +95,11 @@ function OphthalmologyClinicalWorkspace() {
             right={syntheticBilateralEyes.OD}
             left={syntheticBilateralEyes.OG}
             alerts={syntheticBilateralAlerts}
+            dataMode="synthetic"
           />
         ) : null}
         {activeModule === "glaucoma" ? (
-          <GlaucomaProgressionWorkbench data={syntheticGlaucomaData} />
+          <GlaucomaProgressionWorkbench data={syntheticGlaucomaData} dataMode="synthetic" />
         ) : null}
         {activeModule === "retina" ? (
           <RetinaImagingTimeline

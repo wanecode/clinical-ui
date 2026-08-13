@@ -1,6 +1,6 @@
 import { ClinicalStatusBadge } from "@clinical-ui/core";
-import { EyeLabel, Metric, OphthalmologyDataBoundary, SyntheticStamp } from "./primitives";
-import type { BilateralAlert, ClinicalDataState, EyeSummary } from "./types";
+import { DataModeStamp, EyeLabel, Metric, OphthalmologyDataBoundary } from "./primitives";
+import type { BilateralAlert, ClinicalDataState, EyeSummary, OphthalmologyDataMode } from "./types";
 
 export interface BilateralClinicalRailProps {
   right?: EyeSummary | undefined;
@@ -8,6 +8,7 @@ export interface BilateralClinicalRailProps {
   alerts?: BilateralAlert[];
   state?: ClinicalDataState;
   compact?: boolean;
+  dataMode?: OphthalmologyDataMode;
 }
 
 function EyeColumn({ eye, fallback }: { eye?: EyeSummary | undefined; fallback: "OD" | "OG" }) {
@@ -46,10 +47,30 @@ function EyeColumn({ eye, fallback }: { eye?: EyeSummary | undefined; fallback: 
         <Metric label="Gonioscopie" value={eye.gonioscopy} />
         <Metric label="Fond d’œil" value={eye.fundus} />
       </dl>
-      <p className="oph-source-line">
-        <span>Source</span>
-        <code>{eye.source ?? "Non renseignée"}</code>
-      </p>
+      {eye.sources?.length ? (
+        <details className="oph-source-details">
+          <summary>
+            <span>Provenance FHIR</span>
+            <strong>
+              {eye.sources.length} source{eye.sources.length > 1 ? "s" : ""}
+            </strong>
+          </summary>
+          <ul>
+            {eye.sources.map((source) => (
+              <li key={`${source.label}-${source.reference}`}>
+                <span>{source.label}</span>
+                <code>{source.reference}</code>
+                {source.context ? <small>{source.context}</small> : null}
+              </li>
+            ))}
+          </ul>
+        </details>
+      ) : (
+        <p className="oph-source-line">
+          <span>Source</span>
+          <code>{eye.source ?? "Non renseignée"}</code>
+        </p>
+      )}
     </section>
   );
 }
@@ -60,6 +81,7 @@ export function BilateralClinicalRail({
   alerts = [],
   state = "ready",
   compact = false,
+  dataMode = "clinical",
 }: BilateralClinicalRailProps) {
   const discordant = Boolean(
     right?.sourceContext && left?.sourceContext && right.sourceContext !== left.sourceContext,
@@ -74,7 +96,7 @@ export function BilateralClinicalRail({
             <h2>Lecture OD / OG</h2>
             <p>Deux yeux, une seule trajectoire clinique lisible.</p>
           </div>
-          <SyntheticStamp />
+          <DataModeStamp mode={dataMode} />
         </header>
 
         {discordant ? (

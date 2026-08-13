@@ -3,7 +3,15 @@ import type { ClinicalStatus } from "@clinical-ui/core";
 export type Eye = "OD" | "OG";
 export type Laterality = Eye | "OU";
 export type ClinicalDataState = "ready" | "loading" | "empty" | "error" | "forbidden" | "partial";
+export type OphthalmologyDataMode = "clinical" | "synthetic";
 export type DataKind = "observed" | "imported" | "derived" | "projected";
+
+export interface EyeSource {
+  label: string;
+  reference: string;
+  context?: string;
+  status?: ClinicalStatus;
+}
 
 export interface EyeSummary {
   eye: Eye;
@@ -16,6 +24,7 @@ export interface EyeSummary {
   fundus?: string | undefined;
   source?: string | undefined;
   sourceContext?: string | undefined;
+  sources?: EyeSource[];
   status?: ClinicalStatus | undefined;
 }
 
@@ -60,14 +69,22 @@ export interface TrajectoryPoint {
 export interface GlaucomaProgressionData {
   iop: TrajectoryPoint[];
   rnfl: TrajectoryPoint[];
-  targetIop: number;
+  targetIop?: number;
+  targetIopByEye?: Partial<Record<Eye, number>>;
+  stageByEye?: Partial<Record<Eye, string>>;
   visualField: Array<{
     date: string;
     eye: Eye;
     md: number;
-    psd: number;
-    vfi: number;
+    psd?: number;
+    vfi?: number;
+    reliability?: string;
   }>;
+  vigilance?: {
+    tone: "information" | "warning" | "critical";
+    label: string;
+    detail?: string;
+  };
 }
 
 export interface RetinaImage {

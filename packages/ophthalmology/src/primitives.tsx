@@ -1,6 +1,6 @@
 import { ClinicalStatusBadge } from "@clinical-ui/core";
 import type { HTMLAttributes, ReactNode } from "react";
-import type { ClinicalDataState, Eye } from "./types";
+import type { ClinicalDataState, Eye, OphthalmologyDataMode } from "./types";
 
 export interface OphthalmologyDataBoundaryProps {
   state?: ClinicalDataState;
@@ -69,6 +69,16 @@ export function SyntheticStamp({ compact = false }: { compact?: boolean }) {
       <span aria-hidden="true">◇</span> 100 % synthétique
     </span>
   );
+}
+
+export function DataModeStamp({
+  mode,
+  compact = false,
+}: {
+  mode: OphthalmologyDataMode;
+  compact?: boolean;
+}) {
+  return mode === "synthetic" ? <SyntheticStamp compact={compact} /> : null;
 }
 
 export function EyeLabel({ eye, long = false }: { eye: Eye; long?: boolean }) {

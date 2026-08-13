@@ -41,7 +41,7 @@ states.
 
 ## Install the release candidate
 
-The current checkpoint is `v0.1.0-rc.4`. Install preview packages from the
+The current checkpoint is `v0.1.0-rc.5`. Install preview packages from the
 `next` channel:
 
 ```bash
@@ -106,6 +106,19 @@ Components use semantic CSS variables instead of palette-specific clinical
 meaning. The standalone theme scope provides three palettes in light and dark
 modes, while host applications can supply the same token contract. Every
 cross-domain sentinel is visually audited across all six combinations.
+
+Host applications that already own a theme system should import only the core
+and specialty styles. They must not nest `ClinicalThemeScope` or import
+`@clinical-ui/theme/styles.css`; instead, they provide the CSS custom properties
+listed by `CLINICAL_UI_REQUIRED_TOKENS`. This keeps the dependency one-way: the
+host consumes Clinical UI, while Clinical UI remains unaware of host routes,
+theme providers and palette names.
+
+```tsx
+import { CLINICAL_UI_REQUIRED_TOKENS } from "@clinical-ui/theme";
+import "@clinical-ui/core/styles.css";
+import "@clinical-ui/ophthalmology/styles.css";
+```
 
 ## Clinical review wanted
 

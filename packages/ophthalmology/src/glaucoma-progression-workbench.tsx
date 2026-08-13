@@ -1,6 +1,11 @@
 import { AccessibleTrajectory } from "./accessible-trajectory";
-import { OphthalmologyDataBoundary, OphthalmologyPanel, SyntheticStamp } from "./primitives";
-import type { ClinicalDataState, GlaucomaProgressionData } from "./types";
+import { DataModeStamp, OphthalmologyDataBoundary, OphthalmologyPanel } from "./primitives";
+import type {
+  ClinicalDataState,
+  Eye,
+  GlaucomaProgressionData,
+  OphthalmologyDataMode,
+} from "./types";
 
 const FIELD_CELLS = Array.from({ length: 36 }, (_, index) => ({
   id: `field-cell-${index + 1}`,
@@ -10,24 +15,41 @@ const FIELD_CELLS = Array.from({ length: 36 }, (_, index) => ({
 export interface GlaucomaProgressionWorkbenchProps {
   data: GlaucomaProgressionData;
   state?: ClinicalDataState;
+  dataMode?: OphthalmologyDataMode;
+}
+
+function annualizedRate(data: GlaucomaProgressionData, eye: Eye) {
+  const observed = [...data.rnfl]
+    .filter((point) => point.eye === eye && point.kind !== "projected")
+    .sort((left, right) => left.date.localeCompare(right.date));
+  const first = observed.at(0);
+  const latest = observed.at(-1);
+  if (!first || !latest || first.id === latest.id) return undefined;
+  const elapsedYears =
+    (new Date(`${latest.date}T00:00:00Z`).valueOf() -
+      new Date(`${first.date}T00:00:00Z`).valueOf()) /
+    (365.25 * 24 * 60 * 60 * 1_000);
+  return elapsedYears > 0 ? (latest.value - first.value) / elapsedYears : undefined;
 }
 
 export function GlaucomaProgressionWorkbench({
   data,
   state = "ready",
+  dataMode = "clinical",
 }: GlaucomaProgressionWorkbenchProps) {
-  const latestObserved = data.rnfl.filter((point) => point.kind !== "projected").at(-1);
-  const firstObserved = data.rnfl.find(
-    (point) => point.eye === latestObserved?.eye && point.kind !== "projected",
-  );
-  const annualized =
-    latestObserved && firstObserved
-      ? (latestObserved.value - firstObserved.value) /
-        Math.max(
-          1,
-          Number(latestObserved.date.slice(0, 4)) - Number(firstObserved.date.slice(0, 4)),
-        )
-      : undefined;
+  const targetByEye = data.targetIopByEye ?? {
+    OD: data.targetIop,
+    OG: data.targetIop,
+  };
+  const targetSummary = (["OD", "OG"] as const)
+    .flatMap((eye) => (targetByEye[eye] === undefined ? [] : [`${eye} ≤ ${targetByEye[eye]} mmHg`]))
+    .join(" · ");
+  const stageSummary = (["OD", "OG"] as const)
+    .flatMap((eye) =>
+      data.stageByEye?.[eye] === undefined ? [] : [`${eye} · ${data.stageByEye[eye]}`],
+    )
+    .join(" · ");
+  const hasProjection = [...data.iop, ...data.rnfl].some((point) => point.kind === "projected");
 
   return (
     <OphthalmologyDataBoundary state={state} label="Progression glaucomateuse">
@@ -38,25 +60,33 @@ export function GlaucomaProgressionWorkbench({
             <h2>Trajectoires explicables</h2>
             <p>Mesures observées, imports et projections gardent une grammaire distincte.</p>
           </div>
-          <SyntheticStamp />
+          <DataModeStamp mode={dataMode} />
         </header>
         <div className="oph-glaucoma__summary">
           <div>
             <span>PIO cible</span>
-            <strong>≤ {data.targetIop} mmHg</strong>
+            <strong>{targetSummary || "Non documentée"}</strong>
+            {stageSummary ? <small>Stade {stageSummary}</small> : null}
           </div>
-          <div>
-            <span>Vitesse RNFL calculée</span>
-            <strong>
-              {annualized === undefined ? "Non calculable" : `${annualized.toFixed(1)} µm/an`}
-            </strong>
-            <small>Dérivé des observations</small>
-          </div>
-          <div data-tone="warning">
-            <span>Vigilance</span>
-            <strong>Progression structurelle OD</strong>
-            <small>À corréler au champ visuel</small>
-          </div>
+          {(["OD", "OG"] as const).map((eye) => {
+            const rate = annualizedRate(data, eye);
+            return (
+              <div key={eye}>
+                <span>Vitesse RNFL {eye}</span>
+                <strong>
+                  {rate === undefined ? "Non calculable" : `${rate.toFixed(1)} µm/an`}
+                </strong>
+                <small>Dérivé des observations</small>
+              </div>
+            );
+          })}
+          {data.vigilance ? (
+            <div data-tone={data.vigilance.tone}>
+              <span>Vigilance</span>
+              <strong>{data.vigilance.label}</strong>
+              {data.vigilance.detail ? <small>{data.vigilance.detail}</small> : null}
+            </div>
+          ) : null}
         </div>
         <div className="oph-glaucoma__charts">
           <OphthalmologyPanel title="Pression intraoculaire" eyebrow="Tonométrie">
@@ -64,7 +94,7 @@ export function GlaucomaProgressionWorkbench({
               points={data.iop}
               label="Évolution de la pression intraoculaire"
               unit="mmHg"
-              referenceValue={data.targetIop}
+              {...(data.targetIop === undefined ? {} : { referenceValue: data.targetIop })}
               referenceLabel="Cible"
             />
           </OphthalmologyPanel>
@@ -87,7 +117,10 @@ export function GlaucomaProgressionWorkbench({
             </div>
             <div className="oph-table-wrap">
               <table className="oph-table">
-                <caption>Indices globaux du champ visuel synthétique</caption>
+                <caption>
+                  Indices globaux du champ visuel{" "}
+                  {dataMode === "synthetic" ? "synthétique" : "clinique"}
+                </caption>
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -95,6 +128,7 @@ export function GlaucomaProgressionWorkbench({
                     <th>MD</th>
                     <th>PSD</th>
                     <th>VFI</th>
+                    <th>Fiabilité</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -103,8 +137,9 @@ export function GlaucomaProgressionWorkbench({
                       <td>{field.date}</td>
                       <td>{field.eye}</td>
                       <td>{field.md.toFixed(2)} dB</td>
-                      <td>{field.psd.toFixed(2)} dB</td>
-                      <td>{field.vfi} %</td>
+                      <td>{field.psd === undefined ? "—" : `${field.psd.toFixed(2)} dB`}</td>
+                      <td>{field.vfi === undefined ? "—" : `${field.vfi} %`}</td>
+                      <td>{field.reliability ?? "Non documentée"}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -112,16 +147,18 @@ export function GlaucomaProgressionWorkbench({
             </div>
           </div>
         </OphthalmologyPanel>
-        <aside className="oph-projection-caveat">
-          <span aria-hidden="true">⌁</span>
-          <div>
-            <strong>Projection, pas prédiction clinique.</strong>
-            <p>
-              Les segments en tirets extrapolent une tendance locale. Ils ne sont ni mesurés ni
-              validés et ne doivent pas être lus comme un résultat futur acquis.
-            </p>
-          </div>
-        </aside>
+        {hasProjection ? (
+          <aside className="oph-projection-caveat">
+            <span aria-hidden="true">⌁</span>
+            <div>
+              <strong>Projection, pas prédiction clinique.</strong>
+              <p>
+                Les segments en tirets extrapolent une tendance locale. Ils ne sont ni mesurés ni
+                validés et ne doivent pas être lus comme un résultat futur acquis.
+              </p>
+            </div>
+          </aside>
+        ) : null}
       </article>
     </OphthalmologyDataBoundary>
   );

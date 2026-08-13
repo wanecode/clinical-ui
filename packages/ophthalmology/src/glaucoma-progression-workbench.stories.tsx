@@ -7,7 +7,7 @@ const meta = {
   title: "Ophthalmology/GlaucomaProgressionWorkbench",
   component: GlaucomaProgressionWorkbench,
   tags: ["autodocs", "test"],
-  args: { data: syntheticGlaucomaData },
+  args: { data: syntheticGlaucomaData, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {

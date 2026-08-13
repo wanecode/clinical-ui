@@ -326,6 +326,54 @@
   color: var(--foreground);
 }
 
+.oph-source-details {
+  margin-top: 0.7rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--border);
+  color: var(--muted-foreground);
+  font-size: 0.65rem;
+}
+
+.oph-source-details summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.oph-source-details summary strong {
+  color: var(--foreground);
+  font-weight: 650;
+}
+
+.oph-source-details ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.oph-source-details li {
+  display: grid;
+  grid-template-columns: minmax(5rem, 0.65fr) minmax(0, 1fr);
+  gap: 0.15rem 0.5rem;
+  padding: 0.45rem;
+  border-radius: calc(var(--radius) - 0.25rem);
+  background: var(--muted);
+}
+
+.oph-source-details code {
+  overflow-wrap: anywhere;
+  color: var(--foreground);
+  text-align: end;
+}
+
+.oph-source-details small {
+  grid-column: 1 / -1;
+}
+
 .oph-table-wrap {
   overflow-x: auto;
   max-width: 100%;
@@ -543,7 +591,8 @@
 }
 
 .oph-bilateral[data-compact] .oph-workbench-heading p:last-child,
-.oph-bilateral[data-compact] .oph-source-line {
+.oph-bilateral[data-compact] .oph-source-line,
+.oph-bilateral[data-compact] .oph-source-details {
   display: none;
 }
 .oph-bilateral[data-compact] .oph-bilateral__grid {
@@ -913,7 +962,7 @@
 /* Glaucoma */
 .oph-glaucoma__summary {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
   margin-bottom: 0.8rem;
   border: 1px solid var(--oph-rule-strong);
   background: var(--card);
@@ -946,13 +995,25 @@
   color: var(--muted-foreground);
   font-size: 0.6rem;
 }
-.oph-glaucoma__summary [data-tone="warning"] {
+.oph-glaucoma__summary [data-tone="warning"],
+.oph-glaucoma__summary [data-tone="critical"],
+.oph-glaucoma__summary [data-tone="information"] {
   border-top: 3px solid var(--clinical-warning-border);
   background: var(--clinical-warning);
   color: var(--clinical-warning-foreground);
 }
-.oph-glaucoma__summary [data-tone="warning"] span,
-.oph-glaucoma__summary [data-tone="warning"] small {
+.oph-glaucoma__summary [data-tone="critical"] {
+  border-top-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+.oph-glaucoma__summary [data-tone="information"] {
+  border-top-color: var(--clinical-info-border);
+  background: var(--clinical-info);
+  color: var(--clinical-info-foreground);
+}
+.oph-glaucoma__summary [data-tone] span,
+.oph-glaucoma__summary [data-tone] small {
   color: inherit;
 }
 .oph-glaucoma__charts {

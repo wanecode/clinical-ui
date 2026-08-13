@@ -1,19 +1,24 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
+  CLINICAL_DATA_TOKENS,
+  CLINICAL_FOUNDATION_TOKENS,
+  CLINICAL_INTERACTION_TOKENS,
   CLINICAL_SEMANTIC_FAMILIES,
+  CLINICAL_SURFACE_TOKENS,
   CLINICAL_UI_MODES,
   CLINICAL_UI_PALETTES,
+  CLINICAL_UI_REQUIRED_TOKENS,
+  CLINICAL_UI_THEME_CONTRACT_VERSION,
   CLINICAL_VIEWER_TOKENS,
-  ECOMED_THEME_CONTRACT_SNAPSHOT,
   SHADCN_COLOR_TOKENS,
 } from "./index";
 
 const stylesheet = readFileSync(new URL("./styles.css", import.meta.url), "utf8");
 
-describe("ecoMed24-compatible theme contract", () => {
+describe("Clinical UI host theme contract", () => {
   it("pins the compatibility snapshot and the six supported theme combinations", () => {
-    expect(ECOMED_THEME_CONTRACT_SNAPSHOT).toBe("2026-08-12");
+    expect(CLINICAL_UI_THEME_CONTRACT_VERSION).toBe("2026-08-13");
     expect(CLINICAL_UI_MODES).toEqual(["light", "dark"]);
     expect(CLINICAL_UI_PALETTES).toEqual(["clinical", "ocean", "sage"]);
   });
@@ -34,6 +39,19 @@ describe("ecoMed24-compatible theme contract", () => {
 
   it("keeps a complete neutral viewer token family", () => {
     for (const token of CLINICAL_VIEWER_TOKENS) {
+      expect(stylesheet, `missing --${token}`).toContain(`--${token}:`);
+    }
+  });
+
+  it("publishes a complete, duplicate-free host token contract", () => {
+    expect(new Set(CLINICAL_UI_REQUIRED_TOKENS).size).toBe(CLINICAL_UI_REQUIRED_TOKENS.length);
+
+    for (const token of [
+      ...CLINICAL_FOUNDATION_TOKENS,
+      ...CLINICAL_SURFACE_TOKENS,
+      ...CLINICAL_DATA_TOKENS,
+      ...CLINICAL_INTERACTION_TOKENS,
+    ]) {
       expect(stylesheet, `missing --${token}`).toContain(`--${token}:`);
     }
   });
