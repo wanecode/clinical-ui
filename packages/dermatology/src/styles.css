@@ -1,1 +1,1834 @@
-/* Dermatology UI styles are authored against the shared semantic token contract. */
+/* Dermatology UI — semantic-token-only, FHIR-native clinical workbenches. */
+
+.derm-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.derm-panel {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 0.15rem);
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--border) 30%, transparent) 1px, transparent 1px)
+    0 0 / 2rem 2rem,
+    linear-gradient(color-mix(in oklch, var(--border) 22%, transparent) 1px, transparent 1px) 0 0 /
+    2rem 2rem,
+    var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 0.75rem 2rem color-mix(in oklch, var(--foreground) 5%, transparent);
+}
+
+.derm-panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--card) 94%, var(--primary));
+}
+
+.derm-panel-heading > div:first-child {
+  min-width: 0;
+}
+
+.derm-eyebrow {
+  margin: 0 0 0.3rem;
+  color: var(--primary);
+  font-size: 0.68rem;
+  font-weight: 780;
+  letter-spacing: 0.11em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.derm-panel-heading h2 {
+  margin: 0;
+  font-family: ui-serif, Charter, "Bitstream Charter", Georgia, serif;
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-weight: 680;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.derm-panel-heading__description {
+  max-width: 65ch;
+  margin: 0.35rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.83rem;
+}
+
+.derm-panel-heading__action {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.derm-synthetic-badge,
+.derm-origin,
+.derm-report-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  border: 1px solid var(--border);
+  font-size: 0.7rem;
+  font-weight: 720;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.derm-synthetic-badge {
+  padding: 0.38rem 0.5rem;
+  border-color: var(--clinical-information-border);
+  border-radius: 0.25rem;
+  background: var(--clinical-information);
+  color: var(--clinical-information-foreground);
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.derm-origin,
+.derm-report-status {
+  min-height: 1.45rem;
+  padding: 0.25rem 0.42rem;
+  border-radius: 999px;
+}
+
+.derm-origin[data-origin="observed"] {
+  border-color: var(--status-active-border);
+  background: var(--status-active);
+  color: var(--status-active-foreground);
+}
+
+.derm-origin[data-origin="imported"] {
+  border-color: var(--clinical-information-border);
+  background: var(--clinical-information);
+  color: var(--clinical-information-foreground);
+}
+
+.derm-origin[data-origin="derived"] {
+  border-style: double;
+  border-color: var(--status-pending-border);
+  background: var(--status-pending);
+  color: var(--status-pending-foreground);
+}
+
+.derm-origin[data-origin="projected"] {
+  border-style: dashed;
+  background: var(--status-unknown);
+  color: var(--status-unknown-foreground);
+}
+
+.derm-report-status[data-status="validated"] {
+  border-color: var(--status-success-border);
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+
+.derm-report-status[data-status="preliminary"],
+.derm-report-status[data-status="amended"] {
+  border-color: var(--status-pending-border);
+  background: var(--status-pending);
+  color: var(--status-pending-foreground);
+}
+
+.derm-report-status[data-status="amended"] {
+  border-style: dashed;
+}
+
+.derm-report-status[data-status="critical"] {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+  text-transform: uppercase;
+}
+
+.derm-button,
+.derm-segmented button,
+.derm-map-zoom button,
+.derm-lesion-registry table button {
+  min-height: 2.2rem;
+  padding: 0.42rem 0.72rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 0.2rem);
+  background: var(--card);
+  color: var(--card-foreground);
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 720;
+  cursor: pointer;
+}
+
+.derm-button:hover,
+.derm-segmented button:hover,
+.derm-map-zoom button:hover {
+  border-color: var(--primary);
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.derm-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.derm-button--primary {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.derm-button--quiet {
+  border-color: var(--primary);
+  background: transparent;
+  color: var(--primary);
+}
+
+.derm-button--viewer {
+  border-color: var(--viewer-border);
+  background: var(--viewer-panel);
+  color: var(--viewer-foreground);
+}
+
+.derm-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  min-height: 18rem;
+  margin: 1rem;
+  padding: 2rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--clinical-surface-inset);
+  text-align: left;
+}
+
+.derm-state--compact {
+  min-height: 11rem;
+}
+
+.derm-state__icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+}
+
+.derm-state[data-state="loading"] .derm-state__icon {
+  animation: derm-spin 1.2s linear infinite;
+}
+
+.derm-state[data-state="error"] .derm-state__icon,
+.derm-state[data-state="forbidden"] .derm-state__icon {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+
+.derm-state h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.derm-state p {
+  max-width: 48ch;
+  margin: 0.3rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.82rem;
+}
+
+.derm-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 0.15rem);
+}
+
+.derm-panel table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.77rem;
+}
+
+.derm-panel caption {
+  padding: 0.6rem 0.7rem;
+  color: var(--muted-foreground);
+  font-weight: 620;
+  text-align: left;
+}
+
+.derm-panel th,
+.derm-panel td {
+  min-width: 6rem;
+  padding: 0.58rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.derm-panel thead th {
+  background: var(--clinical-surface-inset);
+  color: var(--muted-foreground);
+  font-size: 0.67rem;
+  font-weight: 760;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.derm-panel tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.derm-panel code {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  overflow-wrap: anywhere;
+}
+
+.derm-clinical-note,
+.derm-resource-reference {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 1rem 0 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--clinical-information-border);
+  border-radius: calc(var(--radius) - 0.18rem);
+  background: var(--clinical-information);
+  color: var(--clinical-information-foreground);
+  font-size: 0.75rem;
+}
+
+/* Body lesion atlas */
+
+.derm-body-map__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--clinical-surface-inset);
+}
+
+.derm-segmented,
+.derm-map-zoom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.derm-segmented button[aria-pressed="true"] {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.derm-map-zoom output {
+  min-width: 3.5rem;
+  padding-inline: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.derm-body-map__layout {
+  display: grid;
+  grid-template-columns: minmax(20rem, 1fr) minmax(24rem, 0.9fr);
+  min-height: 38rem;
+}
+
+.derm-map-canvas {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: auto;
+  padding: 2rem;
+  border-right: 1px solid var(--border);
+  background:
+    radial-gradient(
+      circle at 50% 46%,
+      color-mix(in oklch, var(--accent) 60%, transparent),
+      transparent 48%
+    ),
+    var(--background);
+  margin: 0;
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+.derm-map-canvas[data-placing] {
+  box-shadow: inset 0 0 0 3px var(--ring);
+}
+
+.derm-map-canvas__scaled {
+  position: relative;
+  width: min(100%, 23rem);
+  transform-origin: center;
+  transition: transform 180ms ease;
+}
+
+.derm-body-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0.8rem 1rem color-mix(in oklch, var(--foreground) 12%, transparent));
+}
+
+.derm-body-shape {
+  fill: color-mix(in oklch, var(--primary) 76%, var(--foreground));
+  stroke: var(--foreground);
+  stroke-width: 1.4;
+}
+
+.derm-body-seam {
+  fill: none;
+  stroke: var(--primary-foreground);
+  stroke-opacity: 0.5;
+  stroke-width: 2;
+}
+
+.derm-body-grid {
+  stroke: var(--border);
+  stroke-dasharray: 3 4;
+}
+
+.derm-body-caption {
+  fill: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.derm-lesion-marker,
+.derm-placement-cursor {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  translate: -50% -50%;
+  border: 2px solid var(--card);
+  border-radius: 50%;
+  background: var(--destructive);
+  color: var(--destructive-foreground, var(--primary-foreground));
+  box-shadow:
+    0 0 0 2px var(--destructive),
+    0 0.25rem 0.6rem color-mix(in oklch, var(--foreground) 24%, transparent);
+  font: 800 0.75rem / 1 var(--font-mono);
+}
+
+.derm-lesion-marker {
+  cursor: pointer;
+}
+
+.derm-lesion-marker[data-selected] {
+  width: 2.2rem;
+  height: 2.2rem;
+  background: var(--primary);
+  box-shadow:
+    0 0 0 3px var(--ring),
+    0 0.25rem 0.7rem color-mix(in oklch, var(--foreground) 30%, transparent);
+}
+
+.derm-placement-cursor {
+  border-radius: 0;
+  background: var(--primary);
+  animation: derm-pulse 1.4s ease-in-out infinite;
+}
+
+.derm-lesion-registry {
+  min-width: 0;
+  padding: 1rem;
+  background: color-mix(in oklch, var(--card) 96%, var(--accent));
+}
+
+.derm-lesion-registry__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.derm-lesion-registry__heading span,
+.derm-lesion-registry__heading strong {
+  display: block;
+}
+
+.derm-lesion-registry__heading span {
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+
+.derm-lesion-registry__heading strong {
+  margin-top: 0.1rem;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1.05rem;
+}
+
+.derm-keyboard-hint {
+  margin: 0 0 0.8rem;
+  color: var(--muted-foreground);
+  font-size: 0.68rem;
+  line-height: 1.8;
+}
+
+.derm-keyboard-hint kbd {
+  margin-inline: 0.12rem;
+  padding: 0.12rem 0.28rem;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 0.2rem;
+  background: var(--card);
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 0.63rem;
+}
+
+.derm-lesion-registry table button {
+  min-height: auto;
+  padding: 0.15rem 0.25rem;
+  border: 0;
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.18rem;
+}
+
+.derm-lesion-registry tr[data-selected] {
+  background: var(--clinical-selection);
+  color: var(--clinical-selection-foreground);
+}
+
+/* Longitudinal identity */
+
+.derm-longitudinal__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1rem 1rem 0;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: var(--border);
+  overflow: hidden;
+}
+
+.derm-longitudinal__summary > div,
+.derm-wound__summary > div {
+  padding: 0.8rem;
+  background: var(--card);
+}
+
+.derm-longitudinal__summary span,
+.derm-longitudinal__summary strong,
+.derm-wound__summary span,
+.derm-wound__summary strong {
+  display: block;
+}
+
+.derm-longitudinal__summary span,
+.derm-wound__summary span {
+  color: var(--muted-foreground);
+  font-size: 0.68rem;
+}
+
+.derm-longitudinal__summary strong,
+.derm-wound__summary strong {
+  margin-top: 0.18rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+}
+
+.derm-timeline-list {
+  margin: 0;
+  padding: 1rem 1rem 1.2rem;
+  list-style: none;
+}
+
+.derm-timeline-list li {
+  position: relative;
+  margin-left: 0.65rem;
+  padding: 0 0 1.2rem 1.4rem;
+}
+
+.derm-timeline-list li:last-child {
+  padding-bottom: 0;
+}
+
+.derm-timeline-list__rail {
+  position: absolute;
+  top: 0.35rem;
+  bottom: -0.35rem;
+  left: 0;
+  width: 0.55rem;
+  border: 2px solid var(--card);
+  border-radius: 999px;
+  background: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.derm-timeline-list li:last-child .derm-timeline-list__rail {
+  bottom: auto;
+  height: 0.55rem;
+}
+
+.derm-timeline-list__header,
+.derm-timeline-list__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.derm-timeline-list time {
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+
+.derm-timeline-list li > strong {
+  display: block;
+  margin-block: 0.28rem;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+}
+
+.derm-timeline-list li > p {
+  margin: 0.45rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.73rem;
+}
+
+/* Dermoscopy neutral reading environment */
+
+.derm-viewer {
+  border-color: var(--viewer-border);
+  background: var(--viewer-surface);
+  color: var(--viewer-foreground);
+}
+
+.derm-viewer .derm-panel-heading {
+  border-color: var(--viewer-border);
+  background: var(--viewer-surface);
+}
+
+.derm-viewer .derm-eyebrow,
+.derm-viewer .derm-panel-heading__description {
+  color: var(--viewer-muted-foreground);
+}
+
+.derm-viewer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.derm-viewer__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4.5rem minmax(0, 1fr);
+  gap: 0.6rem;
+  padding: 1rem;
+}
+
+.derm-image-card {
+  min-width: 0;
+  padding: 0.65rem;
+  border: 1px solid var(--viewer-border);
+  border-radius: 0.25rem;
+  background: var(--viewer-panel);
+}
+
+.derm-image-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.55rem;
+}
+
+.derm-image-card header span,
+.derm-image-card header strong {
+  display: block;
+}
+
+.derm-image-card header span,
+.derm-image-card > p {
+  color: var(--viewer-muted-foreground);
+  font-size: 0.68rem;
+}
+
+.derm-image-card > p {
+  margin: 0.55rem 0 0;
+}
+
+.derm-dermoscopy-image {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid var(--viewer-border);
+  background:
+    radial-gradient(circle at 34% 42%, var(--viewer-accent) 0 4%, transparent 5%),
+    radial-gradient(
+      circle at 58% 35%,
+      color-mix(in oklch, var(--viewer-accent) 50%, transparent) 0 8%,
+      transparent 9%
+    ),
+    radial-gradient(
+      circle at 52% 58%,
+      color-mix(in oklch, var(--viewer-foreground) 30%, transparent) 0 13%,
+      transparent 14%
+    ),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0 7%,
+      color-mix(in oklch, var(--viewer-accent) 32%, transparent) 8% 9%
+    ),
+    var(--viewer-surface);
+}
+
+.derm-dermoscopy-image::before {
+  position: absolute;
+  inset: 12%;
+  z-index: -1;
+  border: 2px solid color-mix(in oklch, var(--viewer-accent) 60%, transparent);
+  border-radius: 44% 56% 49% 51% / 57% 41% 59% 43%;
+  background:
+    radial-gradient(
+      circle at 45% 45%,
+      color-mix(in oklch, var(--viewer-accent) 78%, transparent),
+      transparent 16%
+    ),
+    repeating-conic-gradient(
+      from 18deg,
+      color-mix(in oklch, var(--viewer-foreground) 46%, transparent) 0 5deg,
+      transparent 5deg 18deg
+    ),
+    color-mix(in oklch, var(--viewer-accent) 35%, var(--viewer-surface));
+  content: "";
+  filter: contrast(1.2);
+}
+
+.derm-dermoscopy-image[data-texture="cyan"]::before {
+  inset: 9% 17% 15% 11%;
+  rotate: 18deg;
+  border-radius: 57% 43% 38% 62% / 42% 55% 45% 58%;
+}
+
+.derm-dermoscopy-image__scale,
+.derm-dermoscopy-image__label {
+  position: absolute;
+  z-index: 2;
+  padding: 0.2rem 0.3rem;
+  background: color-mix(in oklch, var(--viewer-surface) 85%, transparent);
+  color: var(--viewer-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+}
+
+.derm-dermoscopy-image__scale {
+  right: 0.4rem;
+  bottom: 0.4rem;
+  border-top: 2px solid var(--viewer-foreground);
+}
+
+.derm-dermoscopy-image__label {
+  top: 0.4rem;
+  left: 0.4rem;
+  color: var(--viewer-accent);
+  letter-spacing: 0.08em;
+}
+
+.derm-compare-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  color: var(--viewer-muted-foreground);
+  text-align: center;
+}
+
+.derm-compare-control label {
+  font-size: 0.66rem;
+}
+
+.derm-compare-control input {
+  width: 7rem;
+  accent-color: var(--viewer-accent);
+  rotate: -90deg;
+}
+
+.derm-compare-control output {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.derm-image-off {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 18rem;
+  margin: 1rem;
+  padding: 2rem;
+  border: 1px dashed var(--viewer-border);
+  color: var(--viewer-foreground);
+}
+
+.derm-image-off > span {
+  font-size: 2rem;
+}
+
+.derm-image-off p {
+  max-width: 55ch;
+  margin: 0.25rem 0 0;
+  color: var(--viewer-muted-foreground);
+  font-size: 0.78rem;
+}
+
+.derm-viewer__alternative {
+  margin: 0 1rem 1rem;
+  border-color: var(--viewer-border);
+}
+
+.derm-viewer__provenance {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 1rem 1rem;
+  border: 1px solid var(--viewer-border);
+  background: var(--viewer-border);
+}
+
+.derm-viewer__provenance > div {
+  min-width: 0;
+  padding: 0.65rem;
+  background: var(--viewer-panel);
+}
+
+.derm-viewer__provenance dt,
+.derm-viewer__provenance dd {
+  margin: 0;
+}
+
+.derm-viewer__provenance dt {
+  color: var(--viewer-muted-foreground);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.derm-viewer__provenance dd {
+  overflow: hidden;
+  margin-top: 0.2rem;
+  color: var(--viewer-foreground);
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+}
+
+.derm-viewer table {
+  color: var(--viewer-foreground);
+}
+
+.derm-viewer caption {
+  color: var(--viewer-muted-foreground);
+}
+
+.derm-viewer thead th {
+  background: var(--viewer-panel);
+  color: var(--viewer-muted-foreground);
+}
+
+.derm-viewer th,
+.derm-viewer td,
+.derm-viewer caption {
+  border-color: var(--viewer-border);
+}
+
+.derm-viewer .derm-state {
+  border-color: var(--viewer-border);
+  background: var(--viewer-panel);
+  color: var(--viewer-foreground);
+}
+
+.derm-viewer .derm-state p {
+  color: var(--viewer-muted-foreground);
+}
+
+.derm-viewer .derm-state__icon {
+  border-color: var(--viewer-border);
+  background: var(--viewer-surface);
+  color: var(--viewer-accent);
+}
+
+.derm-viewer .derm-state[data-state="error"] .derm-state__icon,
+.derm-viewer .derm-state[data-state="forbidden"] .derm-state__icon {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+
+/* Photography quality */
+
+.derm-quality-gate__result {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem;
+  padding: 0.85rem;
+  border: 1px solid var(--status-success-border);
+  border-left-width: 4px;
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+
+.derm-quality-gate__result[data-usable="false"] {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+
+.derm-quality-gate__result > span {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+}
+
+.derm-quality-gate__result p {
+  margin: 0.18rem 0 0;
+  font-size: 0.74rem;
+}
+
+.derm-check-list {
+  margin: 0;
+  padding: 0 1rem;
+  list-style: none;
+}
+
+.derm-check-list li {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.62rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.derm-check-list__symbol {
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 1px solid var(--status-success-border);
+  border-radius: 50%;
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
+.derm-check-list li[data-check="warning"] .derm-check-list__symbol {
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+.derm-check-list li[data-check="fail"] .derm-check-list__symbol {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+
+.derm-check-list li strong,
+.derm-check-list li span {
+  display: block;
+}
+
+.derm-check-list li strong {
+  font-size: 0.78rem;
+}
+
+.derm-check-list li div > span,
+.derm-check-list time {
+  color: var(--muted-foreground);
+  font-size: 0.68rem;
+}
+
+.derm-quality-gate__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+/* Trajectories and charts */
+
+.derm-wound,
+.derm-inflammatory {
+  padding-bottom: 1rem;
+}
+
+.derm-wound__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: var(--border);
+  overflow: hidden;
+}
+
+.derm-wound__layout {
+  display: grid;
+  grid-template-columns: minmax(18rem, 1fr) minmax(22rem, 0.9fr);
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.derm-chart-card {
+  min-width: 0;
+  margin: 0;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: var(--card);
+}
+
+.derm-chart-card figcaption {
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 720;
+}
+
+.derm-chart-card svg {
+  display: block;
+  width: 100%;
+  min-height: 15rem;
+  overflow: visible;
+}
+
+.derm-chart-axis {
+  stroke: var(--foreground);
+  stroke-width: 0.8;
+}
+
+.derm-chart-grid {
+  stroke: var(--border);
+  stroke-dasharray: 2 2;
+  stroke-width: 0.5;
+}
+
+.derm-chart-line {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 1.6;
+}
+
+[data-origin="projected"] .derm-chart-point {
+  fill: var(--card);
+  stroke: var(--clinical-data-projected);
+  stroke-dasharray: 1 1;
+  stroke-width: 1.4;
+}
+
+[data-origin="derived"] .derm-chart-point {
+  fill: var(--clinical-data-reference);
+  stroke: var(--card);
+  stroke-width: 1;
+}
+
+[data-origin="observed"] .derm-chart-point {
+  fill: var(--clinical-data-observed);
+  stroke: var(--card);
+  stroke-width: 1;
+}
+
+.derm-chart-value {
+  fill: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 3.2px;
+  text-anchor: middle;
+}
+
+.derm-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--border);
+}
+
+.derm-wound .derm-clinical-note,
+.derm-inflammatory .derm-clinical-note {
+  margin-inline: 1rem;
+}
+
+/* Inflammatory score notebook */
+
+.derm-vigilance-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--clinical-warning-border);
+  border-left-width: 4px;
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+.derm-vigilance-strip[data-severity="information"] {
+  border-color: var(--clinical-information-border);
+  background: var(--clinical-information);
+  color: var(--clinical-information-foreground);
+}
+
+.derm-vigilance-strip > span {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
+.derm-vigilance-strip > div {
+  flex: 1;
+}
+
+.derm-vigilance-strip p {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+}
+
+.derm-score-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0 1rem;
+}
+
+.derm-score-card {
+  min-width: 0;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--primary);
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: var(--card);
+}
+
+.derm-score-card header,
+.derm-score-card footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.derm-score-card header span,
+.derm-score-card header h3 {
+  display: block;
+  margin: 0;
+}
+
+.derm-score-card header span,
+.derm-score-card footer {
+  color: var(--muted-foreground);
+  font-size: 0.65rem;
+}
+
+.derm-score-card header h3 {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1.15rem;
+}
+
+.derm-score-card header > strong {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.derm-score-card__plot {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  min-height: 10rem;
+  margin-block: 0.75rem;
+  padding: 0.5rem;
+  border-block: 1px solid var(--border);
+  background: var(--clinical-surface-inset);
+}
+
+.derm-score-bar {
+  display: grid;
+  flex: 1;
+  justify-items: center;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.derm-score-bar__track {
+  position: relative;
+  width: min(100%, 1.35rem);
+  height: 6rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.derm-score-bar__track > span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-top: 2px solid var(--foreground);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--primary) 0 3px,
+    color-mix(in oklch, var(--primary) 55%, var(--card)) 3px 6px
+  );
+}
+
+.derm-score-bar strong,
+.derm-score-bar time {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-align: center;
+}
+
+.derm-score-bar time {
+  color: var(--muted-foreground);
+}
+
+.derm-score-card footer strong {
+  color: var(--foreground);
+  text-align: right;
+}
+
+/* Pigmented lesion ABCDE */
+
+.derm-pigmented__identity {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  background: var(--clinical-surface-inset);
+}
+
+.derm-pigmented__identity span,
+.derm-pigmented__identity strong {
+  display: block;
+}
+
+.derm-pigmented__identity span {
+  color: var(--muted-foreground);
+  font-size: 0.67rem;
+}
+
+.derm-pigmented__identity strong {
+  margin-top: 0.16rem;
+  font-size: 0.78rem;
+}
+
+.derm-abcde-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0 1rem;
+  list-style: none;
+}
+
+.derm-abcde-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.65rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.derm-abcde-list__letter {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  color: var(--primary);
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.derm-abcde-list li strong,
+.derm-abcde-list li span {
+  display: block;
+}
+
+.derm-abcde-list li strong {
+  font-size: 0.7rem;
+}
+
+.derm-abcde-list li div > span {
+  margin-top: 0.12rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+}
+
+.derm-pigmented__interpretation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem;
+  padding: 0.8rem;
+  border: 1px solid var(--clinical-warning-border);
+  border-left-width: 4px;
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+.derm-pigmented__interpretation span,
+.derm-pigmented__interpretation strong {
+  display: block;
+}
+
+.derm-pigmented__interpretation span {
+  font-size: 0.67rem;
+}
+
+.derm-pigmented__interpretation p {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+}
+
+.derm-pigmented .derm-resource-reference {
+  margin-inline: 1rem;
+}
+
+/* Procedures */
+
+.derm-procedures {
+  padding-bottom: 1rem;
+}
+
+.derm-procedure-list {
+  margin: 0;
+  padding: 1rem;
+  list-style: none;
+}
+
+.derm-procedure-list > li {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 0.8rem;
+}
+
+.derm-procedure-list__date {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding-top: 0.3rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.derm-procedure-list__date > span {
+  display: grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--primary);
+}
+
+.derm-procedure-list__content {
+  position: relative;
+  padding: 0 0 1.2rem 1.25rem;
+  border-left: 2px solid var(--border);
+}
+
+.derm-procedure-list > li:last-child .derm-procedure-list__content {
+  border-left-style: dashed;
+}
+
+.derm-procedure-list__content::before {
+  position: absolute;
+  top: 0.5rem;
+  left: -0.42rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid var(--card);
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+  content: "";
+}
+
+.derm-procedure-list__content > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.derm-procedure-list h3 {
+  margin: 0;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1rem;
+}
+
+.derm-procedure-list dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.65rem 0 0;
+}
+
+.derm-procedure-list dl > div {
+  padding: 0.55rem;
+  background: var(--clinical-surface-inset);
+}
+
+.derm-procedure-list dt,
+.derm-procedure-list dd {
+  margin: 0;
+  font-size: 0.68rem;
+}
+
+.derm-procedure-list dt {
+  color: var(--muted-foreground);
+}
+
+.derm-procedure-list dd {
+  margin-top: 0.15rem;
+  font-weight: 650;
+}
+
+.derm-procedure-list__content > p {
+  margin: 0.55rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+
+.derm-amendment-note {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+  padding: 0.55rem;
+  border: 1px dashed var(--status-pending-border);
+  background: var(--status-pending);
+  color: var(--status-pending-foreground);
+  font-size: 0.7rem;
+}
+
+.derm-procedures > .derm-button {
+  margin-left: 1rem;
+}
+
+/* Treatment safety */
+
+.derm-treatment-list {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.derm-treatment-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--status-success-border);
+  border-radius: calc(var(--radius) - 0.15rem);
+  background: var(--card);
+}
+
+.derm-treatment-card[data-overdue] {
+  border-left-color: var(--clinical-critical-border);
+}
+
+.derm-treatment-card > header,
+.derm-treatment-card > footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+
+.derm-treatment-card > header {
+  background: var(--clinical-surface-inset);
+}
+
+.derm-treatment-card > header span,
+.derm-treatment-card > header h3,
+.derm-treatment-card > header p {
+  display: block;
+  margin: 0;
+}
+
+.derm-treatment-card > header div > span,
+.derm-treatment-card > header p {
+  color: var(--muted-foreground);
+  font-size: 0.68rem;
+}
+
+.derm-treatment-card > header h3 {
+  margin-block: 0.1rem;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1rem;
+}
+
+.derm-treatment-card > header .derm-due-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.48rem;
+  border: 1px solid var(--status-success-border);
+  border-radius: 999px;
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+  font-weight: 720;
+  white-space: nowrap;
+}
+
+.derm-treatment-card > header .derm-due-date[data-overdue] {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+
+.derm-treatment-card .derm-table-wrap {
+  margin: 0.75rem;
+}
+
+.derm-treatment-card > footer {
+  padding-top: 0;
+}
+
+.derm-missing-monitoring {
+  margin: 0.75rem;
+  padding: 0.7rem;
+  border: 1px dashed var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+  font-size: 0.73rem;
+}
+
+/* Vigilance board */
+
+.derm-vigilance__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1rem;
+  border: 1px solid var(--border);
+  background: var(--border);
+}
+
+.derm-vigilance__summary > div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.7rem;
+  background: var(--card);
+}
+
+.derm-vigilance__summary strong {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1.35rem;
+}
+
+.derm-vigilance__summary span {
+  color: var(--muted-foreground);
+  font-size: 0.68rem;
+}
+
+.derm-vigilance-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0 1rem 1rem;
+  list-style: none;
+}
+
+.derm-vigilance-list > li {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 0.7rem;
+  padding: 0.75rem;
+  border: 1px solid var(--clinical-information-border);
+  border-left-width: 4px;
+  background: var(--clinical-information);
+  color: var(--clinical-information-foreground);
+}
+
+.derm-vigilance-list > li[data-severity="high"] {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+
+.derm-vigilance-list > li[data-severity="moderate"] {
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+
+.derm-vigilance-list__symbol {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-weight: 850;
+}
+
+.derm-vigilance-list__content header,
+.derm-vigilance-list__action,
+.derm-vigilance-list__content footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.derm-vigilance-list__content header span {
+  font-size: 0.63rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.derm-vigilance-list__content h3 {
+  margin: 0.1rem 0 0;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1rem;
+}
+
+.derm-vigilance-list__content > p {
+  margin: 0.4rem 0;
+  font-size: 0.74rem;
+}
+
+.derm-vigilance-list__action {
+  padding: 0.55rem;
+  border: 1px solid currentcolor;
+  background: color-mix(in oklch, var(--card) 68%, transparent);
+  color: var(--foreground);
+}
+
+.derm-vigilance-list__action span,
+.derm-vigilance-list__action strong {
+  display: block;
+}
+
+.derm-vigilance-list__action span {
+  color: var(--muted-foreground);
+  font-size: 0.64rem;
+}
+
+.derm-vigilance-list__action strong {
+  margin-top: 0.1rem;
+  font-size: 0.72rem;
+}
+
+.derm-vigilance-list__content footer {
+  margin-top: 0.5rem;
+  font-size: 0.65rem;
+}
+
+@keyframes derm-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes derm-pulse {
+  50% {
+    scale: 1.12;
+  }
+}
+
+@media (max-width: 70rem) {
+  .derm-body-map__layout,
+  .derm-wound__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .derm-map-canvas {
+    min-height: 34rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .derm-score-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .derm-abcde-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 52rem) {
+  .derm-panel-heading,
+  .derm-body-map__toolbar,
+  .derm-pigmented__interpretation,
+  .derm-treatment-card > header,
+  .derm-treatment-card > footer,
+  .derm-vigilance-list__action {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .derm-panel-heading__action,
+  .derm-viewer__actions {
+    justify-content: flex-start;
+  }
+
+  .derm-viewer__stage {
+    grid-template-columns: 1fr;
+  }
+
+  .derm-viewer__provenance {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .derm-compare-control {
+    flex-direction: row;
+  }
+
+  .derm-compare-control input {
+    width: min(50vw, 12rem);
+    rotate: none;
+  }
+
+  .derm-longitudinal__summary,
+  .derm-wound__summary,
+  .derm-vigilance__summary {
+    grid-template-columns: 1fr;
+  }
+
+  .derm-procedure-list > li {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+
+  .derm-procedure-list__content {
+    margin-left: 0.8rem;
+  }
+
+  .derm-procedure-list dl {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 36rem) {
+  .derm-panel-heading {
+    padding: 0.9rem;
+  }
+
+  .derm-map-canvas {
+    min-height: 27rem;
+    padding: 1rem;
+  }
+
+  .derm-lesion-registry,
+  .derm-viewer__stage,
+  .derm-treatment-list,
+  .derm-procedure-list,
+  .derm-vigilance-list {
+    padding-inline: 0.7rem;
+  }
+
+  .derm-lesion-registry__heading,
+  .derm-pigmented__identity,
+  .derm-vigilance-list__content header,
+  .derm-vigilance-list__content footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .derm-score-grid,
+  .derm-abcde-list,
+  .derm-pigmented__identity {
+    grid-template-columns: 1fr;
+  }
+
+  .derm-viewer__provenance {
+    grid-template-columns: 1fr;
+  }
+
+  .derm-score-grid,
+  .derm-abcde-list {
+    padding-inline: 0.7rem;
+  }
+
+  .derm-check-list li {
+    grid-template-columns: 1.75rem minmax(0, 1fr);
+  }
+
+  .derm-check-list time {
+    grid-column: 2;
+  }
+
+  .derm-vigilance-list > li {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .derm-state[data-state="loading"] .derm-state__icon,
+  .derm-placement-cursor {
+    animation: none;
+  }
+
+  .derm-map-canvas__scaled {
+    transition: none;
+  }
+}
