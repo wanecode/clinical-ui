@@ -3,6 +3,11 @@
 All notable changes are documented here. The project follows Semantic
 Versioning once package distribution begins.
 
+## 0.1.0-rc.8 — 2026-08-13
+
+- Reduce the ocular-emergency headline to the same restrained hierarchy as the other clinical workbenches.
+- Apply that hierarchy consistently in standalone and embedded presentation modes.
+
 ## 0.1.0-rc.7 — 2026-08-13
 
 - Extend embedded presentation mode to every ophthalmology workbench.

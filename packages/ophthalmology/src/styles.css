@@ -1858,7 +1858,7 @@
   line-height: 1.8;
 }
 .oph-emergency__banner p,
-.oph-emergency__banner h2,
+.oph-emergency__banner :is(h2, h3),
 .oph-emergency__banner span {
   margin: 0;
 }
@@ -1869,9 +1869,9 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.oph-emergency__banner h2 {
+.oph-emergency__banner :is(h2, h3) {
   margin-top: 0.15rem;
-  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
   letter-spacing: -0.035em;
   line-height: 1;
 }
