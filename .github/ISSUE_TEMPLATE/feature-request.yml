@@ -1,0 +1,33 @@
+name: Component proposal
+description: Propose a reusable clinical component or state.
+title: "[Proposal]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Clinical question
+      description: What should a clinician be able to read, compare or verify?
+    validations:
+      required: true
+  - type: textarea
+    id: fhir
+    attributes:
+      label: FHIR R5 boundary
+      description: Identify the relevant resources and the proposed view model.
+    validations:
+      required: true
+  - type: textarea
+    id: states
+    attributes:
+      label: Required states
+      description: Include nominal, incomplete, unavailable and safety-relevant states.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope confirmation
+      options:
+        - label: The proposal does not require or include real patient data.
+          required: true

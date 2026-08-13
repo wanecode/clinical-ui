@@ -5,7 +5,7 @@ addons.setConfig({
   theme: create({
     base: "light",
     brandTitle: "Clinical UI · FHIR R5",
-    brandUrl: "/",
+    brandUrl: "https://wanecode.github.io/clinical-ui/",
     colorPrimary: "#176b73",
     colorSecondary: "#287f88",
     appBg: "#f4f7f6",

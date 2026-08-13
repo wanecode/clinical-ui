@@ -1,9 +1,12 @@
 # Clinical UI 0.1.0 RC quality report
 
-Audit date: 2026-08-13  
-Integration branch: `codex/clinical-ui-integration`  
-Baseline before QA fixes: `7e48454`  
-Release-candidate checkpoint: `clinical-ui-v0.1.0-rc.1`
+Audit date: 2026-08-13
+
+Published repository: `wanecode/clinical-ui`
+
+Baseline before QA fixes: `7e48454`
+
+Release-candidate checkpoint: `v0.1.0-rc.1`
 
 ## Decision
 

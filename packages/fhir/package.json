@@ -1,6 +1,6 @@
 {
   "name": "@clinical-ui/fhir",
-  "version": "0.1.0",
+  "version": "0.1.0-rc.1",
   "private": false,
   "license": "Apache-2.0",
   "type": "module",
@@ -16,9 +16,31 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepack": "pnpm build"
   },
   "dependencies": {
     "@clinical-ui/core": "workspace:*"
+  },
+  "description": "Pure FHIR R5 adapters for Clinical UI view models",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wanecode/clinical-ui.git",
+    "directory": "packages/fhir"
+  },
+  "homepage": "https://wanecode.github.io/clinical-ui/",
+  "bugs": {
+    "url": "https://github.com/wanecode/clinical-ui/issues"
+  },
+  "keywords": [
+    "clinical-ui",
+    "fhir",
+    "fhir-r5",
+    "react",
+    "fhir"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

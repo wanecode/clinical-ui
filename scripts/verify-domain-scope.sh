@@ -2,7 +2,7 @@
 set -euo pipefail
 
 domain_slug="${1:-}"
-foundation_ref="${2:-codex/clinical-ui-foundation}"
+foundation_ref="${2:-main}"
 
 case "$domain_slug" in
   ophthalmology|ent|odontology|dermatology|cardiology) ;;
@@ -19,7 +19,7 @@ unexpected_paths="$(
     git diff --cached --name-only --
   } | sort -u | while IFS= read -r changed_path; do
     case "$changed_path" in
-      "clinical-ui/packages/$domain_slug/"*|"clinical-ui/prototypes/$domain_slug/"*|"clinical-ui/domains/$domain_slug/"*) ;;
+      "packages/$domain_slug/"*|"prototypes/$domain_slug/"*|"domains/$domain_slug/"*) ;;
       *) printf '%s\n' "$changed_path" ;;
     esac
   done

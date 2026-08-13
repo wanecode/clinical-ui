@@ -1,6 +1,6 @@
 {
   "name": "@clinical-ui/ophthalmology",
-  "version": "0.1.0",
+  "version": "0.1.0-rc.1",
   "private": false,
   "license": "Apache-2.0",
   "type": "module",
@@ -21,7 +21,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "prepack": "pnpm build"
   },
   "dependencies": {
     "@clinical-ui/core": "workspace:*",
@@ -30,5 +31,26 @@
   "peerDependencies": {
     "react": ">=18.3.0 <20",
     "react-dom": ">=18.3.0 <20"
+  },
+  "description": "FHIR R5-native ophthalmology workbenches for React",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wanecode/clinical-ui.git",
+    "directory": "packages/ophthalmology"
+  },
+  "homepage": "https://wanecode.github.io/clinical-ui/",
+  "bugs": {
+    "url": "https://github.com/wanecode/clinical-ui/issues"
+  },
+  "keywords": [
+    "clinical-ui",
+    "fhir",
+    "fhir-r5",
+    "react",
+    "ophthalmology"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

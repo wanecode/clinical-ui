@@ -1,86 +1,47 @@
-# Worktrees de spécialité
+# Specialty worktrees
 
-Clinical UI est développé comme une ligne de produit autonome. Le `main` applicatif peut continuer à
-évoluer fortement : aucune branche de spécialité ne le fusionne, ne le rebase et n'importe son code.
-
-## Topologie Git
+Clinical UI supports isolated specialty development while `main` remains
+stable. A specialty branch is based on `main` and changes only its package,
+prototype archive and clinical scope documentation.
 
 ```text
-main (application active)
-└── codex/clinical-ui-foundation        intégration Clinical UI
-    ├── codex/clinical-ui-ophthalmology
-    ├── codex/clinical-ui-ent
-    ├── codex/clinical-ui-odontology
-    ├── codex/clinical-ui-dermatology
-    └── codex/clinical-ui-cardiology
+main
+├── feature/ophthalmology
+├── feature/ent
+├── feature/odontology
+├── feature/dermatology
+└── feature/cardiology
 ```
 
-Chaque branche métier part du même commit de fondation. Une spécialité ne modifie que :
+## Create a worktree
 
-- `clinical-ui/packages/<domaine>/` ;
-- `clinical-ui/prototypes/<domaine>/` ;
-- `clinical-ui/domains/<domaine>/`.
-
-Le glob du workspace et celui de Storybook découvrent automatiquement le nouveau package et ses
-stories. Il n'est donc pas nécessaire de modifier Storybook, les manifests racine ou les autres
-packages. Si une primitive transverse manque, la demande est consignée dans
-`clinical-ui/domains/<domaine>/CORE-REQUESTS.md`, puis traitée séparément dans la fondation.
-
-## Création
-
-Depuis le worktree de fondation propre et commité :
+From a clean checkout:
 
 ```bash
-clinical-ui/scripts/create-domain-worktree.sh ophthalmology
-clinical-ui/scripts/create-domain-worktree.sh ent
-clinical-ui/scripts/create-domain-worktree.sh odontology
-clinical-ui/scripts/create-domain-worktree.sh dermatology
-clinical-ui/scripts/create-domain-worktree.sh cardiology
+scripts/create-domain-worktree.sh ophthalmology
+scripts/create-domain-worktree.sh ent
 ```
 
-Le chemin par défaut est un worktree frère : `/home/mwane/dundal-clinical-ui-<domaine>`.
+The default target is a sibling directory named `clinical-ui-<domain>`. An
+explicit second argument can select another path.
 
-Dans un worktree métier, installer les dépendances sans réécrire le verrou commun :
+## Scope contract
+
+A specialty branch may modify only:
+
+- `packages/<domain>/`;
+- `prototypes/<domain>/`;
+- `domains/<domain>/`.
+
+Shared primitives belong in a separate focused change to `packages/core`,
+`packages/fhir` or `packages/theme`.
+
+Before handoff:
 
 ```bash
-cd clinical-ui
-pnpm install --lockfile=false
+scripts/verify-domain-scope.sh ophthalmology
+pnpm verify
 ```
 
-Le lockfile est régénéré une seule fois dans la branche d'intégration après fusion des domaines.
-
-## Contrat d'une session Codex métier
-
-La session commence par lire `clinical-ui/domains/<domaine>/GOAL.md`, puis crée un goal Codex avec
-l'objectif exact indiqué dans ce fichier. Elle suit cet ordre :
-
-1. lire le périmètre métier capturé et les contrats FHIR R5 ;
-2. utiliser le skill `imagegen` pour produire trois prototypes originaux ;
-3. archiver prompts, images et décomposition dans `prototypes/<domaine>/` ;
-4. implémenter les composants React dans `packages/<domaine>/` ;
-5. développer toutes les stories et leurs interactions en isolation totale ;
-6. vérifier les six thèmes, les états non nominaux, le clavier, le contraste, le mobile et les données
-   synthétiques ;
-7. exécuter types, tests, lint, build Storybook et smoke visuel ;
-8. vérifier la portée Git avec `scripts/verify-domain-scope.sh <domaine>`.
-
-Une image générée est une intention visuelle, jamais une source de vérité clinique. Les composants
-restent pilotés par des view-models typés, eux-mêmes produits par des adaptateurs FHIR explicites.
-
-## Intégration ultérieure
-
-Les branches métier sont fusionnées dans `codex/clinical-ui-foundation`, pas dans `main`. Après les
-cinq fusions :
-
-```bash
-cd clinical-ui
-pnpm install --lockfile-only
-pnpm typecheck
-pnpm test
-pnpm lint
-pnpm build:storybook
-```
-
-La branche de fondation devenue branche d'intégration ne contient que `clinical-ui/**`. Elle peut
-ensuite être fusionnée dans le `main` du moment comme un ajout circonscrit, même si le reste de
-l'application a beaucoup changé.
+Generated prototype images are design references, never clinical evidence. All
+FHIR fixtures must remain deterministic, synthetic and visibly labeled.

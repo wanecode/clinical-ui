@@ -2,14 +2,14 @@
 
 ## Isolation
 
-- Treat `clinical-ui/` as a standalone repository boundary.
-- Never import source code from `apps/`, `packages/`, or configuration outside this directory.
+- Treat the repository root as the standalone Clinical UI boundary.
+- Never import source code or configuration from outside this repository.
 - Never edit the host repository manifests, lockfile, application code, API code, or generated FHIR IG.
 - Use public FHIR R5 shapes and semantic CSS variables as the only integration contracts.
 
 ## Specialty branches
 
-On `codex/clinical-ui-<domain>`, read `domains/<domain>/GOAL.md` before editing. Changes are limited to:
+On `feature/<domain>`, read `domains/<domain>/GOAL.md` before editing. Changes are limited to:
 
 - `packages/<domain>/`;
 - `prototypes/<domain>/`;

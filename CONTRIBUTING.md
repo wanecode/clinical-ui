@@ -1,5 +1,12 @@
 # Contributing
 
+Thank you for helping build safer, more legible specialist clinical interfaces.
+By participating, you agree to follow the [Code of Conduct](./CODE_OF_CONDUCT.md).
+
+Fork the repository, create a focused branch from `main`, and open a pull
+request using the supplied template. Never include real patient data, private
+FHIR endpoints or screenshots from production systems.
+
 ## Story-first workflow
 
 1. Describe the clinical question the component helps answer.
@@ -16,6 +23,10 @@ Before proposing an integration checkpoint, run `pnpm verify` and the visual
 audit documented in the README. The visual audit must complete without document
 overflow, runtime errors, failed requests or empty renders. Review its sentinel
 screenshots manually; a structurally valid screen can still have poor hierarchy.
+
+Commits should be focused and use an imperative subject. Pull requests must
+explain the clinical question, the FHIR/view-model boundary, the states covered
+in Storybook and the verification performed.
 
 ## Required states
 

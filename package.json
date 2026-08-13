@@ -1,7 +1,25 @@
 {
   "name": "clinical-ui-workspace",
-  "version": "0.0.0",
+  "version": "0.1.0-rc.1",
+  "description": "FHIR R5-native React components for specialist clinical workstations",
   "private": true,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wanecode/clinical-ui.git"
+  },
+  "homepage": "https://wanecode.github.io/clinical-ui/",
+  "bugs": {
+    "url": "https://github.com/wanecode/clinical-ui/issues"
+  },
+  "keywords": [
+    "clinical-ui",
+    "fhir",
+    "fhir-r5",
+    "react",
+    "storybook",
+    "healthcare"
+  ],
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "engines": {
