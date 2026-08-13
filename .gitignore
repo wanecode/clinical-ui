@@ -3,6 +3,8 @@ dist/
 storybook-static/
 coverage/
 .cache/
+__pycache__/
+*.py[cod]
 .DS_Store
 playwright-report/
 test-results/

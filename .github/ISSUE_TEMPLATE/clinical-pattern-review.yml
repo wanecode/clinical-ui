@@ -1,0 +1,81 @@
+name: Clinical pattern review
+description: Challenge how a Clinical UI interaction model represents specialist practice.
+title: "[Clinical review]: "
+labels: [clinical-review]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reviewing the clinical model rather than only its visual finish.
+        Use synthetic or public non-sensitive examples. Never include patient data or production screenshots.
+  - type: dropdown
+    id: specialty
+    attributes:
+      label: Specialty
+      options:
+        - Ophthalmology
+        - ENT / ORL
+        - Odontology
+        - Dermatology
+        - Cardiology
+        - Cross-specialty
+    validations:
+      required: true
+  - type: input
+    id: story
+    attributes:
+      label: Storybook story
+      description: Link directly to the story or name the component and state.
+      placeholder: https://wanecode.github.io/clinical-ui/?path=/story/...
+    validations:
+      required: true
+  - type: textarea
+    id: clinical_task
+    attributes:
+      label: Clinical task
+      description: What is the clinician trying to read, compare, document or decide?
+    validations:
+      required: true
+  - type: textarea
+    id: mismatch
+    attributes:
+      label: Where the interaction model fails
+      description: Identify what is inaccurate, ambiguous, missing or potentially misleading in real practice.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected clinical representation
+      description: Describe the safer or more faithful behavior, including laterality, provenance and lifecycle where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: fhir
+    attributes:
+      label: FHIR R5 context
+      description: Optional resources, profiles, terminology or interoperability constraints involved.
+  - type: checkboxes
+    id: states
+    attributes:
+      label: States affected
+      options:
+        - label: Nominal or validated
+        - label: Preliminary or amended
+        - label: Partial or unavailable
+        - label: Non-interpretable or discordant
+        - label: Warning or critical
+        - label: Mobile, keyboard or assistive technology
+  - type: input
+    id: reviewer_context
+    attributes:
+      label: Reviewer context
+      description: Optional role or experience relevant to this review; do not include private employer information.
+      placeholder: Ophthalmologist, FHIR implementer, clinical informatician, healthtech designer…
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: This review contains no patient data, production screenshots, credentials or private endpoints.
+          required: true
