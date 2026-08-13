@@ -1,7 +1,13 @@
 // biome-ignore-all lint/a11y/noNoninteractiveTabindex: scrollable clinical tables must be keyboard focusable
 import { useState } from "react";
 import { EntStatePanel, EntWorkbenchFrame, Metric, SegmentedControl } from "./common";
-import type { EarSide, EntDisplayState, MiddleEarDataset, TympanogramResult } from "./types";
+import type {
+  EarSide,
+  EntDisplayState,
+  EntHostPresentationProps,
+  MiddleEarDataset,
+  TympanogramResult,
+} from "./types";
 
 function TympanogramPlot({ result }: { result: TympanogramResult | undefined }) {
   if (!result || result.peakPressureDapa === undefined || result.complianceMl === undefined) {
@@ -53,17 +59,24 @@ function TympanogramPlot({ result }: { result: TympanogramResult | undefined }) 
   );
 }
 
-export interface MiddleEarWorkbenchProps {
+export interface MiddleEarWorkbenchProps extends EntHostPresentationProps {
   data: MiddleEarDataset;
   state?: EntDisplayState;
 }
 
-export function MiddleEarWorkbench({ data, state = "ready" }: MiddleEarWorkbenchProps) {
+export function MiddleEarWorkbench({
+  data,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: MiddleEarWorkbenchProps) {
   const [side, setSide] = useState<EarSide>("right");
   const result = data.tympanograms.find((item) => item.side === side);
   const seriesComplete = data.reflexes.every((reflex) => reflex.outcome !== "not-tested");
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Oreille moyenne"
       eyebrow="Impédancemétrie"
       description="Tympanogrammes, réflexes acoustiques, qualité de série et dispositif d’acquisition."

@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/05 Rhinologie/RhinologyWorkbench",
   component: RhinologyWorkbench,
   tags: ["autodocs", "test"],
-  args: { data: syntheticRhinology },
+  args: { data: syntheticRhinology, dataMode: "synthetic" },
 } satisfies Meta<typeof RhinologyWorkbench>;
 
 export default meta;
@@ -27,3 +27,7 @@ export const RedFlagReview: Story = {
 };
 
 export const ErrorState: Story = { args: { state: "error" } };
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
+};

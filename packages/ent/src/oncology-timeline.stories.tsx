@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/07 Oncologie/EntOncologyTimeline",
   component: EntOncologyTimeline,
   tags: ["autodocs", "test"],
-  args: { events: syntheticOncologyTimeline },
+  args: { events: syntheticOncologyTimeline, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -33,3 +33,7 @@ export const SignedLongitudinalCase: Story = {
 };
 
 export const Empty: Story = { args: { state: "empty" } };
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
+};

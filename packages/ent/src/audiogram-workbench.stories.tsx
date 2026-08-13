@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/01 Audition/AudiogramWorkbench",
   component: AudiogramWorkbench,
   tags: ["autodocs", "test"],
-  args: { data: syntheticAudiogram },
+  args: { data: syntheticAudiogram, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -40,4 +40,8 @@ export const Signed: Story = {
 
 export const NotCalculable: Story = {
   args: { state: "not-calculable" },
+};
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
 };

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { EntStatePanel, EntWorkbenchFrame, SegmentedControl } from "./common";
-import type { EntDisplayState, SafetyChecklistItem } from "./types";
+import type { EntDisplayState, EntHostPresentationProps, SafetyChecklistItem } from "./types";
 
 const GROUP_LABELS: Record<SafetyChecklistItem["group"], string> = {
   "pre-procedure": "Avant le geste",
@@ -9,7 +9,7 @@ const GROUP_LABELS: Record<SafetyChecklistItem["group"], string> = {
   emergency: "Urgence",
 };
 
-export interface EntSurgerySafetyPanelProps {
+export interface EntSurgerySafetyPanelProps extends EntHostPresentationProps {
   items: SafetyChecklistItem[];
   state?: EntDisplayState;
   initialVigilanceAcknowledged?: boolean;
@@ -19,6 +19,8 @@ export function EntSurgerySafetyPanel({
   items,
   state = "ready",
   initialVigilanceAcknowledged = false,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: EntSurgerySafetyPanelProps) {
   const [scope, setScope] = useState<"all" | SafetyChecklistItem["group"]>("all");
   const [vigilanceAcknowledged, setVigilanceAcknowledged] = useState(initialVigilanceAcknowledged);
@@ -29,6 +31,8 @@ export function EntSurgerySafetyPanel({
   const pending = items.filter((item) => item.status === "pending").length;
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Sécurité chirurgicale ORL"
       eyebrow="Procédure et postopératoire"
       description="Contrôles avant geste, implants, consignes postopératoires et préparation aux urgences."

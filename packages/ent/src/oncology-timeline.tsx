@@ -6,14 +6,19 @@ import {
   SegmentedControl,
   SourceLine,
 } from "./common";
-import type { EntDisplayState, OncologyTimelineEvent } from "./types";
+import type { EntDisplayState, EntHostPresentationProps, OncologyTimelineEvent } from "./types";
 
-export interface EntOncologyTimelineProps {
+export interface EntOncologyTimelineProps extends EntHostPresentationProps {
   events: OncologyTimelineEvent[];
   state?: EntDisplayState;
 }
 
-export function EntOncologyTimeline({ events, state = "ready" }: EntOncologyTimelineProps) {
+export function EntOncologyTimeline({
+  events,
+  state = "ready",
+  dataMode = "clinical",
+  presentation = "standalone",
+}: EntOncologyTimelineProps) {
   const [filter, setFilter] = useState<"all" | "evidence" | "coordination">("all");
   const visible = events.filter((event) =>
     filter === "all"
@@ -24,6 +29,8 @@ export function EntOncologyTimeline({ events, state = "ready" }: EntOncologyTime
   );
   return (
     <EntWorkbenchFrame
+      dataMode={dataMode}
+      presentation={presentation}
       title="Parcours oncologique cervico-facial"
       eyebrow="Clinical atlas · Chronologie"
       description="Lésions, stade, prélèvements, coordination et signature avec origine de chaque information."

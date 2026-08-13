@@ -15,6 +15,14 @@ export type EntDisplayState =
   | "partial"
   | "not-calculable";
 
+export type EntDataMode = "clinical" | "synthetic";
+export type EntPresentation = "standalone" | "embedded";
+
+export interface EntHostPresentationProps {
+  dataMode?: EntDataMode;
+  presentation?: EntPresentation;
+}
+
 export type EntDataMaturity =
   | "observed"
   | "imported"
@@ -105,7 +113,10 @@ export interface EndoscopyMedia {
   bodySite: string;
   capturedAt?: string;
   consent: "recorded" | "missing" | "withdrawn";
-  synthetic: true;
+  /** URL of host-authorized media. The component never invents clinical imagery. */
+  imageUrl?: string;
+  /** Explicit fixture provenance for demos and Storybook. */
+  synthetic?: boolean;
   source: EntSourceReference;
 }
 

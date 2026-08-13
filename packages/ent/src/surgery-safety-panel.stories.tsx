@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/08 Chirurgie/EntSurgerySafetyPanel",
   component: EntSurgerySafetyPanel,
   tags: ["autodocs", "test"],
-  args: { items: syntheticSafetyChecklist },
+  args: { items: syntheticSafetyChecklist, dataMode: "synthetic" },
 } satisfies Meta<typeof EntSurgerySafetyPanel>;
 
 export default meta;
@@ -28,3 +28,7 @@ export const PendingWithAcknowledgement: Story = {
 
 export const Acknowledged: Story = { args: { initialVigilanceAcknowledged: true } };
 export const Loading: Story = { args: { state: "loading" } };
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
+};

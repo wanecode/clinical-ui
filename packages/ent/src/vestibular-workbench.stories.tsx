@@ -7,7 +7,7 @@ const meta = {
   title: "ORL/03 Équilibre/VestibularWorkbench",
   component: VestibularWorkbench,
   tags: ["autodocs", "test"],
-  args: { findings: syntheticVestibularFindings },
+  args: { findings: syntheticVestibularFindings, dataMode: "synthetic" },
 } satisfies Meta<typeof VestibularWorkbench>;
 
 export default meta;
@@ -24,3 +24,7 @@ export const ObservedAndImported: Story = {
 };
 
 export const Loading: Story = { args: { state: "loading" } };
+
+export const EmbeddedClinical: Story = {
+  args: { dataMode: "clinical", presentation: "embedded" },
+};
