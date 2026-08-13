@@ -92,7 +92,7 @@ export interface TympanogramResult {
 export interface AcousticReflexResult {
   side: EarSide;
   stimulus: "ipsilateral" | "contralateral";
-  frequencyHz: number;
+  frequencyHz?: number;
   thresholdDbHl?: number;
   outcome: "present" | "absent" | "not-tested";
 }

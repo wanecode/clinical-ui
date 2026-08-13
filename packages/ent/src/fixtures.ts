@@ -399,7 +399,7 @@ export const syntheticPediatricMiddleEar: MiddleEarDataset = {
   reflexes: syntheticMiddleEar.reflexes.map((reflex) => ({
     side: reflex.side,
     stimulus: reflex.stimulus,
-    frequencyHz: reflex.frequencyHz,
+    ...(reflex.frequencyHz === undefined ? {} : { frequencyHz: reflex.frequencyHz }),
     outcome: "not-tested",
   })),
 };

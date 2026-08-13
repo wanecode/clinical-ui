@@ -72,7 +72,8 @@ export function MiddleEarWorkbench({
 }: MiddleEarWorkbenchProps) {
   const [side, setSide] = useState<EarSide>("right");
   const result = data.tympanograms.find((item) => item.side === side);
-  const seriesComplete = data.reflexes.every((reflex) => reflex.outcome !== "not-tested");
+  const seriesComplete =
+    data.reflexes.length > 0 && data.reflexes.every((reflex) => reflex.outcome !== "not-tested");
   return (
     <EntWorkbenchFrame
       dataMode={dataMode}
@@ -180,7 +181,11 @@ export function MiddleEarWorkbench({
                         <td>
                           {reflex.stimulus === "ipsilateral" ? "Ipsilatéral" : "Controlatéral"}
                         </td>
-                        <td>{reflex.frequencyHz} Hz</td>
+                        <td>
+                          {reflex.frequencyHz === undefined
+                            ? "Non renseignée"
+                            : `${reflex.frequencyHz} Hz`}
+                        </td>
                         <td>
                           {reflex.outcome === "present"
                             ? `Présent${reflex.thresholdDbHl ? ` · ${reflex.thresholdDbHl} dB HL` : ""}`
