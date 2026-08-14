@@ -168,6 +168,21 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/gynecology-obstetrics:
+    dependencies:
+      '@clinical-ui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@clinical-ui/fhir':
+        specifier: workspace:*
+        version: link:../fhir
+      react:
+        specifier: '>=18.3.0 <20'
+        version: 19.2.8
+      react-dom:
+        specifier: '>=18.3.0 <20'
+        version: 19.2.8(react@19.2.8)
+
   packages/odontology:
     dependencies:
       '@clinical-ui/core':
@@ -184,6 +199,21 @@ importers:
         version: 19.2.8(react@19.2.8)
 
   packages/ophthalmology:
+    dependencies:
+      '@clinical-ui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@clinical-ui/fhir':
+        specifier: workspace:*
+        version: link:../fhir
+      react:
+        specifier: '>=18.3.0 <20'
+        version: 19.2.8
+      react-dom:
+        specifier: '>=18.3.0 <20'
+        version: 19.2.8(react@19.2.8)
+
+  packages/pediatrics:
     dependencies:
       '@clinical-ui/core':
         specifier: workspace:*
