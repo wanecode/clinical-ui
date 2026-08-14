@@ -1,5 +1,15 @@
-import type { ReactNode } from "react";
-import type { DermatologyDataOrigin, DermatologyViewState } from "./types";
+import { createContext, type ReactNode, useContext } from "react";
+import type {
+  DermatologyDataMode,
+  DermatologyDataOrigin,
+  DermatologyPresentation,
+  DermatologyViewState,
+} from "./types";
+
+const DermatologyHostContext = createContext<{
+  dataMode: DermatologyDataMode;
+  presentation: DermatologyPresentation;
+}>({ dataMode: "clinical", presentation: "standalone" });
 
 export function joinClasses(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -63,6 +73,8 @@ export function DermatologyStateSurface({
 }
 
 export function SyntheticBadge({ label = "Données synthétiques" }: { label?: string }) {
+  const { dataMode } = useContext(DermatologyHostContext);
+  if (dataMode !== "synthetic") return null;
   return (
     <span className="derm-synthetic-badge">
       <span aria-hidden="true">◇</span>
@@ -82,6 +94,10 @@ export function PanelHeading({
   description?: string | undefined;
   action?: ReactNode;
 }) {
+  const { presentation } = useContext(DermatologyHostContext);
+  if (presentation === "embedded") {
+    return action ? <div className="derm-panel-heading__embedded-action">{action}</div> : null;
+  }
   return (
     <header className="derm-panel-heading">
       <div>
@@ -153,14 +169,25 @@ export function SectionFrame({
   children,
   className,
   label,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: {
   children: ReactNode;
   className?: string | undefined;
   label?: string | undefined;
+  dataMode?: DermatologyDataMode;
+  presentation?: DermatologyPresentation;
 }) {
   return (
-    <section className={joinClasses("derm-panel", className)} aria-label={label}>
-      {children}
-    </section>
+    <DermatologyHostContext.Provider value={{ dataMode, presentation }}>
+      <section
+        className={joinClasses("derm-panel", className)}
+        aria-label={label}
+        data-mode={dataMode}
+        data-presentation={presentation}
+      >
+        {children}
+      </section>
+    </DermatologyHostContext.Provider>
   );
 }

@@ -18,6 +18,8 @@ export function DermatologyProcedureTimeline({
   onAddProcedure,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: DermatologyProcedureTimelineProps) {
   const ordered = [...procedures].sort((a, b) =>
     (a.occurrenceDateTime ?? "").localeCompare(b.occurrenceDateTime ?? ""),
@@ -25,7 +27,12 @@ export function DermatologyProcedureTimeline({
   const resolvedState = state === "ready" && procedures.length === 0 ? "empty" : state;
 
   return (
-    <SectionFrame className="derm-procedures" label="Chronologie des procédures dermatologiques">
+    <SectionFrame
+      className="derm-procedures"
+      label="Chronologie des procédures dermatologiques"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Actes & procédures"
         title="Chronologie procédurale"

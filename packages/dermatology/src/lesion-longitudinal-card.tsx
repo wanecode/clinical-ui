@@ -29,6 +29,8 @@ export function LesionLongitudinalCard({
   observations,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: LesionLongitudinalCardProps) {
   const resolvedState = state === "ready" && !lesion ? "empty" : state;
   const ordered = [...observations].sort((a, b) =>
@@ -42,7 +44,12 @@ export function LesionLongitudinalCard({
       : undefined;
 
   return (
-    <SectionFrame className="derm-longitudinal" label="Suivi longitudinal de la lésion">
+    <SectionFrame
+      className="derm-longitudinal"
+      label="Suivi longitudinal de la lésion"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Identité persistante"
         title={lesion ? lesionId(lesion) : "Suivi longitudinal"}

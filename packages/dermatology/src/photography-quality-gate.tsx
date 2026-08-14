@@ -12,6 +12,8 @@ export function PhotographyQualityGate({
   onDecision,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: PhotographyQualityGateProps) {
   const resolvedState = state === "ready" && checks.length === 0 ? "empty" : state;
   const failures = checks.filter((check) => !check.valueBoolean);
@@ -21,7 +23,12 @@ export function PhotographyQualityGate({
   const usable = hardFailures.length === 0;
 
   return (
-    <SectionFrame className="derm-quality-gate" label="Contrôle qualité photographique">
+    <SectionFrame
+      className="derm-quality-gate"
+      label="Contrôle qualité photographique"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Avant comparaison"
         title="Qualité photographique"

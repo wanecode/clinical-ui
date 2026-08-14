@@ -34,15 +34,23 @@ export interface TreatmentSafetyPanelProps extends DermatologyStateProps {
 export function TreatmentSafetyPanel({
   treatments,
   monitoring,
-  asOf = "2026-08-12T10:15:00Z",
+  asOf,
   onPlanMonitoring,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: TreatmentSafetyPanelProps) {
   const resolvedState = state === "ready" && treatments.length === 0 ? "empty" : state;
+  const effectiveAsOf = asOf ?? (dataMode === "synthetic" ? "2026-08-12T10:15:00Z" : undefined);
 
   return (
-    <SectionFrame className="derm-treatment" label="Sécurité thérapeutique">
+    <SectionFrame
+      className="derm-treatment"
+      label="Sécurité thérapeutique"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Traitements & surveillance"
         title="Sécurité thérapeutique"
@@ -63,7 +71,11 @@ export function TreatmentSafetyPanel({
               )
               .filter((date): date is string => Boolean(date));
             const earliestDue = dueDates.sort()[0];
-            const overdue = earliestDue ? new Date(earliestDue) < new Date(asOf) : true;
+            const overdue = earliestDue
+              ? effectiveAsOf
+                ? new Date(earliestDue) < new Date(effectiveAsOf)
+                : false
+              : true;
             return (
               <article
                 key={treatment.id}
