@@ -7,7 +7,7 @@ const meta = {
   title: "Cardiology/EcgWorkbench",
   component: EcgWorkbench,
   tags: ["autodocs", "test"],
-  args: { study: syntheticEcgStudy, onValidate: fn() },
+  args: { study: syntheticEcgStudy, onValidate: fn(), dataMode: "synthetic" },
 } satisfies Meta<typeof EcgWorkbench>;
 export default meta;
 type Story = StoryObj<typeof meta>;

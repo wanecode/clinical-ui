@@ -7,12 +7,11 @@ import {
   WorkbenchHeader,
   WorkbenchState,
 } from "./shared";
-import type { CardiologyViewState, RiskScoreModel, SummaryDatum } from "./types";
+import type { CardiologyStateProps, RiskScoreModel, SummaryDatum } from "./types";
 
-export interface CardiovascularSummaryProps {
+export interface CardiovascularSummaryProps extends CardiologyStateProps {
   data: SummaryDatum[];
   riskScore: RiskScoreModel;
-  state?: CardiologyViewState;
   patientLabel?: string;
   decisionOwner?: string;
   onReviewDecision?: () => void;
@@ -22,19 +21,32 @@ export function CardiovascularSummary({
   data,
   riskScore,
   state = "ready",
-  patientLabel = "Patient synthétique",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
+  patientLabel,
   decisionOwner = "Équipe cardiologie",
   onReviewDecision,
 }: CardiovascularSummaryProps) {
   return (
-    <section className="cardio-workbench cardio-summary" aria-label="Synthèse cardiovasculaire">
+    <section
+      className="cardio-workbench cardio-summary"
+      aria-label="Synthèse cardiovasculaire"
+      data-mode={dataMode}
+      data-presentation={presentation}
+    >
       <WorkbenchHeader
         eyebrow="Dossier cardiovasculaire · FHIR R5"
         title="Vue cardiovasculaire"
-        description={`${patientLabel} · données cliniques explicitement synthétiques`}
+        description={
+          dataMode === "synthetic"
+            ? `${patientLabel ?? "Patient de démonstration"} · données synthétiques`
+            : (patientLabel ?? "Synthèse issue des ressources transmises")
+        }
         status={riskScore.status === "calculated" ? "validated" : "warning"}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Synthèse cardiovasculaire">
+      <WorkbenchState state={state} label="Synthèse cardiovasculaire" message={stateMessage}>
         <div className="cardio-summary__grid">
           {data.map((datum) => (
             <article className="cardio-summary-card" key={datum.id}>
@@ -76,24 +88,36 @@ export function CardiovascularSummary({
   );
 }
 
-export interface RiskScoreWorkbenchProps {
+export interface RiskScoreWorkbenchProps extends CardiologyStateProps {
   score: RiskScoreModel;
-  state?: CardiologyViewState;
   footer?: ReactNode;
 }
 
-export function RiskScoreWorkbench({ score, state = "ready", footer }: RiskScoreWorkbenchProps) {
+export function RiskScoreWorkbench({
+  score,
+  state = "ready",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
+  footer,
+}: RiskScoreWorkbenchProps) {
   const scoreValue = score.value;
   const calculated = score.status === "calculated" && scoreValue !== undefined;
   return (
-    <section className="cardio-workbench cardio-risk" aria-label="Atelier de score de risque">
+    <section
+      className="cardio-workbench cardio-risk"
+      aria-label="Atelier de score de risque"
+      data-mode={dataMode}
+      data-presentation={presentation}
+    >
       <WorkbenchHeader
         eyebrow="Score dérivé et explicable"
         title="Atelier de risque"
         description={`${score.name} · modèle ${score.version} · horizon ${score.horizon}`}
         status={calculated ? "validated" : "warning"}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Atelier de risque">
+      <WorkbenchState state={state} label="Atelier de risque" message={stateMessage}>
         <div className="cardio-risk__layout">
           <div className="cardio-risk__result" data-calculated={calculated}>
             <p className="cardio-eyebrow">Résultat</p>

@@ -7,7 +7,7 @@ const meta = {
   title: "Cardiology/EchocardiographyWorkbench",
   component: EchocardiographyWorkbench,
   tags: ["autodocs", "test"],
-  args: { measures: syntheticEchoMeasures, reportStatus: "amended" },
+  args: { measures: syntheticEchoMeasures, reportStatus: "amended", dataMode: "synthetic" },
 } satisfies Meta<typeof EchocardiographyWorkbench>;
 export default meta;
 type Story = StoryObj<typeof meta>;

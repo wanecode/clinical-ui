@@ -7,7 +7,7 @@ const meta = {
   title: "Cardiology/CardiacTrajectory",
   component: CardiacTrajectory,
   tags: ["autodocs", "test"],
-  args: { events: syntheticTrajectoryEvents },
+  args: { events: syntheticTrajectoryEvents, dataMode: "synthetic" },
 } satisfies Meta<typeof CardiacTrajectory>;
 export default meta;
 type Story = StoryObj<typeof meta>;

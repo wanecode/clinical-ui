@@ -7,7 +7,12 @@ const meta = {
   title: "Cardiology/PrescriptionSafetyBoard",
   component: PrescriptionSafetyBoard,
   tags: ["autodocs", "test"],
-  args: { items: syntheticPrescriptionItems, owner: "Dr Synthèse", onConfirm: fn() },
+  args: {
+    items: syntheticPrescriptionItems,
+    owner: "Dr Synthèse",
+    onConfirm: fn(),
+    dataMode: "synthetic",
+  },
 } satisfies Meta<typeof PrescriptionSafetyBoard>;
 export default meta;
 type Story = StoryObj<typeof meta>;

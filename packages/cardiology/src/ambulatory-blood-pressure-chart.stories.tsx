@@ -7,7 +7,7 @@ const meta = {
   title: "Cardiology/AmbulatoryBloodPressureChart",
   component: AmbulatoryBloodPressureChart,
   tags: ["autodocs", "test"],
-  args: { readings: syntheticBloodPressureReadings, origin: "imported" },
+  args: { readings: syntheticBloodPressureReadings, origin: "imported", dataMode: "synthetic" },
 } satisfies Meta<typeof AmbulatoryBloodPressureChart>;
 export default meta;
 type Story = StoryObj<typeof meta>;

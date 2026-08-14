@@ -7,7 +7,7 @@ const meta = {
   title: "Cardiology/RiskScoreWorkbench",
   component: RiskScoreWorkbench,
   tags: ["autodocs", "test"],
-  args: { score: syntheticRiskScore },
+  args: { score: syntheticRiskScore, dataMode: "synthetic" },
 } satisfies Meta<typeof RiskScoreWorkbench>;
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -7,7 +7,7 @@ const meta = {
   title: "Cardiology/CardiologyReportLifecycle",
   component: CardiologyReportLifecycle,
   tags: ["autodocs", "test"],
-  args: { items: syntheticReportLifecycle },
+  args: { items: syntheticReportLifecycle, dataMode: "synthetic" },
 } satisfies Meta<typeof CardiologyReportLifecycle>;
 export default meta;
 type Story = StoryObj<typeof meta>;

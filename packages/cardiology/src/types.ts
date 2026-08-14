@@ -2,6 +2,21 @@ import type { ClinicalStatus } from "@clinical-ui/core";
 import type { CodeableConcept, FhirMeta, Reference } from "@clinical-ui/fhir";
 
 export type CardiologyViewState = "ready" | "loading" | "empty" | "error" | "forbidden";
+export type CardiologyDataMode = "clinical" | "synthetic";
+export type CardiologyPresentation = "standalone" | "embedded";
+
+export interface CardiologyHostPresentationProps {
+  /** Identifies whether the host supplied real clinical data or demo fixtures. */
+  dataMode?: CardiologyDataMode;
+  /** Embedded workbenches delegate their module heading and outer surface to the host. */
+  presentation?: CardiologyPresentation;
+}
+
+export interface CardiologyStateProps extends CardiologyHostPresentationProps {
+  state?: CardiologyViewState;
+  /** Lets the host explain loading, absence, access, or retrieval failures precisely. */
+  stateMessage?: string;
+}
 
 export type CardiologyDataOrigin = "observed" | "imported" | "derived" | "projected";
 
@@ -162,7 +177,7 @@ export interface BloodPressureReading {
   period: "day" | "night";
   systolic: number;
   diastolic: number;
-  pulse: number;
+  pulse?: number;
   valid: boolean;
 }
 
@@ -222,8 +237,8 @@ export interface VigilanceItem {
   title: string;
   detail: string;
   severity: "warning" | "critical";
-  owner: string;
-  dueAt: string;
+  owner?: string;
+  dueAt?: string;
   status: "open" | "acknowledged" | "resolved";
   sourceReference: string;
 }

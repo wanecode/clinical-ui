@@ -12,6 +12,20 @@
   box-shadow: var(--cardio-shadow);
 }
 
+.cardio-workbench[data-presentation="embedded"] {
+  border: 0;
+  border-radius: 0;
+  background: var(--card);
+  box-shadow: none;
+}
+
+.cardio-header--embedded {
+  justify-content: flex-end;
+  min-height: auto;
+  padding: 0.65rem 0.85rem;
+  background: transparent;
+}
+
 .cardio-header {
   display: flex;
   align-items: flex-start;

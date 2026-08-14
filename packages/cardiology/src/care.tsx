@@ -9,7 +9,8 @@ import {
   WorkbenchState,
 } from "./shared";
 import type {
-  CardiologyViewState,
+  CardiologyDataMode,
+  CardiologyStateProps,
   DeviceTimelineEvent,
   PrescriptionSafetyItem,
   ReportLifecycleItem,
@@ -72,11 +73,17 @@ function TrajectoryVisual({ events }: { events: TrajectoryEvent[] }) {
   );
 }
 
-function TrajectoryTable({ events }: { events: TrajectoryEvent[] }) {
+function TrajectoryTable({
+  events,
+  dataMode,
+}: {
+  events: TrajectoryEvent[];
+  dataMode: CardiologyDataMode;
+}) {
   return (
     <div className="cardio-table-scroll">
       <table className="cardio-table">
-        <caption>Chronologie cardiologique synthétique</caption>
+        <caption>Chronologie cardiologique{dataMode === "synthetic" ? " synthétique" : ""}</caption>
         <thead>
           <tr>
             <th scope="col">Date</th>
@@ -114,23 +121,34 @@ function TrajectoryTable({ events }: { events: TrajectoryEvent[] }) {
   );
 }
 
-export interface CardiacTrajectoryProps {
+export interface CardiacTrajectoryProps extends CardiologyStateProps {
   events: TrajectoryEvent[];
-  state?: CardiologyViewState;
 }
 
-export function CardiacTrajectory({ events, state = "ready" }: CardiacTrajectoryProps) {
+export function CardiacTrajectory({
+  events,
+  state = "ready",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
+}: CardiacTrajectoryProps) {
   return (
-    <section className="cardio-workbench cardio-trajectory" aria-label="Trajectoire cardiaque">
+    <section
+      className="cardio-workbench cardio-trajectory"
+      aria-label="Trajectoire cardiaque"
+      data-mode={dataMode}
+      data-presentation={presentation}
+    >
       <WorkbenchHeader
         eyebrow="Parcours longitudinal"
         title="Trajectoire cardiaque"
         description="Événements observés, importés, dérivés et projetés"
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Trajectoire cardiaque">
+      <WorkbenchState state={state} label="Trajectoire cardiaque" message={stateMessage}>
         <ChartTableToggle
           chart={<TrajectoryVisual events={events} />}
-          table={<TrajectoryTable events={events} />}
+          table={<TrajectoryTable events={events} dataMode={dataMode} />}
           chartLabel="Afficher la trajectoire"
           tableLabel="Voir la chronologie en tableau"
         />
@@ -145,9 +163,8 @@ const PRESCRIPTION_LABELS: Record<PrescriptionSafetyItem["status"], string> = {
   "on-hold": "Suspendue",
 };
 
-export interface PrescriptionSafetyBoardProps {
+export interface PrescriptionSafetyBoardProps extends CardiologyStateProps {
   items: PrescriptionSafetyItem[];
-  state?: CardiologyViewState;
   owner?: string;
   onConfirm?: (id: string) => void;
 }
@@ -155,7 +172,10 @@ export interface PrescriptionSafetyBoardProps {
 export function PrescriptionSafetyBoard({
   items,
   state = "ready",
-  owner = "Dr Synthèse",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
+  owner = "Équipe cardiologie",
   onConfirm,
 }: PrescriptionSafetyBoardProps) {
   const [locallyConfirmed, setLocallyConfirmed] = useState<string[]>([]);
@@ -170,14 +190,17 @@ export function PrescriptionSafetyBoard({
     <section
       className="cardio-workbench cardio-prescriptions"
       aria-label="Sécurité des prescriptions"
+      data-mode={dataMode}
+      data-presentation={presentation}
     >
       <WorkbenchHeader
         eyebrow="Thérapeutique"
         title="Sécurité des prescriptions"
         description={`${pending.length} décision(s) à confirmer`}
         status={pending.length > 0 ? "critical" : "validated"}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Prescriptions">
+      <WorkbenchState state={state} label="Prescriptions" message={stateMessage}>
         <div className="cardio-prescription-list">
           {items.map((item) => {
             const confirmed = item.status === "confirmed" || locallyConfirmed.includes(item.id);
@@ -235,9 +258,8 @@ export function PrescriptionSafetyBoard({
   );
 }
 
-export interface ImplantedDeviceTimelineProps {
+export interface ImplantedDeviceTimelineProps extends CardiologyStateProps {
   events: DeviceTimelineEvent[];
-  state?: CardiologyViewState;
   deviceAvailable?: boolean;
   deviceLabel?: string;
   serialNumber?: string;
@@ -246,22 +268,32 @@ export interface ImplantedDeviceTimelineProps {
 export function ImplantedDeviceTimeline({
   events,
   state = "ready",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
   deviceAvailable = true,
-  deviceLabel = "DAI bicaméral synthétique",
-  serialNumber = "SYN-DAI-042",
+  deviceLabel,
+  serialNumber,
 }: ImplantedDeviceTimelineProps) {
   return (
     <section
       className="cardio-workbench cardio-device"
       aria-label="Chronologie du dispositif implanté"
+      data-mode={dataMode}
+      data-presentation={presentation}
     >
       <WorkbenchHeader
         eyebrow="Dispositif / prothèse"
         title="Dispositif implanté"
-        description={`${deviceLabel} · ${serialNumber}`}
+        description={
+          deviceLabel || serialNumber
+            ? `${deviceLabel ?? "Dispositif"} · ${serialNumber ?? "série non transmise"}`
+            : "Identification du dispositif non transmise"
+        }
         status={deviceAvailable ? "validated" : "warning"}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Dispositif implanté">
+      <WorkbenchState state={state} label="Dispositif implanté" message={stateMessage}>
         {!deviceAvailable ? (
           <div className="cardio-signal-state" data-state="device-unavailable" role="status">
             <span aria-hidden="true">⌁</span>
@@ -305,25 +337,33 @@ const REPORT_STATUS: Record<
   signed: { label: "Signé", clinical: "validated" },
 };
 
-export interface CardiologyReportLifecycleProps {
+export interface CardiologyReportLifecycleProps extends CardiologyStateProps {
   items: ReportLifecycleItem[];
-  state?: CardiologyViewState;
 }
 
 export function CardiologyReportLifecycle({
   items,
   state = "ready",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: CardiologyReportLifecycleProps) {
   const latest = items.at(-1);
   return (
-    <section className="cardio-workbench cardio-reports" aria-label="Cycle de vie du compte rendu">
+    <section
+      className="cardio-workbench cardio-reports"
+      aria-label="Cycle de vie du compte rendu"
+      data-mode={dataMode}
+      data-presentation={presentation}
+    >
       <WorkbenchHeader
         eyebrow="Compte rendu"
         title="Cycle de vie documentaire"
         description={`${items.length} version(s) tracée(s)`}
         status={latest ? REPORT_STATUS[latest.status].clinical : "unknown"}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Comptes rendus">
+      <WorkbenchState state={state} label="Comptes rendus" message={stateMessage}>
         <ol className="cardio-report-lifecycle">
           {items.map((item, index) => {
             const status = REPORT_STATUS[item.status];
@@ -357,15 +397,17 @@ export function CardiologyReportLifecycle({
   );
 }
 
-export interface CardiologyVigilanceBoardProps {
+export interface CardiologyVigilanceBoardProps extends CardiologyStateProps {
   items: VigilanceItem[];
-  state?: CardiologyViewState;
   onAcknowledge?: (id: string) => void;
 }
 
 export function CardiologyVigilanceBoard({
   items,
   state = "ready",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
   onAcknowledge,
 }: CardiologyVigilanceBoardProps) {
   const [acknowledged, setAcknowledged] = useState<string[]>([]);
@@ -380,14 +422,17 @@ export function CardiologyVigilanceBoard({
     <section
       className="cardio-workbench cardio-vigilance"
       aria-label="Tableau de vigilance cardiologique"
+      data-mode={dataMode}
+      data-presentation={presentation}
     >
       <WorkbenchHeader
         eyebrow="Vigilances"
         title="Tableau de vigilance"
         description={`${critical} alerte(s) critique(s) active(s)`}
         status={critical ? "critical" : "validated"}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Vigilances">
+      <WorkbenchState state={state} label="Vigilances" message={stateMessage}>
         <div className="cardio-table-scroll">
           <table className="cardio-table">
             <caption>Alertes, responsables et décisions humaines</caption>
@@ -415,9 +460,15 @@ export function CardiologyVigilanceBoard({
                     <td>
                       <ClinicalStatusBadge status={item.severity} compact />
                     </td>
-                    <td>{item.owner}</td>
+                    <td>{item.owner ?? "Non attribué"}</td>
                     <td>
-                      <time dateTime={item.dueAt}>{item.dueAt.replace("T", " ").slice(0, 16)}</time>
+                      {item.dueAt ? (
+                        <time dateTime={item.dueAt}>
+                          {item.dueAt.replace("T", " ").slice(0, 16)}
+                        </time>
+                      ) : (
+                        "Non transmise"
+                      )}
                     </td>
                     <td>
                       {item.status === "resolved"

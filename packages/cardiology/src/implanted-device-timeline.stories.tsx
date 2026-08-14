@@ -7,7 +7,12 @@ const meta = {
   title: "Cardiology/ImplantedDeviceTimeline",
   component: ImplantedDeviceTimeline,
   tags: ["autodocs", "test"],
-  args: { events: syntheticDeviceTimeline },
+  args: {
+    events: syntheticDeviceTimeline,
+    dataMode: "synthetic",
+    deviceLabel: "DAI bicaméral synthétique",
+    serialNumber: "SYN-DAI-042",
+  },
 } satisfies Meta<typeof ImplantedDeviceTimeline>;
 export default meta;
 type Story = StoryObj<typeof meta>;
