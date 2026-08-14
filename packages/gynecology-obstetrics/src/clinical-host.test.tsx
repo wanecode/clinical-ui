@@ -62,4 +62,16 @@ describe("gynecology and obstetrics clinical host contract", () => {
     expect(clinical).not.toContain("Données synthétiques");
     expect(synthetic).toContain("Données synthétiques");
   });
+
+  it("renders an empty birth decision without invented provenance", () => {
+    const markup = renderToStaticMarkup(
+      <BirthDecisionBoard
+        decision={null}
+        state="empty"
+        stateMessage="Aucune décision de naissance documentée."
+      />,
+    );
+    expect(markup).toContain("Aucune décision de naissance documentée.");
+    expect(markup).not.toContain("Task/");
+  });
 });

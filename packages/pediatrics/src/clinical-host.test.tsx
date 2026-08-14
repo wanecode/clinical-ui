@@ -79,4 +79,16 @@ describe("pediatrics clinical host contract", () => {
     expect(clinical).not.toContain("Données synthétiques");
     expect(synthetic).toContain("Données synthétiques");
   });
+
+  it("renders an empty dose workbench without invented clinical data", () => {
+    const markup = renderToStaticMarkup(
+      <PediatricDoseSafetyWorkbench
+        calculation={null}
+        state="empty"
+        stateMessage="Aucune prescription documentée."
+      />,
+    );
+    expect(markup).toContain("Aucune prescription documentée.");
+    expect(markup).not.toContain("MedicationRequest/");
+  });
 });
