@@ -31,6 +31,11 @@ const config: StorybookConfig = {
         "@clinical-ui/odontology": path.join(root, "packages/odontology/src/index.ts"),
         "@clinical-ui/dermatology": path.join(root, "packages/dermatology/src/index.ts"),
         "@clinical-ui/cardiology": path.join(root, "packages/cardiology/src/index.ts"),
+        "@clinical-ui/pediatrics": path.join(root, "packages/pediatrics/src/index.ts"),
+        "@clinical-ui/gynecology-obstetrics": path.join(
+          root,
+          "packages/gynecology-obstetrics/src/index.ts",
+        ),
       },
     };
     return config;

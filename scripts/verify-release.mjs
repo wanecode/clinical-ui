@@ -14,6 +14,8 @@ const packageNames = [
   "odontology",
   "dermatology",
   "cardiology",
+  "pediatrics",
+  "gynecology-obstetrics",
 ];
 
 const readManifest = async (path) =>

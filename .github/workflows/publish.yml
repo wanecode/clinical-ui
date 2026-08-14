@@ -64,10 +64,10 @@ jobs:
         run: |
           release_dir="$RUNNER_TEMP/clinical-ui-$RELEASE_VERSION"
           mkdir -p "$release_dir"
-          for package_name in theme core fhir testing ophthalmology ent odontology dermatology cardiology; do
+          for package_name in theme core fhir testing ophthalmology ent odontology dermatology cardiology pediatrics gynecology-obstetrics; do
             pnpm --filter "@clinical-ui/$package_name" pack --pack-destination "$release_dir"
           done
-          test "$(find "$release_dir" -maxdepth 1 -name '*.tgz' | wc -l)" -eq 9
+          test "$(find "$release_dir" -maxdepth 1 -name '*.tgz' | wc -l)" -eq 11
           for archive in "$release_dir"/*.tgz; do
             if tar -xOzf "$archive" 2>/dev/null | grep -E '"(workspace:|file:|link:)' ; then
               exit 1
@@ -82,7 +82,7 @@ jobs:
           RELEASE_VERSION: ${{ steps.release.outputs.version }}
           NPM_CONFIG_PROVENANCE: "true"
         run: |
-          for package_name in theme core fhir testing ophthalmology ent odontology dermatology cardiology; do
+          for package_name in theme core fhir testing ophthalmology ent odontology dermatology cardiology pediatrics gynecology-obstetrics; do
             package="@clinical-ui/$package_name"
             if npm view "$package@$RELEASE_VERSION" version >/dev/null 2>&1; then
               echo "$package@$RELEASE_VERSION is already published"

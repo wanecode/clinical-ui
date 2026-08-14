@@ -34,14 +34,14 @@ interaction models that a button, card, table or generic chart cannot encode.
 | A timeline mixes observations, imports and projections | Non-color encoding for kind, status and source |
 | Specialty workflows are dense and spatial | Composable workbenches rather than generic dashboards |
 
-The first public domains are ophthalmology, ENT, odontology, dermatology and
-cardiology. Storybook is the executable specification for every component,
+The public domains are ophthalmology, ENT, odontology, dermatology, cardiology,
+pediatrics and gynecology-obstetrics. Storybook is the executable specification for every component,
 including incomplete, forbidden, non-interpretable and constrained-viewport
 states.
 
 ## Install the release candidate
 
-The current checkpoint is `v0.1.0-rc.8`. Install preview packages from the
+The current checkpoint is `v0.1.0-rc.13`. Install preview packages from the
 `next` channel:
 
 ```bash
@@ -91,6 +91,8 @@ and the mapping of their own FHIR data.
 | `@clinical-ui/odontology` | Odontograms, periodontal, endodontic, imaging and treatment-planning workbenches |
 | `@clinical-ui/dermatology` | Lesion, body-map, imaging, pathology and treatment workbenches |
 | `@clinical-ui/cardiology` | ECG, echocardiography, rhythm, pressure and longitudinal cardiac workbenches |
+| `@clinical-ui/pediatrics` | Age-aware growth, dose safety, prevention, triage, family and transition workbenches |
+| `@clinical-ui/gynecology-obstetrics` | Reproductive, prenatal, fetal, labor, birth-safety, newborn and postpartum workbenches |
 
 The Storybook application is the public documentation surface and remains
 private in npm metadata so it cannot be published accidentally.

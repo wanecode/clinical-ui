@@ -77,12 +77,18 @@ importers:
       '@clinical-ui/fhir':
         specifier: workspace:*
         version: link:../../packages/fhir
+      '@clinical-ui/gynecology-obstetrics':
+        specifier: workspace:*
+        version: link:../../packages/gynecology-obstetrics
       '@clinical-ui/odontology':
         specifier: workspace:*
         version: link:../../packages/odontology
       '@clinical-ui/ophthalmology':
         specifier: workspace:*
         version: link:../../packages/ophthalmology
+      '@clinical-ui/pediatrics':
+        specifier: workspace:*
+        version: link:../../packages/pediatrics
       '@clinical-ui/testing':
         specifier: workspace:*
         version: link:../../packages/testing

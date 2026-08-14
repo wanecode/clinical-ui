@@ -7,6 +7,8 @@ import "../../../packages/ent/src/styles.css";
 import "../../../packages/odontology/src/styles.css";
 import "../../../packages/dermatology/src/styles.css";
 import "../../../packages/cardiology/src/styles.css";
+import "../../../packages/pediatrics/src/styles.css";
+import "../../../packages/gynecology-obstetrics/src/styles.css";
 import { ClinicalThemeScope } from "@clinical-ui/theme";
 import type { Preview } from "@storybook/react-vite";
 
@@ -75,6 +77,8 @@ const preview: Preview = {
           "Odontology",
           "Dermatology",
           "Cardiology",
+          "Pediatrics",
+          "Gynecology Obstetrics",
           "Workbenches",
         ],
       },
