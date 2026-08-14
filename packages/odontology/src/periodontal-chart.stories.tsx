@@ -7,7 +7,7 @@ const meta = {
   title: "Odontology/PeriodontalChart",
   component: PeriodontalChart,
   tags: ["autodocs", "test"],
-  args: { sites: syntheticPeriodontalSites, defaultView: "chart" },
+  args: { sites: syntheticPeriodontalSites, defaultView: "chart", dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -32,6 +32,8 @@ export const SixSiteChart: Story = {
     ).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const TableFirst: Story = { args: { defaultView: "table" } };
 export const NoMeasurements: Story = { args: { sites: [], state: "empty" } };

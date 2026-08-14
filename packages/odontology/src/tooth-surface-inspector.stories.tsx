@@ -10,7 +10,7 @@ const meta = {
   title: "Odontology/ToothSurfaceInspector",
   component: ToothSurfaceInspector,
   tags: ["autodocs", "test"],
-  args: { tooth: tooth16, selectedSurface: "occlusal" },
+  args: { tooth: tooth16, selectedSurface: "occlusal", dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -33,5 +33,7 @@ export const SurfaceSelection: Story = {
     await expect(canvas.getByRole("heading", { name: "Distale" })).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const Empty: Story = { args: { state: "empty" } };

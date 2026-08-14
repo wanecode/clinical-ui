@@ -7,7 +7,12 @@ const meta = {
   title: "Odontology/OrthodonticWorkbench",
   component: OrthodonticWorkbench,
   tags: ["autodocs", "test"],
-  args: { events: syntheticOrthodonticTimeline, currentStep: 4, totalSteps: 12 },
+  args: {
+    events: syntheticOrthodonticTimeline,
+    currentStep: 4,
+    totalSteps: 12,
+    dataMode: "synthetic",
+  },
   parameters: {
     docs: {
       description: {
@@ -30,5 +35,7 @@ export const ActiveTreatment: Story = {
     await expect(canvas.getByLabelText("Schéma projected")).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const Forbidden: Story = { args: { state: "forbidden" } };

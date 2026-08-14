@@ -7,7 +7,12 @@ const meta = {
   title: "Odontology/PhasedTreatmentPlan",
   component: PhasedTreatmentPlan,
   tags: ["autodocs", "test"],
-  args: { phases: syntheticTreatmentPhases, consent: "required" },
+  args: {
+    phases: syntheticTreatmentPhases,
+    consent: "required",
+    consentResourceRef: "Consent/consent-synthetic-treatment-001",
+    dataMode: "synthetic",
+  },
   parameters: {
     docs: {
       description: {
@@ -32,6 +37,8 @@ export const ConsentRequired: Story = {
     await expect(canvas.getByText("Consentement requis")).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const ConsentObtained: Story = { args: { consent: "obtained" } };
 export const EmptyPlan: Story = { args: { phases: [], state: "empty" } };

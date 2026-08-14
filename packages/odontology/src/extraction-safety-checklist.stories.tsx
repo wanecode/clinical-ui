@@ -7,7 +7,7 @@ const meta = {
   title: "Odontology/ExtractionSafetyChecklist",
   component: ExtractionSafetyChecklist,
   tags: ["autodocs", "test"],
-  args: { tooth: "36", items: syntheticExtractionSafetyItems },
+  args: { tooth: "36", items: syntheticExtractionSafetyItems, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -34,6 +34,8 @@ export const IncompleteCriticalGate: Story = {
     await expect(canvas.getByText("Checklist complète")).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const Complete: Story = {
   args: { items: syntheticExtractionSafetyItems.map((item) => ({ ...item, checked: true })) },

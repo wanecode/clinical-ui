@@ -20,6 +20,22 @@
   box-shadow: 0 0.7rem 2.4rem color-mix(in oklch, var(--foreground) 7%, transparent);
 }
 
+.od-panel[data-presentation="embedded"] {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: var(--card);
+  box-shadow: none;
+}
+
+.od-panel__embedded-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0 0 0.75rem;
+}
+
 .od-panel__header {
   display: flex;
   align-items: flex-start;
@@ -1818,7 +1834,7 @@
 }
 .od-document-flow > li[data-status="superseded"] {
   border-style: dashed;
-  opacity: 0.82;
+  background: var(--muted);
 }
 .od-document-flow > li[data-status="entered-in-error"] {
   border-color: var(--clinical-critical-border);

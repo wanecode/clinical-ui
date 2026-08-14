@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DentalPanel, DentalStateBoundary, EvidenceBadge, SyntheticFlag } from "./primitives";
+import { DentalPanel, DentalStateBoundary, EvidenceBadge } from "./primitives";
 import type { DentalStateProps, TimelineEvent } from "./types";
 
 export interface OrthodonticWorkbenchProps extends DentalStateProps {
@@ -18,6 +18,8 @@ export function OrthodonticWorkbench({
   overbitePercent = 30,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: OrthodonticWorkbenchProps) {
   const [comparison, setComparison] = useState<"initial" | "current" | "projected">("current");
   const progress = Math.round((currentStep / totalSteps) * 100);
@@ -27,8 +29,9 @@ export function OrthodonticWorkbench({
       eyebrow="Orthodontie"
       title="Progression et jalons"
       description={`Étape ${currentStep} sur ${totalSteps} · progression ${progress} %`}
-      actions={<SyntheticFlag />}
       className="od-panel--ortho"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <div className="od-ortho-measures">

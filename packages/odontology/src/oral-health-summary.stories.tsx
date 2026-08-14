@@ -11,6 +11,7 @@ const meta = {
     periodontalSites: syntheticPeriodontalSites,
     painScore: 1,
     hygieneLabel: "À renforcer",
+    dataMode: "synthetic",
   },
   parameters: {
     docs: {
@@ -26,4 +27,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const DerivedSummary: Story = {};
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 export const SourceError: Story = { args: { state: "error" } };

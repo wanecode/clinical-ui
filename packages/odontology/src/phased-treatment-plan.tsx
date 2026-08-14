@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  DentalPanel,
-  DentalStateBoundary,
-  EvidenceBadge,
-  SessionStatusBadge,
-  SyntheticFlag,
-} from "./primitives";
+import { DentalPanel, DentalStateBoundary, EvidenceBadge, SessionStatusBadge } from "./primitives";
 import type { DentalStateProps, TreatmentPhase, TreatmentSessionStatus } from "./types";
 
 export interface PhasedTreatmentPlanProps extends DentalStateProps {
@@ -18,10 +12,12 @@ export interface PhasedTreatmentPlanProps extends DentalStateProps {
 export function PhasedTreatmentPlan({
   phases,
   consent,
-  consentResourceRef = "Consent/consent-synthetic-treatment-001",
+  consentResourceRef,
   onSessionStatusChange,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: PhasedTreatmentPlanProps) {
   const [statuses, setStatuses] = useState<Record<string, TreatmentSessionStatus>>({});
   const consentConfig = {
@@ -40,8 +36,9 @@ export function PhasedTreatmentPlan({
       eyebrow="Plan de traitement"
       title="Parcours phasé et dépendances"
       description="Chaque séance conserve son statut, ses prérequis et son consentement associé."
-      actions={<SyntheticFlag />}
       className="od-panel--treatment"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <div
@@ -52,7 +49,7 @@ export function PhasedTreatmentPlan({
           <span aria-hidden="true">{consentConfig.symbol}</span>
           <div>
             <strong>{consentConfig.label}</strong>
-            <code>{consentResourceRef}</code>
+            {consentResourceRef ? <code>{consentResourceRef}</code> : null}
           </div>
         </div>
 

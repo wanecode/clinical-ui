@@ -2,7 +2,17 @@ import type { FhirResource } from "@clinical-ui/fhir";
 
 export type DentalUiState = "ready" | "loading" | "empty" | "error" | "forbidden";
 
-export interface DentalStateProps {
+export type DentalDataMode = "clinical" | "synthetic";
+export type DentalPresentation = "standalone" | "embedded";
+
+export interface DentalHostPresentationProps {
+  /** Explicitly identifies whether the host supplied clinical data or demo fixtures. */
+  dataMode?: DentalDataMode;
+  /** Embedded workbenches delegate their module heading and outer surface to the host. */
+  presentation?: DentalPresentation;
+}
+
+export interface DentalStateProps extends DentalHostPresentationProps {
   state?: DentalUiState | undefined;
   stateMessage?: string | undefined;
 }
@@ -117,7 +127,10 @@ export interface DentalImagingItem {
   evidence: DentalEvidenceKind;
   source: string;
   resourceRef: string;
-  synthetic: true;
+  /** Host-authorized media URL. Clinical mode never invents an image when it is absent. */
+  previewUrl?: string;
+  /** Explicit fixture provenance for Storybook and demonstrations. */
+  synthetic?: boolean;
 }
 
 export interface SafetyItem {

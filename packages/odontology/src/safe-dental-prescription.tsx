@@ -1,4 +1,4 @@
-import { DentalPanel, DentalStateBoundary, EvidenceBadge, SyntheticFlag } from "./primitives";
+import { DentalPanel, DentalStateBoundary, EvidenceBadge } from "./primitives";
 import type { DentalPrescription, DentalStateProps } from "./types";
 
 export interface SafeDentalPrescriptionProps extends DentalStateProps {
@@ -9,6 +9,8 @@ export function SafeDentalPrescription({
   prescription,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: SafeDentalPrescriptionProps) {
   const missingWeight = prescription.pediatric && prescription.patientWeightKg === undefined;
   const checks = [
@@ -42,8 +44,9 @@ export function SafeDentalPrescription({
       eyebrow="Prescription sûre"
       title={prescription.medication}
       description={prescription.indication}
-      actions={<SyntheticFlag />}
       className="od-panel--prescription"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <div className="od-prescription">
@@ -106,7 +109,10 @@ export function SafeDentalPrescription({
         </div>
         <div className="od-prescription__provenance">
           <EvidenceBadge kind="preliminary" />
-          <span>MedicationRequest FHIR R5 · aucune ordonnance réelle</span>
+          <span>
+            MedicationRequest FHIR R5
+            {dataMode === "synthetic" ? " · aucune ordonnance réelle" : " · source clinique"}
+          </span>
         </div>
       </DentalStateBoundary>
     </DentalPanel>

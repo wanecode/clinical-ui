@@ -6,7 +6,12 @@ const meta = {
   title: "Odontology/ProsthesisImplantTimeline",
   component: ProsthesisImplantTimeline,
   tags: ["autodocs", "test"],
-  args: { tooth: "36", events: syntheticProsthesisTimeline },
+  args: {
+    tooth: "36",
+    events: syntheticProsthesisTimeline,
+    deviceLabel: "Implant synthétique Ø4,1 × 10 mm",
+    dataMode: "synthetic",
+  },
   parameters: {
     docs: {
       description: {
@@ -21,4 +26,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const ImplantPathway: Story = {};
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 export const NoHistory: Story = { args: { events: [], state: "empty" } };

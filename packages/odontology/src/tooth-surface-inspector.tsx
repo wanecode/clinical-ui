@@ -3,7 +3,6 @@ import {
   DentalPanel,
   DentalStateBoundary,
   EvidenceBadge,
-  SyntheticFlag,
   ToothStatusBadge,
   toothLateralityLabel,
   toothStatusConfig,
@@ -30,6 +29,8 @@ export function ToothSurfaceInspector({
   onSurfaceChange,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: ToothSurfaceInspectorProps) {
   const [activeSurface, setActiveSurface] = useState(selectedSurface);
   const surfaceStatus = (surface: ToothSurface): ToothStatus =>
@@ -44,8 +45,9 @@ export function ToothSurfaceInspector({
       eyebrow={`Dent ${tooth.fdi} · notation FDI`}
       title="Inspecteur des faces"
       description="Vue topologique et équivalent tabulaire de chaque face dentaire."
-      actions={<SyntheticFlag />}
       className="od-panel--surface"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <div className="od-surface-inspector">

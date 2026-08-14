@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DentalPanel, DentalStateBoundary, SyntheticFlag } from "./primitives";
+import { DentalPanel, DentalStateBoundary } from "./primitives";
 import type { DentalStateProps, SafetyItem } from "./types";
 
 export interface ExtractionSafetyChecklistProps extends DentalStateProps {
@@ -14,6 +14,8 @@ export function ExtractionSafetyChecklist({
   onCompletionChange,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: ExtractionSafetyChecklistProps) {
   const [checked, setChecked] = useState(
     () => new Set(items.filter((item) => item.checked).map((item) => item.id)),
@@ -32,8 +34,9 @@ export function ExtractionSafetyChecklist({
       eyebrow={`Extraction · dent ${tooth}`}
       title="Sécurité avant extraction"
       description="Les points critiques bloquent la validation tant qu'ils ne sont pas explicitement confirmés."
-      actions={<SyntheticFlag />}
       className="od-panel--safety"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <div
