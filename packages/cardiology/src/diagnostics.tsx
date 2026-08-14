@@ -10,7 +10,8 @@ import {
 } from "./shared";
 import type {
   BloodPressureReading,
-  CardiologyViewState,
+  CardiologyDataMode,
+  CardiologyStateProps,
   EcgStudy,
   EchocardiographyMeasure,
   HolterEvent,
@@ -28,7 +29,7 @@ function tracePath(study: EcgStudy) {
     .join(" ");
 }
 
-function EcgTrace({ study }: { study: EcgStudy }) {
+function EcgTrace({ study, dataMode }: { study: EcgStudy; dataMode: CardiologyDataMode }) {
   const titleId = useId();
   const descriptionId = useId();
   return (
@@ -39,12 +40,12 @@ function EcgTrace({ study }: { study: EcgStudy }) {
       aria-labelledby={`${titleId} ${descriptionId}`}
       preserveAspectRatio="none"
     >
-      <title id={titleId}>
-        Tracé ECG synthétique, dérivation {study.leads[0]?.name ?? "inconnue"}
-      </title>
+      <title
+        id={titleId}
+      >{`Tracé ECG${dataMode === "synthetic" ? " synthétique" : ""}, dérivation ${study.leads[0]?.name ?? "inconnue"}`}</title>
       <desc id={descriptionId}>
-        Signal de démonstration. Calibration {study.speed}, {study.gain}. La table adjacente fournit
-        une alternative numérique.
+        {dataMode === "synthetic" ? "Signal de démonstration. " : ""}Calibration {study.speed},{" "}
+        {study.gain}. La table adjacente fournit une alternative numérique.
       </desc>
       <defs>
         <pattern id="cardio-ecg-small-grid" width="10" height="10" patternUnits="userSpaceOnUse">
@@ -82,12 +83,14 @@ function EcgTrace({ study }: { study: EcgStudy }) {
   );
 }
 
-function TraceTable({ study }: { study: EcgStudy }) {
+function TraceTable({ study, dataMode }: { study: EcgStudy; dataMode: CardiologyDataMode }) {
   const sampled = study.leads[0]?.points.filter((_, index) => index % 4 === 0) ?? [];
   return (
     <div className="cardio-table-scroll">
       <table className="cardio-table">
-        <caption>Échantillons du signal ECG synthétique</caption>
+        <caption>
+          Échantillons du signal ECG{dataMode === "synthetic" ? " synthétique" : ""}
+        </caption>
         <thead>
           <tr>
             <th scope="col">Temps (ms)</th>
@@ -107,9 +110,8 @@ function TraceTable({ study }: { study: EcgStudy }) {
   );
 }
 
-export interface EcgWorkbenchProps {
+export interface EcgWorkbenchProps extends CardiologyStateProps {
   study: EcgStudy;
-  state?: CardiologyViewState;
   availability?: "available" | "signal-absent" | "device-unavailable";
   onValidate?: () => void;
 }
@@ -117,19 +119,28 @@ export interface EcgWorkbenchProps {
 export function EcgWorkbench({
   study,
   state = "ready",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
   availability = "available",
   onValidate,
 }: EcgWorkbenchProps) {
   return (
-    <section className="cardio-workbench cardio-ecg" aria-label="Atelier ECG">
+    <section
+      className="cardio-workbench cardio-ecg"
+      aria-label="Atelier ECG"
+      data-mode={dataMode}
+      data-presentation={presentation}
+    >
       <WorkbenchHeader
         eyebrow="Signal diagnostique"
         title="Atelier ECG"
         description={`${study.recordedAt} · ${study.speed} · ${study.gain}`}
         status={study.reportStatus}
         actions={<DataOriginBadge origin={study.origin} />}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Atelier ECG">
+      <WorkbenchState state={state} label="Atelier ECG" message={stateMessage}>
         {availability !== "available" || study.quality === "absent" ? (
           <div className="cardio-signal-state" data-state={availability} role="status">
             <span aria-hidden="true">⌁</span>
@@ -161,8 +172,8 @@ export function EcgWorkbench({
                 </span>
               </div>
               <ChartTableToggle
-                chart={<EcgTrace study={study} />}
-                table={<TraceTable study={study} />}
+                chart={<EcgTrace study={study} dataMode={dataMode} />}
+                table={<TraceTable study={study} dataMode={dataMode} />}
               />
             </div>
             <aside className="cardio-diagnostic-rail">
@@ -217,10 +228,9 @@ export function EcgWorkbench({
   );
 }
 
-export interface EchocardiographyWorkbenchProps {
+export interface EchocardiographyWorkbenchProps extends CardiologyStateProps {
   measures: EchocardiographyMeasure[];
-  state?: CardiologyViewState;
-  reportStatus?: "preliminary" | "amended" | "validated";
+  reportStatus?: "preliminary" | "amended" | "validated" | "unknown";
   conclusion?: string;
 }
 
@@ -234,22 +244,34 @@ const TREND_LABELS = {
 export function EchocardiographyWorkbench({
   measures,
   state = "ready",
-  reportStatus = "amended",
-  conclusion = "Fonction systolique modérément altérée, mesure amendée après relecture.",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
+  reportStatus = "unknown",
+  conclusion,
 }: EchocardiographyWorkbenchProps) {
   return (
-    <section className="cardio-workbench cardio-echo" aria-label="Atelier d'échocardiographie">
+    <section
+      className="cardio-workbench cardio-echo"
+      aria-label="Atelier d'échocardiographie"
+      data-mode={dataMode}
+      data-presentation={presentation}
+    >
       <WorkbenchHeader
         eyebrow="Imagerie structurée"
         title="Échocardiographie"
         description="Mesures actuelles, comparaisons et références"
         status={reportStatus}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Échocardiographie">
+      <WorkbenchState state={state} label="Échocardiographie" message={stateMessage}>
         <div className="cardio-echo__layout">
           <div className="cardio-table-scroll">
             <table className="cardio-table">
-              <caption>Mesures échocardiographiques synthétiques et comparaison</caption>
+              <caption>
+                Mesures échocardiographiques{dataMode === "synthetic" ? " synthétiques" : ""} et
+                comparaison
+              </caption>
               <thead>
                 <tr>
                   <th scope="col">Mesure</th>
@@ -288,7 +310,7 @@ export function EchocardiographyWorkbench({
           <aside className="cardio-report-note">
             <p className="cardio-eyebrow">Conclusion clinique</p>
             <ClinicalStatusBadge status={reportStatus} />
-            <p>{conclusion}</p>
+            <p>{conclusion ?? "Conclusion non transmise"}</p>
             <SourceReference>
               {measures[0]?.sourceReference ?? "Observation/unknown"}
             </SourceReference>
@@ -466,7 +488,7 @@ function PressureTable({ readings }: { readings: BloodPressureReading[] }) {
               <td>{reading.period === "day" ? "Jour" : "Nuit"}</td>
               <td>{reading.systolic}</td>
               <td>{reading.diastolic}</td>
-              <td>{reading.pulse}</td>
+              <td>{reading.pulse ?? "—"}</td>
               <td>{reading.valid ? "Valide" : "Écartée"}</td>
             </tr>
           ))}
@@ -476,9 +498,8 @@ function PressureTable({ readings }: { readings: BloodPressureReading[] }) {
   );
 }
 
-export interface AmbulatoryBloodPressureChartProps {
+export interface AmbulatoryBloodPressureChartProps extends CardiologyStateProps {
   readings: BloodPressureReading[];
-  state?: CardiologyViewState;
   deviceAvailable?: boolean;
   origin?: "observed" | "imported";
 }
@@ -486,6 +507,9 @@ export interface AmbulatoryBloodPressureChartProps {
 export function AmbulatoryBloodPressureChart({
   readings,
   state = "ready",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
   deviceAvailable = true,
   origin = "imported",
 }: AmbulatoryBloodPressureChartProps) {
@@ -497,14 +521,20 @@ export function AmbulatoryBloodPressureChart({
       ? Math.round(set.reduce((sum, reading) => sum + reading[key], 0) / set.length)
       : undefined;
   return (
-    <section className="cardio-workbench cardio-pressure" aria-label="Pression ambulatoire">
+    <section
+      className="cardio-workbench cardio-pressure"
+      aria-label="Pression ambulatoire"
+      data-mode={dataMode}
+      data-presentation={presentation}
+    >
       <WorkbenchHeader
         eyebrow="Exploration ambulatoire"
         title="MAPA · 24 heures"
         description={`${valid.length}/${readings.length} mesures exploitables`}
         actions={<DataOriginBadge origin={origin} />}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="MAPA">
+      <WorkbenchState state={state} label="MAPA" message={stateMessage}>
         {!deviceAvailable ? (
           <div className="cardio-signal-state" data-state="device-unavailable" role="status">
             <span aria-hidden="true">⌁</span>
@@ -646,9 +676,8 @@ function HolterTable({ events }: { events: HolterEvent[] }) {
   );
 }
 
-export interface HolterSummaryProps {
+export interface HolterSummaryProps extends CardiologyStateProps {
   events: HolterEvent[];
-  state?: CardiologyViewState;
   signalAvailable?: boolean;
   analyzedDuration?: string;
 }
@@ -656,19 +685,28 @@ export interface HolterSummaryProps {
 export function HolterSummary({
   events,
   state = "ready",
+  stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
   signalAvailable = true,
-  analyzedDuration = "23 h 58 min",
+  analyzedDuration,
 }: HolterSummaryProps) {
   const critical = events.filter((event) => event.severity === "critical").length;
   return (
-    <section className="cardio-workbench cardio-holter" aria-label="Synthèse Holter">
+    <section
+      className="cardio-workbench cardio-holter"
+      aria-label="Synthèse Holter"
+      data-mode={dataMode}
+      data-presentation={presentation}
+    >
       <WorkbenchHeader
         eyebrow="Exploration ambulatoire"
         title="Synthèse Holter"
-        description={`Durée analysée : ${analyzedDuration}`}
+        description={`Durée analysée : ${analyzedDuration ?? "non transmise"}`}
         status={critical > 0 ? "critical" : "validated"}
+        presentation={presentation}
       />
-      <WorkbenchState state={state} label="Holter">
+      <WorkbenchState state={state} label="Holter" message={stateMessage}>
         {!signalAvailable ? (
           <div className="cardio-signal-state" data-state="signal-absent" role="status">
             <span aria-hidden="true">⌁</span>

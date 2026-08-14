@@ -7,7 +7,7 @@ const meta = {
   title: "Cardiology/HolterSummary",
   component: HolterSummary,
   tags: ["autodocs", "test"],
-  args: { events: syntheticHolterEvents },
+  args: { events: syntheticHolterEvents, dataMode: "synthetic", analyzedDuration: "23 h 58 min" },
 } satisfies Meta<typeof HolterSummary>;
 export default meta;
 type Story = StoryObj<typeof meta>;

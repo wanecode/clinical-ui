@@ -7,7 +7,7 @@ const meta = {
   title: "Cardiology/CardiologyVigilanceBoard",
   component: CardiologyVigilanceBoard,
   tags: ["autodocs", "test"],
-  args: { items: syntheticVigilanceItems, onAcknowledge: fn() },
+  args: { items: syntheticVigilanceItems, onAcknowledge: fn(), dataMode: "synthetic" },
 } satisfies Meta<typeof CardiologyVigilanceBoard>;
 export default meta;
 type Story = StoryObj<typeof meta>;

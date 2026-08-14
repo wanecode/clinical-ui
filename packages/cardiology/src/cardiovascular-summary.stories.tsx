@@ -9,6 +9,7 @@ const meta = {
   tags: ["autodocs", "test"],
   args: {
     data: syntheticSummaryData,
+    dataMode: "synthetic",
     riskScore: syntheticRiskScore,
     patientLabel: "Awa Ndiaye — synthétique",
     decisionOwner: "Dr Synthèse",

@@ -1,6 +1,11 @@
 import { ClinicalStatusBadge } from "@clinical-ui/core";
 import { type ReactNode, useId, useState } from "react";
-import type { CardiologyDataOrigin, CardiologyViewState } from "./types";
+import type {
+  CardiologyDataMode,
+  CardiologyDataOrigin,
+  CardiologyPresentation,
+  CardiologyViewState,
+} from "./types";
 
 const ORIGIN_LABELS: Record<CardiologyDataOrigin, string> = {
   observed: "Observé",
@@ -43,10 +48,12 @@ const STATE_COPY: Record<
 export function WorkbenchState({
   state,
   label,
+  message,
   children,
 }: {
   state: CardiologyViewState;
   label: string;
+  message?: string | undefined;
   children: ReactNode;
 }) {
   if (state === "ready") return <>{children}</>;
@@ -63,7 +70,7 @@ export function WorkbenchState({
       </span>
       <p className="cardio-eyebrow">{label}</p>
       <h3>{copy.title}</h3>
-      <p>{copy.detail}</p>
+      <p>{message ?? copy.detail}</p>
     </section>
   );
 }
@@ -74,13 +81,23 @@ export function WorkbenchHeader({
   description,
   status,
   actions,
+  presentation = "standalone",
 }: {
   eyebrow: string;
   title: string;
   description: string;
   status?: "validated" | "preliminary" | "amended" | "warning" | "critical" | "unknown";
   actions?: ReactNode;
+  presentation?: CardiologyPresentation;
 }) {
+  if (presentation === "embedded") {
+    return status || actions ? (
+      <div className="cardio-header cardio-header--embedded">
+        {status ? <ClinicalStatusBadge status={status} compact /> : null}
+        {actions ? <div className="cardio-header__actions">{actions}</div> : null}
+      </div>
+    ) : null;
+  }
   return (
     <header className="cardio-header">
       <div>
@@ -172,7 +189,8 @@ export function DecisionCallout({
   );
 }
 
-export function SyntheticNotice() {
+export function SyntheticNotice({ dataMode = "clinical" }: { dataMode?: CardiologyDataMode }) {
+  if (dataMode !== "synthetic") return null;
   return (
     <span className="cardio-synthetic">
       <span aria-hidden="true">◇</span> Données synthétiques
