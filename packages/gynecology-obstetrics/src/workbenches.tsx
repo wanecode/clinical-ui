@@ -437,8 +437,8 @@ export function LaborPartogram({
 export function BirthDecisionBoard({
   decision,
   ...stateProps
-}: GynecologyObstetricsStateProps & { decision: BirthDecision }) {
-  const blocked = decision.readiness.some(
+}: GynecologyObstetricsStateProps & { decision?: BirthDecision | null }) {
+  const blocked = decision?.readiness.some(
     (item) => item.status === "blocked" || item.status === "unknown",
   );
   return (
@@ -449,54 +449,58 @@ export function BirthDecisionBoard({
       status={
         blocked
           ? "critical"
-          : decision.readiness.some((item) => item.status === "pending")
+          : decision?.readiness.some((item) => item.status === "pending")
             ? "warning"
-            : "validated"
+            : decision
+              ? "validated"
+              : "unknown"
       }
       {...stateProps}
     >
-      <div className="go-decision-layout">
-        <section className="go-panel go-decision">
-          <p className="go-panel__label">Décision documentée</p>
-          <strong>{decision.decision}</strong>
-          <p>
-            {decision.indication ?? (
-              <GynecologyObstetricsEmptyValue label="Indication non transmise" />
-            )}
-          </p>
-          <dl className="go-definition-list">
-            <div>
-              <dt>Décidée à</dt>
-              <dd>{decision.decidedAt ?? <GynecologyObstetricsEmptyValue />}</dd>
+      {decision ? (
+        <div className="go-decision-layout">
+          <section className="go-panel go-decision">
+            <p className="go-panel__label">Décision documentée</p>
+            <strong>{decision.decision}</strong>
+            <p>
+              {decision.indication ?? (
+                <GynecologyObstetricsEmptyValue label="Indication non transmise" />
+              )}
+            </p>
+            <dl className="go-definition-list">
+              <div>
+                <dt>Décidée à</dt>
+                <dd>{decision.decidedAt ?? <GynecologyObstetricsEmptyValue />}</dd>
+              </div>
+              <div>
+                <dt>Cible</dt>
+                <dd>{decision.targetAt ?? <GynecologyObstetricsEmptyValue />}</dd>
+              </div>
+              <div>
+                <dt>Responsable</dt>
+                <dd>{decision.owner ?? "Non attribué"}</dd>
+              </div>
+            </dl>
+            <GynecologyObstetricsSourceReference>
+              {decision.sourceReference}
+            </GynecologyObstetricsSourceReference>
+          </section>
+          <section className="go-panel">
+            <p className="go-panel__label">Préparation</p>
+            <div className="go-readiness">
+              {decision.readiness.map((item) => (
+                <article key={item.id} data-status={item.status}>
+                  <span aria-hidden="true">
+                    {item.status === "ready" ? "✓" : item.status === "blocked" ? "!!" : "○"}
+                  </span>
+                  <strong>{item.label}</strong>
+                  <small>{statusLabel(item.status)}</small>
+                </article>
+              ))}
             </div>
-            <div>
-              <dt>Cible</dt>
-              <dd>{decision.targetAt ?? <GynecologyObstetricsEmptyValue />}</dd>
-            </div>
-            <div>
-              <dt>Responsable</dt>
-              <dd>{decision.owner ?? "Non attribué"}</dd>
-            </div>
-          </dl>
-          <GynecologyObstetricsSourceReference>
-            {decision.sourceReference}
-          </GynecologyObstetricsSourceReference>
-        </section>
-        <section className="go-panel">
-          <p className="go-panel__label">Préparation</p>
-          <div className="go-readiness">
-            {decision.readiness.map((item) => (
-              <article key={item.id} data-status={item.status}>
-                <span aria-hidden="true">
-                  {item.status === "ready" ? "✓" : item.status === "blocked" ? "!!" : "○"}
-                </span>
-                <strong>{item.label}</strong>
-                <small>{statusLabel(item.status)}</small>
-              </article>
-            ))}
-          </div>
-        </section>
-      </div>
+          </section>
+        </div>
+      ) : null}
     </GynecologyObstetricsShell>
   );
 }

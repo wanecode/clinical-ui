@@ -39,6 +39,8 @@ SENTINEL_IDS = (
     "odontology-longitudinalodontogram--permanent-dentition",
     "dermatology-clinical-workbenches--integrated-synthetic-episode",
     "cardiology-ecgworkbench--imported-preliminary",
+    "pediatrics-growthdevelopmentworkbench--nominal",
+    "gynecology-obstetrics-laborpartogram--nominal",
 )
 
 
@@ -74,7 +76,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--sentinels-only",
         action="store_true",
-        help="Skip the full 178-story responsive sweep.",
+        help="Skip the full responsive story sweep.",
     )
     parser.add_argument(
         "--no-screenshots",

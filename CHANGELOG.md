@@ -3,6 +3,13 @@
 All notable changes are documented here. The project follows Semantic
 Versioning once package distribution begins.
 
+## 0.1.0-rc.13 — 2026-08-14
+
+- Add the FHIR R5-native Pediatrics package with 10 workbenches covering all 40 governed ecoMed capabilities.
+- Add the FHIR R5-native Gynecology and Obstetrics package with 11 workbenches covering all 40 governed ecoMed capabilities.
+- Keep child/caregiver/confidential contexts and maternal/fetal/newborn identities explicitly separated.
+- Extend Storybook, release verification, packed-consumer smoke tests and npm provenance publishing to 11 public packages.
+
 ## 0.1.0-rc.8 — 2026-08-13
 
 - Reduce the ocular-emergency headline to the same restrained hierarchy as the other clinical workbenches.

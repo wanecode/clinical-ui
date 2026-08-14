@@ -287,71 +287,73 @@ export function GrowthDevelopmentWorkbench({
 export function PediatricDoseSafetyWorkbench({
   calculation,
   ...stateProps
-}: PediatricsStateProps & { calculation: DoseCalculation }) {
+}: PediatricsStateProps & { calculation?: DoseCalculation | null }) {
   return (
     <PediatricsWorkbenchShell
       eyebrow="Prescription et sécurité"
       title="Chaîne de calcul pédiatrique"
       description="L’interface expose le calcul reçu sans choisir la prescription."
       status={
-        calculation.status === "verified"
+        calculation?.status === "verified"
           ? "validated"
-          : calculation.status === "to-review"
+          : calculation?.status === "to-review"
             ? "warning"
             : "unknown"
       }
       {...stateProps}
     >
-      <div className="peds-dose-layout">
-        <section className="peds-panel peds-dose-equation">
-          <p className="peds-panel__label">Calcul documenté</p>
-          <strong>{calculation.medication}</strong>
-          {calculation.weight ? (
-            <div className="peds-equation">
-              <span>
-                {calculation.weight.value} {calculation.weight.unit}
-              </span>
-              <b aria-hidden="true">×</b>
-              <span>{calculation.dosePerKg ?? "Dose absente"}</span>
-              <b aria-hidden="true">=</b>
-              <span>{calculation.computedDose ?? "Non calculé"}</span>
-            </div>
-          ) : (
-            <PediatricsEmptyValue label="Poids de dose absent" />
-          )}
-          <PediatricsOriginBadge origin={calculation.origin} />
-          <PediatricsSourceReference>{calculation.sourceReference}</PediatricsSourceReference>
-        </section>
-        <section className="peds-panel">
-          <p className="peds-panel__label">Barrières</p>
-          <dl className="peds-definition-list">
-            <div>
-              <dt>Maximum documenté</dt>
-              <dd>{calculation.maximumDose ?? <PediatricsEmptyValue />}</dd>
-            </div>
-            <div>
-              <dt>Volume administrable</dt>
-              <dd>{calculation.administrableVolume ?? <PediatricsEmptyValue />}</dd>
-            </div>
-            <div>
-              <dt>Fraîcheur du poids</dt>
-              <dd>{calculation.weight?.freshnessStatus ?? "Inconnue"}</dd>
-            </div>
-          </dl>
-          {calculation.missingInputs.length ? (
-            <div className="peds-missing">
-              <strong>Entrées manquantes</strong>
-              <ul>
-                {calculation.missingInputs.map((input) => (
-                  <li key={input}>{input}</li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <span className="peds-confirmed">✓ Entrées documentées</span>
-          )}
-        </section>
-      </div>
+      {calculation ? (
+        <div className="peds-dose-layout">
+          <section className="peds-panel peds-dose-equation">
+            <p className="peds-panel__label">Calcul documenté</p>
+            <strong>{calculation.medication}</strong>
+            {calculation.weight ? (
+              <div className="peds-equation">
+                <span>
+                  {calculation.weight.value} {calculation.weight.unit}
+                </span>
+                <b aria-hidden="true">×</b>
+                <span>{calculation.dosePerKg ?? "Dose absente"}</span>
+                <b aria-hidden="true">=</b>
+                <span>{calculation.computedDose ?? "Non calculé"}</span>
+              </div>
+            ) : (
+              <PediatricsEmptyValue label="Poids de dose absent" />
+            )}
+            <PediatricsOriginBadge origin={calculation.origin} />
+            <PediatricsSourceReference>{calculation.sourceReference}</PediatricsSourceReference>
+          </section>
+          <section className="peds-panel">
+            <p className="peds-panel__label">Barrières</p>
+            <dl className="peds-definition-list">
+              <div>
+                <dt>Maximum documenté</dt>
+                <dd>{calculation.maximumDose ?? <PediatricsEmptyValue />}</dd>
+              </div>
+              <div>
+                <dt>Volume administrable</dt>
+                <dd>{calculation.administrableVolume ?? <PediatricsEmptyValue />}</dd>
+              </div>
+              <div>
+                <dt>Fraîcheur du poids</dt>
+                <dd>{calculation.weight?.freshnessStatus ?? "Inconnue"}</dd>
+              </div>
+            </dl>
+            {calculation.missingInputs.length ? (
+              <div className="peds-missing">
+                <strong>Entrées manquantes</strong>
+                <ul>
+                  {calculation.missingInputs.map((input) => (
+                    <li key={input}>{input}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <span className="peds-confirmed">✓ Entrées documentées</span>
+            )}
+          </section>
+        </div>
+      ) : null}
     </PediatricsWorkbenchShell>
   );
 }

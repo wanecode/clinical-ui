@@ -840,7 +840,7 @@
   color: var(--primary);
 }
 
-.peds-empty-value {
+.peds-workbench .peds-empty-value {
   color: var(--muted-foreground);
   font-size: 0.75rem;
   font-style: italic;

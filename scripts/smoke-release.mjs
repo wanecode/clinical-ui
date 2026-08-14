@@ -14,6 +14,8 @@ const packageNames = [
   "odontology",
   "dermatology",
   "cardiology",
+  "pediatrics",
+  "gynecology-obstetrics",
 ];
 const styledPackageNames = [
   "theme",
@@ -23,6 +25,8 @@ const styledPackageNames = [
   "odontology",
   "dermatology",
   "cardiology",
+  "pediatrics",
+  "gynecology-obstetrics",
 ];
 const releaseArgument = process.argv.slice(2).find((argument) => argument !== "--");
 const releaseDirectory = resolve(releaseArgument ?? "");
