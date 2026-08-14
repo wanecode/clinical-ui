@@ -87,6 +87,8 @@ export function BodyLesionMap({
   onPlaceLesion,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: BodyLesionMapProps) {
   const [view, setView] = useState<BodyMapView>(initialView);
   const [zoom, setZoom] = useState(1);
@@ -123,7 +125,12 @@ export function BodyLesionMap({
   }
 
   return (
-    <SectionFrame className="derm-body-map" label="Carte lésionnelle corporelle">
+    <SectionFrame
+      className="derm-body-map"
+      label="Carte lésionnelle corporelle"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Identité spatiale persistante"
         title="Carte lésionnelle"

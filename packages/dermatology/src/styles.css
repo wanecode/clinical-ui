@@ -28,6 +28,20 @@
   box-shadow: 0 0.75rem 2rem color-mix(in oklch, var(--foreground) 5%, transparent);
 }
 
+.derm-panel[data-presentation="embedded"] {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.derm-panel-heading__embedded-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.65rem;
+}
+
 .derm-panel-heading {
   display: flex;
   align-items: flex-start;
@@ -635,6 +649,12 @@
   color: var(--viewer-foreground);
 }
 
+.derm-viewer[data-presentation="embedded"] {
+  border-radius: calc(var(--radius) - 0.1rem);
+  background: var(--viewer-surface);
+  color: var(--viewer-foreground);
+}
+
 .derm-viewer .derm-panel-heading {
   border-color: var(--viewer-border);
   background: var(--viewer-surface);
@@ -665,6 +685,32 @@
   border: 1px solid var(--viewer-border);
   border-radius: 0.25rem;
   background: var(--viewer-panel);
+}
+
+.derm-clinical-image,
+.derm-image-unavailable {
+  width: 100%;
+  min-height: 13rem;
+  border: 1px solid var(--viewer-border);
+  border-radius: 0.2rem;
+  background: var(--viewer-panel);
+}
+
+.derm-clinical-image {
+  display: block;
+  object-fit: contain;
+}
+
+.derm-image-unavailable {
+  display: grid;
+  place-content: center;
+  gap: 0.45rem;
+  color: var(--viewer-muted-foreground);
+  text-align: center;
+}
+
+.derm-image-unavailable > span {
+  font-size: 1.6rem;
 }
 
 .derm-image-card header {
@@ -819,6 +865,7 @@
 .derm-viewer__alternative {
   margin: 0 1rem 1rem;
   border-color: var(--viewer-border);
+  background: var(--viewer-surface);
 }
 
 .derm-viewer__provenance {

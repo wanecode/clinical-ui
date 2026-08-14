@@ -16,9 +16,11 @@ export interface WoundTrajectoryProps extends DermatologyStateProps {
 
 export function WoundTrajectory({
   observations,
-  targetValue = 2,
+  targetValue,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: WoundTrajectoryProps) {
   const chartTitleId = useId();
   const ordered = [...observations]
@@ -43,9 +45,15 @@ export function WoundTrajectory({
     initial !== undefined && latestObserved?.valueQuantity?.value !== undefined && initial !== 0
       ? ((initial - latestObserved.valueQuantity.value) / initial) * 100
       : undefined;
+  const resolvedTarget = targetValue ?? (dataMode === "synthetic" ? 2 : undefined);
 
   return (
-    <SectionFrame className="derm-wound" label="Trajectoire de plaie">
+    <SectionFrame
+      className="derm-wound"
+      label="Trajectoire de plaie"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Plaies, brûlures et cicatrisation"
         title="Trajectoire de surface"
@@ -68,7 +76,11 @@ export function WoundTrajectory({
           </div>
           <div>
             <span>Objectif</span>
-            <strong>≤ {targetValue.toLocaleString("fr-FR")} cm²</strong>
+            <strong>
+              {resolvedTarget === undefined
+                ? "Non renseigné"
+                : `≤ ${resolvedTarget.toLocaleString("fr-FR")} cm²`}
+            </strong>
           </div>
         </div>
 
@@ -149,8 +161,11 @@ export function WoundTrajectory({
         </div>
         <p className="derm-clinical-note">
           <span aria-hidden="true">i</span>
-          Tendance synthétique favorable. La projection n’est pas une observation clinique et doit
-          être confirmée lors de la visite prévue.
+          {dataMode === "synthetic"
+            ? "Tendance synthétique favorable. "
+            : "La tendance est calculée depuis les mesures documentées. "}
+          La projection n’est pas une observation clinique et doit être confirmée lors de la visite
+          prévue.
         </p>
       </DermatologyStateSurface>
     </SectionFrame>

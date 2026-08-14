@@ -49,6 +49,7 @@ function BodyMapInteractionHarness() {
   return (
     <StoryColumn>
       <BodyLesionMap
+        dataMode="synthetic"
         lesions={syntheticLesions}
         selectedLesionId={selectedId}
         onSelectLesion={(lesion) => setSelectedId(lesion.id ?? "")}
@@ -96,13 +97,14 @@ export const BodyLesionMapNominal: Story = {
 };
 
 export const BodyLesionMapLoading: Story = {
-  render: () => <BodyLesionMap lesions={syntheticLesions} state="loading" />,
+  render: () => <BodyLesionMap dataMode="synthetic" lesions={syntheticLesions} state="loading" />,
 };
 
 export const LesionLongitudinalCardNominal: Story = {
   render: () => (
     <StoryColumn>
       <LesionLongitudinalCard
+        dataMode="synthetic"
         lesion={syntheticPrimaryLesion}
         observations={syntheticLesionMeasurements}
       />
@@ -111,13 +113,14 @@ export const LesionLongitudinalCardNominal: Story = {
 };
 
 export const LesionLongitudinalCardEmpty: Story = {
-  render: () => <LesionLongitudinalCard observations={[]} state="empty" />,
+  render: () => <LesionLongitudinalCard dataMode="synthetic" observations={[]} state="empty" />,
 };
 
 export const DermoscopicComparisonViewerNominal: Story = {
   render: () => (
     <StoryColumn>
       <DermoscopicComparisonViewer
+        dataMode="synthetic"
         documents={syntheticDermoscopyDocuments}
         consent={syntheticImageConsent}
         lesionLabel="LES-024"
@@ -137,6 +140,7 @@ export const DermoscopicComparisonViewerNominal: Story = {
 export const DermoscopicComparisonViewerMissingImage: Story = {
   render: () => (
     <DermoscopicComparisonViewer
+      dataMode="synthetic"
       documents={[]}
       consent={syntheticImageConsent}
       stateMessage="Aucune dermoscopie n’a été jointe à LES-024. La saisie clinique reste disponible."
@@ -147,6 +151,7 @@ export const DermoscopicComparisonViewerMissingImage: Story = {
 export const DermoscopicComparisonViewerForbidden: Story = {
   render: () => (
     <DermoscopicComparisonViewer
+      dataMode="synthetic"
       documents={syntheticDermoscopyDocuments}
       stateMessage="Le consentement image actif est absent ou ne permet pas cet usage."
     />
@@ -156,6 +161,7 @@ export const DermoscopicComparisonViewerForbidden: Story = {
 export const PhotographyQualityGateNominal: Story = {
   render: () => (
     <PhotographyQualityGate
+      dataMode="synthetic"
       checks={syntheticPhotographyQuality.filter((check) => check.valueBoolean)}
       onDecision={fn()}
     />
@@ -169,7 +175,13 @@ export const PhotographyQualityGateNominal: Story = {
 };
 
 export const PhotographyQualityGateInsufficient: Story = {
-  render: () => <PhotographyQualityGate checks={syntheticPhotographyQuality} onDecision={fn()} />,
+  render: () => (
+    <PhotographyQualityGate
+      dataMode="synthetic"
+      checks={syntheticPhotographyQuality}
+      onDecision={fn()}
+    />
+  ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Qualité insuffisante")).toBeVisible();
@@ -180,7 +192,7 @@ export const PhotographyQualityGateInsufficient: Story = {
 export const WoundTrajectoryNominal: Story = {
   render: () => (
     <StoryColumn>
-      <WoundTrajectory observations={syntheticWoundTrajectory} />
+      <WoundTrajectory dataMode="synthetic" observations={syntheticWoundTrajectory} />
     </StoryColumn>
   ),
 };
@@ -188,6 +200,7 @@ export const WoundTrajectoryNominal: Story = {
 export const WoundTrajectoryError: Story = {
   render: () => (
     <WoundTrajectory
+      dataMode="synthetic"
       observations={syntheticWoundTrajectory}
       state="error"
       stateMessage="La série de mesures de surface n’a pas pu être chargée."
@@ -199,6 +212,7 @@ export const InflammatoryScoreWorkbenchNominal: Story = {
   render: () => (
     <StoryColumn>
       <InflammatoryScoreWorkbench
+        dataMode="synthetic"
         observations={syntheticInflammatoryScores}
         phototype={syntheticPhototype}
       />
@@ -209,18 +223,19 @@ export const InflammatoryScoreWorkbenchNominal: Story = {
 export const InflammatoryScoreWorkbenchMissingPhototype: Story = {
   render: () => (
     <StoryColumn>
-      <InflammatoryScoreWorkbench observations={syntheticInflammatoryScores} />
+      <InflammatoryScoreWorkbench dataMode="synthetic" observations={syntheticInflammatoryScores} />
     </StoryColumn>
   ),
 };
 
 export const InflammatoryScoreWorkbenchEmpty: Story = {
-  render: () => <InflammatoryScoreWorkbench observations={[]} state="empty" />,
+  render: () => <InflammatoryScoreWorkbench dataMode="synthetic" observations={[]} state="empty" />,
 };
 
 export const PigmentedLesionWorkbenchPreliminary: Story = {
   render: () => (
     <PigmentedLesionWorkbench
+      dataMode="synthetic"
       lesion={syntheticPrimaryLesion}
       assessment={syntheticPigmentedAssessment}
       onEscalate={fn()}
@@ -236,6 +251,7 @@ export const PigmentedLesionWorkbenchPreliminary: Story = {
 export const PigmentedLesionWorkbenchForbidden: Story = {
   render: () => (
     <PigmentedLesionWorkbench
+      dataMode="synthetic"
       lesion={syntheticPrimaryLesion}
       assessment={syntheticPigmentedAssessment}
       state="forbidden"
@@ -245,7 +261,11 @@ export const PigmentedLesionWorkbenchForbidden: Story = {
 
 export const DermatologyProcedureTimelineNominal: Story = {
   render: () => (
-    <DermatologyProcedureTimeline procedures={syntheticProcedures} onAddProcedure={fn()} />
+    <DermatologyProcedureTimeline
+      dataMode="synthetic"
+      procedures={syntheticProcedures}
+      onAddProcedure={fn()}
+    />
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -255,12 +275,13 @@ export const DermatologyProcedureTimelineNominal: Story = {
 };
 
 export const DermatologyProcedureTimelineEmpty: Story = {
-  render: () => <DermatologyProcedureTimeline procedures={[]} state="empty" />,
+  render: () => <DermatologyProcedureTimeline dataMode="synthetic" procedures={[]} state="empty" />,
 };
 
 export const TreatmentSafetyPanelNominal: Story = {
   render: () => (
     <TreatmentSafetyPanel
+      dataMode="synthetic"
       treatments={syntheticTreatments}
       monitoring={syntheticSafetyMonitoring}
       onPlanMonitoring={fn()}
@@ -276,12 +297,23 @@ export const TreatmentSafetyPanelNominal: Story = {
 
 export const TreatmentSafetyPanelLoading: Story = {
   render: () => (
-    <TreatmentSafetyPanel treatments={syntheticTreatments} monitoring={[]} state="loading" />
+    <TreatmentSafetyPanel
+      dataMode="synthetic"
+      treatments={syntheticTreatments}
+      monitoring={[]}
+      state="loading"
+    />
   ),
 };
 
 export const DermatologyVigilanceBoardCritical: Story = {
-  render: () => <DermatologyVigilanceBoard issues={syntheticVigilanceIssues} onAction={fn()} />,
+  render: () => (
+    <DermatologyVigilanceBoard
+      dataMode="synthetic"
+      issues={syntheticVigilanceIssues}
+      onAction={fn()}
+    />
+  ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Critique")).toBeVisible();
@@ -292,6 +324,7 @@ export const DermatologyVigilanceBoardCritical: Story = {
 export const DermatologyVigilanceBoardError: Story = {
   render: () => (
     <DermatologyVigilanceBoard
+      dataMode="synthetic"
       issues={syntheticVigilanceIssues}
       state="error"
       stateMessage="Les vigilances ne peuvent pas être consolidées pour le moment."
@@ -302,7 +335,7 @@ export const DermatologyVigilanceBoardError: Story = {
 export const IntegratedSyntheticEpisode: Story = {
   render: () => (
     <StoryColumn>
-      <BodyLesionMap lesions={syntheticLesions} initialView="posterior" />
+      <BodyLesionMap dataMode="synthetic" lesions={syntheticLesions} initialView="posterior" />
       <div
         style={{
           display: "grid",
@@ -311,28 +344,106 @@ export const IntegratedSyntheticEpisode: Story = {
         }}
       >
         <LesionLongitudinalCard
+          dataMode="synthetic"
           lesion={syntheticPrimaryLesion}
           observations={syntheticLesionMeasurements}
         />
         <PigmentedLesionWorkbench
+          dataMode="synthetic"
           lesion={syntheticPrimaryLesion}
           assessment={syntheticPigmentedAssessment}
         />
       </div>
       <DermoscopicComparisonViewer
+        dataMode="synthetic"
         documents={syntheticDermoscopyDocuments}
         consent={syntheticImageConsent}
         lesionLabel="LES-024"
       />
-      <PhotographyQualityGate checks={syntheticPhotographyQuality} />
-      <WoundTrajectory observations={syntheticWoundTrajectory} />
-      <InflammatoryScoreWorkbench observations={syntheticInflammatoryScores} />
-      <DermatologyProcedureTimeline procedures={syntheticProcedures} />
+      <PhotographyQualityGate dataMode="synthetic" checks={syntheticPhotographyQuality} />
+      <WoundTrajectory dataMode="synthetic" observations={syntheticWoundTrajectory} />
+      <InflammatoryScoreWorkbench dataMode="synthetic" observations={syntheticInflammatoryScores} />
+      <DermatologyProcedureTimeline dataMode="synthetic" procedures={syntheticProcedures} />
       <TreatmentSafetyPanel
+        dataMode="synthetic"
         treatments={syntheticTreatments}
         monitoring={syntheticSafetyMonitoring}
       />
-      <DermatologyVigilanceBoard issues={syntheticVigilanceIssues} />
+      <DermatologyVigilanceBoard dataMode="synthetic" issues={syntheticVigilanceIssues} />
     </StoryColumn>
   ),
+};
+
+export const IntegratedEmbeddedClinicalContract: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Contrat d’intégration hôte : les titres de modules sont délégués, les surfaces sont neutralisées et aucune provenance synthétique n’est affichée.",
+      },
+    },
+  },
+  render: () => (
+    <StoryColumn>
+      <BodyLesionMap dataMode="clinical" presentation="embedded" lesions={syntheticLesions} />
+      <LesionLongitudinalCard
+        dataMode="clinical"
+        presentation="embedded"
+        lesion={syntheticPrimaryLesion}
+        observations={syntheticLesionMeasurements}
+      />
+      <DermoscopicComparisonViewer
+        dataMode="clinical"
+        presentation="embedded"
+        documents={syntheticDermoscopyDocuments}
+        consent={syntheticImageConsent}
+      />
+      <PhotographyQualityGate
+        dataMode="clinical"
+        presentation="embedded"
+        checks={syntheticPhotographyQuality}
+      />
+      <WoundTrajectory
+        dataMode="clinical"
+        presentation="embedded"
+        observations={syntheticWoundTrajectory}
+      />
+      <InflammatoryScoreWorkbench
+        dataMode="clinical"
+        presentation="embedded"
+        observations={syntheticInflammatoryScores}
+        phototype={syntheticPhototype}
+      />
+      <PigmentedLesionWorkbench
+        dataMode="clinical"
+        presentation="embedded"
+        lesion={syntheticPrimaryLesion}
+        assessment={syntheticPigmentedAssessment}
+      />
+      <DermatologyProcedureTimeline
+        dataMode="clinical"
+        presentation="embedded"
+        procedures={syntheticProcedures}
+      />
+      <TreatmentSafetyPanel
+        dataMode="clinical"
+        presentation="embedded"
+        treatments={syntheticTreatments}
+        monitoring={syntheticSafetyMonitoring}
+      />
+      <DermatologyVigilanceBoard
+        dataMode="clinical"
+        presentation="embedded"
+        issues={syntheticVigilanceIssues}
+      />
+    </StoryColumn>
+  ),
+  play: async ({ canvasElement }) => {
+    await expect(
+      canvasElement.querySelectorAll('section[data-mode="clinical"][data-presentation="embedded"]'),
+    ).toHaveLength(10);
+    await expect(canvasElement.querySelectorAll("h2")).toHaveLength(0);
+    await expect(canvasElement.textContent).not.toContain("Données synthétiques");
+    await expect(canvasElement.textContent).not.toContain("SYNTHÉTIQUE");
+  },
 };

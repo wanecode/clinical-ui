@@ -18,6 +18,8 @@ export function DermatologyVigilanceBoard({
   onAction,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: DermatologyVigilanceBoardProps) {
   const ordered = [...issues].sort((a, b) => {
     const rank = { high: 0, moderate: 1, low: 2 } as const;
@@ -26,7 +28,12 @@ export function DermatologyVigilanceBoard({
   const resolvedState = state === "ready" && issues.length === 0 ? "empty" : state;
 
   return (
-    <SectionFrame className="derm-vigilance" label="Vigilances dermatologiques">
+    <SectionFrame
+      className="derm-vigilance"
+      label="Vigilances dermatologiques"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Coordination & populations particulières"
         title="Vigilances"

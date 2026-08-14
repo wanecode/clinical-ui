@@ -39,10 +39,17 @@ export function PigmentedLesionWorkbench({
   onEscalate,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: PigmentedLesionWorkbenchProps) {
   const resolvedState = state === "ready" && (!lesion || !assessment) ? "empty" : state;
   return (
-    <SectionFrame className="derm-pigmented" label="Évaluation de lésion pigmentée">
+    <SectionFrame
+      className="derm-pigmented"
+      label="Évaluation de lésion pigmentée"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Lésions pigmentées"
         title={lesion ? `${lesionId(lesion)} · ABCDE` : "Évaluation ABCDE"}

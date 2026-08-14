@@ -4,6 +4,7 @@ import type { DermatologyObservation, DermatologyStateProps } from "./types";
 
 const scoreDefinitions = [
   { code: "pasi", label: "PASI", ceiling: 72, context: "Psoriasis" },
+  { code: "easi", label: "EASI", ceiling: 72, context: "Dermatite atopique" },
   { code: "scorad", label: "SCORAD", ceiling: 103, context: "Dermatite atopique" },
   { code: "dlqi", label: "DLQI", ceiling: 30, context: "Qualité de vie" },
   { code: "body-surface-area", label: "Surface", ceiling: 100, context: "Corps atteint" },
@@ -19,11 +20,18 @@ export function InflammatoryScoreWorkbench({
   phototype,
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: InflammatoryScoreWorkbenchProps) {
   const resolvedState = state === "ready" && observations.length === 0 ? "empty" : state;
 
   return (
-    <SectionFrame className="derm-inflammatory" label="Scores inflammatoires">
+    <SectionFrame
+      className="derm-inflammatory"
+      label="Scores inflammatoires"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Dermatoses inflammatoires"
         title="Scores & surfaces datés"
@@ -58,7 +66,11 @@ export function InflammatoryScoreWorkbench({
         <div className="derm-score-grid">
           {scoreDefinitions.map((definition) => {
             const scoreObservations = observations
-              .filter((observation) => conceptCode(observation.code) === definition.code)
+              .filter(
+                (observation) =>
+                  conceptCode(observation.code) === definition.code &&
+                  observation.valueQuantity?.value !== undefined,
+              )
               .sort((a, b) => (a.effectiveDateTime ?? "").localeCompare(b.effectiveDateTime ?? ""));
             const first = scoreObservations[0]?.valueQuantity?.value;
             const latest = scoreObservations.at(-1);

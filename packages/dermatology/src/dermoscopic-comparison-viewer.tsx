@@ -20,6 +20,11 @@ function documentTexture(document: DermatologyDocumentReference | undefined) {
   );
 }
 
+function documentPreviewUrl(document: DermatologyDocumentReference | undefined) {
+  const url = document?.content[0]?.attachment.url;
+  return url && /^(https?:|blob:|data:image\/|\/)/.test(url) ? url : undefined;
+}
+
 export interface DermoscopicComparisonViewerProps extends DermatologyStateProps {
   documents: DermatologyDocumentReference[];
   consent?: DermatologyConsent;
@@ -34,6 +39,8 @@ export function DermoscopicComparisonViewer({
   initialImageMode = "visible",
   state = "ready",
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: DermoscopicComparisonViewerProps) {
   const [imagesVisible, setImagesVisible] = useState(initialImageMode === "visible");
   const [comparePosition, setComparePosition] = useState(50);
@@ -52,7 +59,12 @@ export function DermoscopicComparisonViewer({
         : state;
 
   return (
-    <SectionFrame className="derm-viewer" label="Comparaison dermoscopique">
+    <SectionFrame
+      className="derm-viewer"
+      label="Comparaison dermoscopique"
+      dataMode={dataMode}
+      presentation={presentation}
+    >
       <PanelHeading
         eyebrow="Table lumineuse · FHIR DocumentReference"
         title="Comparaison dermoscopique"
@@ -84,10 +96,25 @@ export function DermoscopicComparisonViewer({
                     </div>
                     <ReportStatus status={before.docStatus} />
                   </header>
-                  <div className="derm-dermoscopy-image" data-texture={documentTexture(before)}>
-                    <span className="derm-dermoscopy-image__scale">0 · 5 · 10 mm</span>
-                    <span className="derm-dermoscopy-image__label">SYNTHÉTIQUE</span>
-                  </div>
+                  {dataMode === "synthetic" ? (
+                    <div className="derm-dermoscopy-image" data-texture={documentTexture(before)}>
+                      <span className="derm-dermoscopy-image__scale">0 · 5 · 10 mm</span>
+                      <span className="derm-dermoscopy-image__label">SYNTHÉTIQUE</span>
+                    </div>
+                  ) : documentPreviewUrl(before) ? (
+                    <img
+                      className="derm-clinical-image"
+                      src={documentPreviewUrl(before)}
+                      alt={
+                        before.description ?? `Dermoscopie du ${formatClinicalDate(before.date)}`
+                      }
+                    />
+                  ) : (
+                    <div className="derm-image-unavailable" role="status">
+                      <span aria-hidden="true">▧</span>
+                      <strong>Aperçu non transmis</strong>
+                    </div>
+                  )}
                   <p>{before.description}</p>
                 </article>
 
@@ -112,10 +139,23 @@ export function DermoscopicComparisonViewer({
                     </div>
                     <ReportStatus status={after.docStatus} />
                   </header>
-                  <div className="derm-dermoscopy-image" data-texture={documentTexture(after)}>
-                    <span className="derm-dermoscopy-image__scale">0 · 5 · 10 mm</span>
-                    <span className="derm-dermoscopy-image__label">SYNTHÉTIQUE</span>
-                  </div>
+                  {dataMode === "synthetic" ? (
+                    <div className="derm-dermoscopy-image" data-texture={documentTexture(after)}>
+                      <span className="derm-dermoscopy-image__scale">0 · 5 · 10 mm</span>
+                      <span className="derm-dermoscopy-image__label">SYNTHÉTIQUE</span>
+                    </div>
+                  ) : documentPreviewUrl(after) ? (
+                    <img
+                      className="derm-clinical-image"
+                      src={documentPreviewUrl(after)}
+                      alt={after.description ?? `Dermoscopie du ${formatClinicalDate(after.date)}`}
+                    />
+                  ) : (
+                    <div className="derm-image-unavailable" role="status">
+                      <span aria-hidden="true">▧</span>
+                      <strong>Aperçu non transmis</strong>
+                    </div>
+                  )}
                   <p>{after.description}</p>
                 </article>
               </div>
@@ -155,7 +195,10 @@ export function DermoscopicComparisonViewer({
               <div>
                 <dt>Intégrité</dt>
                 <dd>
-                  <span aria-hidden="true">◇</span> Fixture synthétique vérifiée
+                  <span aria-hidden="true">◇</span>{" "}
+                  {dataMode === "synthetic"
+                    ? "Fixture synthétique vérifiée"
+                    : `Source FHIR documentée${after.meta?.versionId ? ` · version ${after.meta.versionId}` : ""}`}
                 </dd>
               </div>
             </dl>

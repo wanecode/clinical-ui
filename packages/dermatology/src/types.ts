@@ -10,6 +10,15 @@ import type {
 export type DermatologyViewState = "ready" | "loading" | "empty" | "error" | "forbidden";
 export type DermatologyDataOrigin = "observed" | "imported" | "derived" | "projected";
 export type BodyMapView = "anterior" | "posterior" | "left-lateral" | "right-lateral";
+export type DermatologyDataMode = "clinical" | "synthetic";
+export type DermatologyPresentation = "standalone" | "embedded";
+
+export interface DermatologyHostPresentationProps {
+  /** Explicitly identifies whether the host supplied clinical data or demo fixtures. */
+  dataMode?: DermatologyDataMode;
+  /** Embedded workbenches delegate their module heading and outer surface to the host. */
+  presentation?: DermatologyPresentation;
+}
 
 export interface DermatologyExtension {
   url: string;
@@ -249,7 +258,7 @@ export interface LesionPlacement {
   y: number;
 }
 
-export interface DermatologyStateProps {
+export interface DermatologyStateProps extends DermatologyHostPresentationProps {
   state?: DermatologyViewState;
   stateMessage?: string;
 }
