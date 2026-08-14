@@ -5,9 +5,9 @@ domain_slug="${1:-}"
 foundation_ref="${2:-main}"
 
 case "$domain_slug" in
-  ophthalmology|ent|odontology|dermatology|cardiology) ;;
+  ophthalmology|ent|odontology|dermatology|cardiology|pediatrics|gynecology-obstetrics) ;;
   *)
-    echo "Usage: $0 {ophthalmology|ent|odontology|dermatology|cardiology} [foundation-ref]" >&2
+    echo "Usage: $0 {ophthalmology|ent|odontology|dermatology|cardiology|pediatrics|gynecology-obstetrics} [foundation-ref]" >&2
     exit 64
     ;;
 esac

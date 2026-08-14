@@ -6,9 +6,9 @@ requested_target="${2:-}"
 foundation_branch="${CLINICAL_UI_FOUNDATION_BRANCH:-main}"
 
 case "$domain_slug" in
-  ophthalmology|ent|odontology|dermatology|cardiology) ;;
+  ophthalmology|ent|odontology|dermatology|cardiology|pediatrics|gynecology-obstetrics) ;;
   *)
-    echo "Usage: $0 {ophthalmology|ent|odontology|dermatology|cardiology} [target-path]" >&2
+    echo "Usage: $0 {ophthalmology|ent|odontology|dermatology|cardiology|pediatrics|gynecology-obstetrics} [target-path]" >&2
     exit 64
     ;;
 esac

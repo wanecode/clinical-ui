@@ -10,7 +10,9 @@ main
 ├── feature/ent
 ├── feature/odontology
 ├── feature/dermatology
-└── feature/cardiology
+├── feature/cardiology
+├── feature/pediatrics
+└── feature/gynecology-obstetrics
 ```
 
 ## Create a worktree
@@ -20,6 +22,8 @@ From a clean checkout:
 ```bash
 scripts/create-domain-worktree.sh ophthalmology
 scripts/create-domain-worktree.sh ent
+scripts/create-domain-worktree.sh pediatrics
+scripts/create-domain-worktree.sh gynecology-obstetrics
 ```
 
 The default target is a sibling directory named `clinical-ui-<domain>`. An
