@@ -7,7 +7,7 @@ const meta = {
   title: "Odontology/SafeDentalPrescription",
   component: SafeDentalPrescription,
   tags: ["autodocs", "test"],
-  args: { prescription: syntheticDentalPrescription },
+  args: { prescription: syntheticDentalPrescription, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -28,6 +28,8 @@ export const AdultDraft: Story = {
     await expect(canvas.getByText("1 500 mg / jour")).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const PediatricWeightMissing: Story = {
   args: {

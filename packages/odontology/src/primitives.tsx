@@ -1,6 +1,8 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useId } from "react";
 import type {
+  DentalDataMode,
   DentalEvidenceKind,
+  DentalPresentation,
   DentalStateProps,
   DentalUiState,
   ToothStatus,
@@ -86,6 +88,8 @@ export function DentalPanel({
   actions,
   children,
   className,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: {
   eyebrow: string;
   title: string;
@@ -93,17 +97,38 @@ export function DentalPanel({
   actions?: ReactNode;
   children: ReactNode;
   className?: string;
+  dataMode?: DentalDataMode;
+  presentation?: DentalPresentation;
 }) {
+  const titleId = useId();
+  const meta = actions || dataMode === "synthetic";
   return (
-    <section className={["od-panel", className].filter(Boolean).join(" ")}>
-      <header className="od-panel__header">
-        <div>
-          <p className="od-eyebrow">{eyebrow}</p>
-          <h2>{title}</h2>
-          {description ? <p className="od-panel__description">{description}</p> : null}
+    <section
+      className={["od-panel", className].filter(Boolean).join(" ")}
+      data-mode={dataMode}
+      data-presentation={presentation}
+      {...(presentation === "embedded" ? { "aria-label": title } : { "aria-labelledby": titleId })}
+    >
+      {presentation === "standalone" ? (
+        <header className="od-panel__header">
+          <div>
+            <p className="od-eyebrow">{eyebrow}</p>
+            <h2 id={titleId}>{title}</h2>
+            {description ? <p className="od-panel__description">{description}</p> : null}
+          </div>
+          {meta ? (
+            <div className="od-panel__actions">
+              {actions}
+              {dataMode === "synthetic" ? <SyntheticFlag /> : null}
+            </div>
+          ) : null}
+        </header>
+      ) : meta ? (
+        <div className="od-panel__embedded-meta">
+          {actions}
+          {dataMode === "synthetic" ? <SyntheticFlag /> : null}
         </div>
-        {actions ? <div className="od-panel__actions">{actions}</div> : null}
-      </header>
+      ) : null}
       {children}
     </section>
   );

@@ -3,7 +3,6 @@ import {
   DentalPanel,
   DentalStateBoundary,
   EvidenceBadge,
-  SyntheticFlag,
   ToothStatusBadge,
   toothLateralityLabel,
   toothStatusConfig,
@@ -49,6 +48,8 @@ export function LongitudinalOdontogram({
   onSelectionChange,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: LongitudinalOdontogramProps) {
   const visibleTeeth = useMemo(
     () =>
@@ -288,8 +289,9 @@ export function LongitudinalOdontogram({
       eyebrow="Parcours bucco-dentaire"
       title="Odontogramme longitudinal"
       description="La dent et la face restent sélectionnables, historisées et identifiables au clavier."
-      actions={<SyntheticFlag />}
       className="od-panel--odontogram"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         {content}

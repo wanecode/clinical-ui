@@ -1,4 +1,4 @@
-import { DentalPanel, DentalStateBoundary, EvidenceBadge, SyntheticFlag } from "./primitives";
+import { DentalPanel, DentalStateBoundary, EvidenceBadge } from "./primitives";
 import type { DentalStateProps, TimelineEvent } from "./types";
 
 export interface ProsthesisImplantTimelineProps extends DentalStateProps {
@@ -18,17 +18,20 @@ const eventStatus = {
 export function ProsthesisImplantTimeline({
   tooth,
   events,
-  deviceLabel = "Implant synthétique Ø4,1 × 10 mm",
+  deviceLabel = "Dispositif implantaire",
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: ProsthesisImplantTimelineProps) {
   return (
     <DentalPanel
       eyebrow={`Prothèse / implant · ${tooth}`}
       title="Chronologie implantaire"
       description={deviceLabel}
-      actions={<SyntheticFlag />}
       className="od-panel--timeline"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <ol className="od-timeline">

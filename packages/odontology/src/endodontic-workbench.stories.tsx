@@ -7,7 +7,7 @@ const meta = {
   title: "Odontology/EndodonticWorkbench",
   component: EndodonticWorkbench,
   tags: ["autodocs", "test"],
-  args: { tooth: "16", canals: syntheticEndodonticCanals },
+  args: { tooth: "16", canals: syntheticEndodonticCanals, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -31,5 +31,7 @@ export const CanalMeasurements: Story = {
     await expect(canvas.getAllByText("Projeté", { selector: ".od-evidence" })[0]).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const Loading: Story = { args: { state: "loading" } };

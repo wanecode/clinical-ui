@@ -1,5 +1,6 @@
+// biome-ignore-all lint/a11y/noNoninteractiveTabindex: the horizontally scrollable clinical chart must be keyboard reachable
 import { useId, useState } from "react";
-import { DentalPanel, DentalStateBoundary, EvidenceBadge, SyntheticFlag } from "./primitives";
+import { DentalPanel, DentalStateBoundary, EvidenceBadge } from "./primitives";
 import type { DentalStateProps, PeriodontalSite } from "./types";
 
 export interface PeriodontalChartProps extends DentalStateProps {
@@ -12,6 +13,8 @@ export function PeriodontalChart({
   defaultView = "chart",
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: PeriodontalChartProps) {
   const [view, setView] = useState(defaultView);
   const tableId = useId();
@@ -40,6 +43,8 @@ export function PeriodontalChart({
         </fieldset>
       }
       className="od-panel--periodontal"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <div className="od-periodontal-summary">
@@ -59,11 +64,15 @@ export function PeriodontalChart({
             <strong>{Math.max(0, ...sites.map((site) => site.pocketDepth))} mm</strong>
             <span>Profondeur maximale</span>
           </div>
-          <SyntheticFlag />
         </div>
 
         {view === "chart" ? (
-          <div className="od-perio-chart" aria-describedby={`${tableId}-description`}>
+          <section
+            className="od-perio-chart"
+            aria-describedby={`${tableId}-description`}
+            aria-label="Graphique parodontal à défilement horizontal"
+            tabIndex={0}
+          >
             <p id={`${tableId}-description`} className="od-sr-only">
               Graphique de profondeurs parodontales. Le tableau propose les mêmes valeurs.
             </p>
@@ -106,7 +115,7 @@ export function PeriodontalChart({
                 </section>
               );
             })}
-          </div>
+          </section>
         ) : null}
 
         <div className={view === "table" ? "od-table-scroll" : "od-sr-only"} id={tableId}>

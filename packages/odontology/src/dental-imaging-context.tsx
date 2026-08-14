@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DentalPanel, DentalStateBoundary, EvidenceBadge, SyntheticFlag } from "./primitives";
+import { DentalPanel, DentalStateBoundary, EvidenceBadge } from "./primitives";
 import type { DentalImagingItem, DentalStateProps } from "./types";
 
 export interface DentalImagingContextProps extends DentalStateProps {
@@ -22,6 +22,8 @@ export function DentalImagingContext({
   onImageChange,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: DentalImagingContextProps) {
   const [activeId, setActiveId] = useState(selectedImage ?? images[0]?.id);
   const active = images.find((image) => image.id === activeId) ?? images[0];
@@ -33,9 +35,10 @@ export function DentalImagingContext({
     <DentalPanel
       eyebrow="Imagerie et provenance"
       title="Contexte dentaire multimodal"
-      description="Les aperçus synthétiques conservent modalité, région, date et source visibles."
-      actions={<SyntheticFlag />}
+      description="Chaque média conserve sa modalité, sa région, sa date et sa provenance visibles."
       className="od-panel--imaging"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         {active ? (
@@ -45,24 +48,37 @@ export function DentalImagingContext({
                 <strong>{active.title}</strong>
                 <EvidenceBadge kind={active.evidence} />
               </div>
-              <div
-                className="od-radiograph"
-                role="img"
-                aria-label={`Aperçu ${modalityLabels[active.modality]} entièrement synthétique de ${active.region}`}
-              >
-                <span
-                  className="od-radiograph__arch od-radiograph__arch--upper"
-                  aria-hidden="true"
+              {dataMode === "synthetic" ? (
+                <div
+                  className="od-radiograph"
+                  role="img"
+                  aria-label={`Aperçu ${modalityLabels[active.modality]} entièrement synthétique de ${active.region}`}
+                >
+                  <span
+                    className="od-radiograph__arch od-radiograph__arch--upper"
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="od-radiograph__arch od-radiograph__arch--lower"
+                    aria-hidden="true"
+                  />
+                  <span className="od-radiograph__marker" aria-hidden="true">
+                    R
+                  </span>
+                  <strong>IMAGE SYNTHÉTIQUE</strong>
+                </div>
+              ) : active.previewUrl ? (
+                <img
+                  className="od-radiograph"
+                  src={active.previewUrl}
+                  alt={`${modalityLabels[active.modality]} de ${active.region}`}
                 />
-                <span
-                  className="od-radiograph__arch od-radiograph__arch--lower"
-                  aria-hidden="true"
-                />
-                <span className="od-radiograph__marker" aria-hidden="true">
-                  R
-                </span>
-                <strong>IMAGE SYNTHÉTIQUE</strong>
-              </div>
+              ) : (
+                <div className="od-radiograph" data-state="unavailable" role="status">
+                  <strong>Aperçu non transmis</strong>
+                  <span>Les métadonnées restent consultables.</span>
+                </div>
+              )}
               <dl>
                 <div>
                   <dt>Modalité</dt>

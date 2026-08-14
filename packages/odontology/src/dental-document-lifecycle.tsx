@@ -1,4 +1,4 @@
-import { DentalPanel, DentalStateBoundary, SyntheticFlag } from "./primitives";
+import { DentalPanel, DentalStateBoundary } from "./primitives";
 import type { DentalDocumentStatus, DentalDocumentVersion, DentalStateProps } from "./types";
 
 const documentStatus: Record<DentalDocumentStatus, { symbol: string; label: string }> = {
@@ -18,14 +18,17 @@ export function DentalDocumentLifecycle({
   documents,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: DentalDocumentLifecycleProps) {
   return (
     <DentalPanel
       eyebrow="Traçabilité documentaire"
       title="Cycle de vie des documents"
       description="Les versions remplacées restent identifiables sans être confondues avec la version courante."
-      actions={<SyntheticFlag />}
       className="od-panel--documents"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <ol className="od-document-flow">

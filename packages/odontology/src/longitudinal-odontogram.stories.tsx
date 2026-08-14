@@ -14,6 +14,7 @@ const meta = {
     dentition: "permanent",
     selectedTooth: "16",
     selectedSurface: "occlusal",
+    dataMode: "synthetic",
   },
   argTypes: {
     dentition: { control: "inline-radio", options: ["permanent", "primary", "mixed"] },
@@ -46,6 +47,8 @@ export const PermanentDentition: Story = {
     await expect(canvas.getByText("Lésion carieuse occlusale")).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const KeyboardNavigation: Story = {
   play: async ({ canvasElement }) => {

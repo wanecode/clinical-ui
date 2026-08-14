@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  DentalPanel,
-  DentalStateBoundary,
-  EvidenceBadge,
-  EvidenceLegend,
-  SyntheticFlag,
-} from "./primitives";
+import { DentalPanel, DentalStateBoundary, EvidenceBadge, EvidenceLegend } from "./primitives";
 import type { DentalStateProps, EndodonticCanal } from "./types";
 
 export interface EndodonticWorkbenchProps extends DentalStateProps {
@@ -29,6 +23,8 @@ export function EndodonticWorkbench({
   onCanalUpdate,
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: EndodonticWorkbenchProps) {
   const [values, setValues] = useState<Record<string, number | undefined>>(
     Object.fromEntries(canals.map((canal) => [canal.id, canal.observedLength])),
@@ -44,8 +40,9 @@ export function EndodonticWorkbench({
       eyebrow={`Endodontie · dent ${tooth}`}
       title="Mesures canalaires"
       description="Longueurs observées et trajectoires projetées restent distinctes jusqu'à validation."
-      actions={<SyntheticFlag />}
       className="od-panel--endo"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <div className="od-endo-layout">

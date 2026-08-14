@@ -1,10 +1,4 @@
-import {
-  DentalPanel,
-  DentalStateBoundary,
-  EvidenceBadge,
-  SyntheticFlag,
-  ToothStatusBadge,
-} from "./primitives";
+import { DentalPanel, DentalStateBoundary, EvidenceBadge, ToothStatusBadge } from "./primitives";
 import type { DentalStateProps, PeriodontalSite, ToothRecord } from "./types";
 
 export interface OralHealthSummaryProps extends DentalStateProps {
@@ -23,6 +17,8 @@ export function OralHealthSummary({
   functionalNote = "Mastication bilatérale conservée",
   state,
   stateMessage,
+  dataMode = "clinical",
+  presentation = "standalone",
 }: OralHealthSummaryProps) {
   const activeConditions = teeth.filter((tooth) => tooth.status === "caries");
   const restorations = teeth.filter((tooth) =>
@@ -52,13 +48,14 @@ export function OralHealthSummary({
       eyebrow="Santé orale · synthèse"
       title="Lecture clinique en un regard"
       description="Indicateurs calculés à partir des ressources affichées, sans masquer leur origine."
-      actions={<SyntheticFlag />}
       className="od-panel--summary"
+      dataMode={dataMode}
+      presentation={presentation}
     >
       <DentalStateBoundary state={state} stateMessage={stateMessage}>
         <div className="od-health-summary">
           <div className="od-health-summary__score">
-            <span>Indice synthétique</span>
+            <span>Indice composite</span>
             <strong>
               {Math.max(0, 100 - activeConditions.length * 12 - Math.round(bleedingRate / 4))}
             </strong>

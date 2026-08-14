@@ -6,7 +6,7 @@ const meta = {
   title: "Odontology/DentalDocumentLifecycle",
   component: DentalDocumentLifecycle,
   tags: ["autodocs", "test"],
-  args: { documents: syntheticDocumentVersions },
+  args: { documents: syntheticDocumentVersions, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -21,4 +21,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const SignedAndSuperseded: Story = {};
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 export const NoDocuments: Story = { args: { documents: [], state: "empty" } };

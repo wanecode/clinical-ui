@@ -7,7 +7,7 @@ const meta = {
   title: "Odontology/DentalImagingContext",
   component: DentalImagingContext,
   tags: ["autodocs", "test"],
-  args: { images: syntheticDentalImages },
+  args: { images: syntheticDentalImages, dataMode: "synthetic" },
   parameters: {
     docs: {
       description: {
@@ -30,5 +30,7 @@ export const MultimodalContext: Story = {
     await expect(canvas.getByRole("img", { name: /CBCT entièrement synthétique/ })).toBeVisible();
   },
 };
+
+export const EmbeddedClinical: Story = { args: { dataMode: "clinical", presentation: "embedded" } };
 
 export const AcquisitionError: Story = { args: { state: "error" } };
