@@ -18,6 +18,8 @@ body:
         - Odontology
         - Dermatology
         - Cardiology
+        - Pediatrics
+        - Gynecology / Obstetrics
         - Cross-specialty
     validations:
       required: true
