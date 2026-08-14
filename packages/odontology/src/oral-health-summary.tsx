@@ -12,7 +12,7 @@ export interface OralHealthSummaryProps extends DentalStateProps {
 export function OralHealthSummary({
   teeth,
   periodontalSites,
-  painScore = 0,
+  painScore,
   hygieneLabel = "À renforcer",
   functionalNote = "Mastication bilatérale conservée",
   state,
@@ -39,7 +39,11 @@ export function OralHealthSummary({
       value: bleedingRate > 20 ? "À surveiller" : "Stable",
       symbol: bleedingRate > 20 ? "!" : "✓",
     },
-    { label: "Douleur rapportée", value: `${painScore} / 10`, symbol: painScore > 3 ? "!" : "○" },
+    {
+      label: "Douleur rapportée",
+      value: painScore === undefined ? "Non renseignée" : `${painScore} / 10`,
+      symbol: painScore === undefined ? "—" : painScore > 3 ? "!" : "○",
+    },
     { label: "Hygiène", value: hygieneLabel, symbol: "✦" },
   ];
 

@@ -14,8 +14,8 @@ export function OrthodonticWorkbench({
   events,
   currentStep,
   totalSteps,
-  overjetMm = 3.2,
-  overbitePercent = 30,
+  overjetMm,
+  overbitePercent,
   state,
   stateMessage,
   dataMode = "clinical",
@@ -37,13 +37,17 @@ export function OrthodonticWorkbench({
         <div className="od-ortho-measures">
           <div>
             <span>Surplomb</span>
-            <strong>{overjetMm.toFixed(1)} mm</strong>
-            <EvidenceBadge kind="observed" />
+            <strong>
+              {overjetMm === undefined ? "Non renseigné" : `${overjetMm.toFixed(1)} mm`}
+            </strong>
+            {overjetMm === undefined ? null : <EvidenceBadge kind="observed" />}
           </div>
           <div>
             <span>Recouvrement</span>
-            <strong>{overbitePercent} %</strong>
-            <EvidenceBadge kind="observed" />
+            <strong>
+              {overbitePercent === undefined ? "Non renseigné" : `${overbitePercent} %`}
+            </strong>
+            {overbitePercent === undefined ? null : <EvidenceBadge kind="observed" />}
           </div>
           <div>
             <span>Progression</span>
