@@ -4,6 +4,7 @@ import type { DermatologyObservation, DermatologyStateProps } from "./types";
 
 const scoreDefinitions = [
   { code: "pasi", label: "PASI", ceiling: 72, context: "Psoriasis" },
+  { code: "easi", label: "EASI", ceiling: 72, context: "Dermatite atopique" },
   { code: "scorad", label: "SCORAD", ceiling: 103, context: "Dermatite atopique" },
   { code: "dlqi", label: "DLQI", ceiling: 30, context: "Qualité de vie" },
   { code: "body-surface-area", label: "Surface", ceiling: 100, context: "Corps atteint" },

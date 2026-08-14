@@ -22,7 +22,7 @@ function documentTexture(document: DermatologyDocumentReference | undefined) {
 
 function documentPreviewUrl(document: DermatologyDocumentReference | undefined) {
   const url = document?.content[0]?.attachment.url;
-  return url && !url.startsWith("urn:") ? url : undefined;
+  return url && /^(https?:|blob:|data:image\/|\/)/.test(url) ? url : undefined;
 }
 
 export interface DermoscopicComparisonViewerProps extends DermatologyStateProps {

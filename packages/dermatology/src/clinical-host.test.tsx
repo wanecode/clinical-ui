@@ -85,6 +85,7 @@ describe("dermatology clinical host contract", () => {
     expect(markup).toContain("Aperçu non transmis");
     expect(markup).not.toContain("SYNTHÉTIQUE");
     expect(markup).not.toContain("data-texture");
+    expect(markup).not.toContain('<img src="ImagingStudy/');
   });
 
   it("keeps fixture provenance explicit only when synthetic mode is requested", () => {
