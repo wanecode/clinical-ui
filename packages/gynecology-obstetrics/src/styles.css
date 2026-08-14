@@ -1,0 +1,801 @@
+.go-workbench {
+  --go-rule: color-mix(in oklch, var(--border) 82%, var(--foreground));
+  --go-soft-rule: color-mix(in oklch, var(--border) 76%, transparent);
+  overflow: hidden;
+  border: 1px solid var(--go-rule);
+  border-radius: calc(var(--radius) + 0.3rem);
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--primary) 6%, transparent) 1px, transparent 1px)
+    0 0 / 3.25rem 100%,
+    var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 1rem 2.6rem color-mix(in oklch, var(--foreground) 7%, transparent);
+}
+
+.go-workbench[data-presentation="embedded"] {
+  border: 0;
+  border-radius: 0;
+  background: var(--card);
+  box-shadow: none;
+}
+.go-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--go-rule);
+  background: color-mix(in oklch, var(--card) 94%, var(--primary));
+}
+.go-header--embedded {
+  justify-content: flex-end;
+  padding: 0.65rem 0.85rem;
+  background: transparent;
+}
+.go-eyebrow,
+.go-panel__label {
+  margin: 0 0 0.3rem;
+  color: var(--primary);
+  font-size: 0.67rem;
+  font-weight: 780;
+  letter-spacing: 0.09em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+.go-header__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+.go-header h2 {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.1vw, 1.75rem);
+  font-weight: 680;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+.go-header__description {
+  max-width: 68ch;
+  margin: 0.38rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.84rem;
+}
+.go-synthetic {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.3rem 0.55rem;
+  border: 1px dashed var(--primary);
+  border-radius: 999px;
+  color: var(--primary);
+  font-size: 0.69rem;
+  font-weight: 760;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.go-origin,
+.go-severity,
+.go-status,
+.go-privacy,
+.go-level {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: fit-content;
+  font-size: 0.68rem;
+  font-weight: 730;
+  line-height: 1.2;
+}
+.go-origin {
+  color: var(--muted-foreground);
+}
+.go-origin__mark {
+  width: 0.64rem;
+  height: 0.64rem;
+  border: 2px solid var(--clinical-data-observed);
+  border-radius: 50%;
+  background: var(--clinical-data-observed);
+}
+.go-origin[data-origin="patient-reported"] .go-origin__mark,
+.go-origin[data-origin="imported"] .go-origin__mark {
+  border-style: dashed;
+  background: transparent;
+}
+.go-origin[data-origin="derived"] .go-origin__mark {
+  border-radius: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--clinical-data-observed) 0 2px,
+    transparent 2px 4px
+  );
+}
+.go-origin[data-origin="projected"] .go-origin__mark {
+  border-color: var(--clinical-data-projected);
+  border-style: dotted;
+  border-radius: 0;
+  background: transparent;
+  transform: rotate(45deg);
+}
+.go-source {
+  display: block;
+  overflow: hidden;
+  max-width: 25rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.61rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.go-severity,
+.go-status,
+.go-privacy,
+.go-level {
+  padding: 0.22rem 0.42rem;
+  border: 1px solid var(--clinical-information-border);
+  border-radius: 999px;
+  background: var(--clinical-information);
+  color: var(--clinical-information-foreground);
+}
+.go-severity[data-severity="normal"],
+.go-status[data-status="complete"],
+.go-status[data-status="ready"],
+.go-status[data-status="normal"] {
+  border-color: var(--status-success-border);
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+.go-severity[data-severity="warning"],
+.go-status[data-status="current"],
+.go-status[data-status="pending"],
+.go-status[data-status="follow-up"],
+.go-status[data-status="support"],
+.go-status[data-status="triggered"] {
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+.go-severity[data-severity="critical"],
+.go-status[data-status="critical"],
+.go-status[data-status="blocked"] {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+.go-status[data-status="unavailable"],
+.go-status[data-status="unknown"] {
+  border-style: dashed;
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+.go-privacy[data-visibility="sensitive"] {
+  border-color: var(--clinical-warning-border);
+  background: var(--clinical-warning);
+  color: var(--clinical-warning-foreground);
+}
+.go-privacy[data-visibility="restricted"] {
+  border-style: dashed;
+  border-color: var(--primary);
+  background: transparent;
+  color: var(--primary);
+}
+
+.go-state {
+  display: grid;
+  min-height: 18rem;
+  place-items: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+.go-state__glyph {
+  display: grid;
+  width: 3.6rem;
+  height: 3.6rem;
+  margin-bottom: 0.75rem;
+  place-items: center;
+  border: 1px dashed var(--primary);
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+}
+.go-state[data-state="loading"] .go-state__glyph {
+  animation: go-pulse 1.2s ease-in-out infinite;
+}
+.go-state[data-state="error"] .go-state__glyph,
+.go-state[data-state="forbidden"] .go-state__glyph {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+.go-state h3 {
+  margin: 0;
+  font-size: 1.22rem;
+}
+.go-state > p:last-child {
+  max-width: 34rem;
+  margin: 0.42rem 0 0;
+  color: var(--muted-foreground);
+}
+@keyframes go-pulse {
+  50% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+}
+
+.go-panel {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--go-soft-rule);
+  border-radius: var(--radius);
+  background: color-mix(in oklch, var(--card) 96%, var(--muted));
+}
+.go-context-grid,
+.go-labor-layout,
+.go-decision-layout,
+.go-postpartum-grid {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+.go-context-grid {
+  grid-template-columns: minmax(11rem, 0.7fr) repeat(2, minmax(14rem, 1fr));
+}
+.go-context-age > strong {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: clamp(1.75rem, 4vw, 2.55rem);
+  letter-spacing: -0.055em;
+}
+.go-context-age > span {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+.go-definition-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0 0 0.8rem;
+}
+.go-definition-list > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.42rem;
+  border-bottom: 1px solid var(--go-soft-rule);
+}
+.go-definition-list dt {
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+.go-definition-list dd {
+  margin: 0;
+  text-align: right;
+  font-size: 0.75rem;
+  font-weight: 680;
+}
+.go-actor-list {
+  display: grid;
+  gap: 0.55rem;
+}
+.go-actor-list > div {
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--go-soft-rule);
+}
+.go-actor-list span,
+.go-actor-list code {
+  display: block;
+}
+.go-actor-list span {
+  color: var(--muted-foreground);
+  font-size: 0.67rem;
+}
+.go-actor-list code {
+  margin-top: 0.16rem;
+  font-size: 0.68rem;
+  overflow-wrap: anywhere;
+}
+
+.go-vigilance-list,
+.go-prenatal-list,
+.go-reproductive-timeline,
+.go-newborn-list,
+.go-service-list {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem;
+}
+.go-vigilance {
+  display: grid;
+  grid-template-columns: auto minmax(12rem, 1fr) minmax(11rem, 0.65fr) minmax(8rem, auto);
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.8rem;
+  border: 1px solid var(--go-rule);
+  border-left: 0.27rem solid var(--clinical-information-border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.go-vigilance[data-severity="warning"] {
+  border-left-color: var(--clinical-warning-border);
+}
+.go-vigilance[data-severity="critical"] {
+  border-left-color: var(--clinical-critical-border);
+}
+.go-vigilance p {
+  margin: 0.18rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.76rem;
+}
+.go-vigilance dl {
+  display: grid;
+  gap: 0.28rem;
+  margin: 0;
+  font-size: 0.68rem;
+}
+.go-vigilance dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.go-vigilance dt {
+  color: var(--muted-foreground);
+}
+.go-vigilance dd {
+  margin: 0;
+  font-weight: 650;
+}
+
+.go-reproductive-timeline,
+.go-prenatal-list,
+.go-newborn-list {
+  position: relative;
+}
+.go-reproductive-timeline article {
+  display: grid;
+  grid-template-columns: 6.5rem 1rem 1fr;
+  gap: 0.7rem;
+}
+.go-reproductive-timeline time {
+  padding-top: 0.5rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-align: right;
+}
+.go-timeline-mark,
+.go-prenatal-mark,
+.go-newborn-mark {
+  z-index: 1;
+  width: 0.72rem;
+  height: 0.72rem;
+  margin-top: 0.52rem;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  background: var(--card);
+}
+.go-reproductive-timeline article > div {
+  padding: 0.62rem 0.72rem;
+  border: 1px solid var(--go-soft-rule);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.go-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+.go-reproductive-timeline small,
+.go-prenatal-list small,
+.go-safety-grid small {
+  color: var(--primary);
+  font-size: 0.62rem;
+  font-weight: 760;
+  text-transform: uppercase;
+}
+.go-reproductive-timeline article strong,
+.go-reproductive-timeline article p {
+  display: block;
+}
+.go-reproductive-timeline article p {
+  margin: 0.2rem 0 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 0.73rem;
+}
+.go-reproductive-timeline .go-origin {
+  margin-right: 0.5rem;
+}
+
+.go-prenatal-list article {
+  display: grid;
+  grid-template-columns: 7.5rem 1rem minmax(12rem, 1fr) minmax(9rem, auto);
+  gap: 0.7rem;
+  align-items: start;
+}
+.go-ga strong,
+.go-ga time {
+  display: block;
+  text-align: right;
+}
+.go-ga strong {
+  font-family: var(--font-mono);
+  color: var(--primary);
+}
+.go-ga time {
+  margin-top: 0.15rem;
+  color: var(--muted-foreground);
+  font-size: 0.67rem;
+}
+.go-prenatal-list article > div:nth-of-type(2) {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--go-soft-rule);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.go-prenatal-list article > div:nth-of-type(2) > strong {
+  display: block;
+}
+.go-prenatal-list p {
+  margin: 0.2rem 0 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 0.73rem;
+}
+
+.go-fetal-summary,
+.go-hemorrhage-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 1rem 0;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--go-rule);
+  border-radius: var(--radius);
+  background: var(--clinical-surface-inset);
+}
+.go-fetal-summary span,
+.go-hemorrhage-summary span {
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+.go-fetal-summary strong,
+.go-hemorrhage-summary strong {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+}
+.go-measure-grid,
+.go-safety-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.7rem;
+  padding: 0.7rem 1rem 1rem;
+}
+.go-measure-grid article,
+.go-safety-grid article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 0.8rem;
+  border: 1px solid var(--go-rule);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.go-measure-grid article > small {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.go-measure-grid article > strong {
+  margin-top: 0.35rem;
+}
+.go-measure-value {
+  display: block;
+  margin: 0.55rem 0 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 1.28rem;
+}
+.go-measure-grid article > span:not(.go-measure-value, .go-severity) {
+  color: var(--muted-foreground);
+  font-size: 0.68rem;
+}
+.go-measure-grid .go-severity {
+  margin: 0.55rem 0;
+}
+
+.go-labor-layout {
+  grid-template-columns: minmax(0, 1.65fr) minmax(14rem, 0.55fr);
+}
+.go-labor-chart {
+  margin: 0;
+}
+.go-labor-chart svg {
+  display: block;
+  width: 100%;
+  min-height: 13rem;
+}
+.go-chart-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+.go-chart-line {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.go-chart-point {
+  fill: var(--card);
+  stroke: var(--primary);
+  stroke-width: 3;
+}
+.go-labor-chart text {
+  fill: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.go-labor-chart figcaption {
+  color: var(--muted-foreground);
+  font-size: 0.7rem;
+}
+.go-labor-chart details {
+  margin-top: 0.75rem;
+  font-size: 0.72rem;
+}
+.go-labor-chart summary {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 700;
+}
+.go-workbench table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+.go-workbench th,
+.go-workbench td {
+  padding: 0.52rem;
+  border-bottom: 1px solid var(--go-soft-rule);
+  text-align: left;
+}
+.go-workbench thead th {
+  color: var(--muted-foreground);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.go-decision-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.go-decision > strong {
+  display: block;
+  font-size: 1.15rem;
+}
+.go-decision > p {
+  color: var(--muted-foreground);
+  font-size: 0.76rem;
+}
+.go-readiness {
+  display: grid;
+  gap: 0.48rem;
+}
+.go-readiness article {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem;
+  border: 1px solid var(--go-soft-rule);
+  border-radius: calc(var(--radius) - 0.12rem);
+}
+.go-readiness article > span {
+  display: grid;
+  width: 1.6rem;
+  height: 1.6rem;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-family: var(--font-mono);
+}
+.go-readiness article[data-status="ready"] > span {
+  border-color: var(--status-success-border);
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+.go-readiness article[data-status="blocked"] > span {
+  border-color: var(--clinical-critical-border);
+  background: var(--clinical-critical);
+  color: var(--clinical-critical-foreground);
+}
+.go-readiness small {
+  color: var(--muted-foreground);
+}
+
+.go-safety-grid article > strong {
+  margin-top: 0.55rem;
+}
+.go-safety-grid article > p {
+  flex: 1;
+  margin: 0.2rem 0 0.55rem;
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+.go-safety-grid .go-origin {
+  margin-bottom: 0.42rem;
+}
+
+.go-newborn-list article {
+  display: grid;
+  grid-template-columns: 9rem 1rem minmax(12rem, 1fr);
+  gap: 0.7rem;
+}
+.go-newborn-list article > div:first-child {
+  text-align: right;
+}
+.go-newborn-list article > div:first-child strong,
+.go-newborn-list article > div:first-child small {
+  display: block;
+}
+.go-newborn-list article > div:first-child small {
+  overflow: hidden;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-overflow: ellipsis;
+}
+.go-newborn-list article > div:last-child {
+  padding: 0.62rem 0.72rem;
+  border: 1px solid var(--go-soft-rule);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.go-newborn-list p {
+  margin: 0.2rem 0 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 0.73rem;
+}
+.go-newborn-list .go-status {
+  margin-right: 0.5rem;
+}
+
+.go-postpartum-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.go-postpartum-list {
+  display: grid;
+  gap: 0.55rem;
+}
+.go-postpartum-list article {
+  padding: 0.62rem;
+  border: 1px solid var(--go-soft-rule);
+  border-radius: calc(var(--radius) - 0.1rem);
+}
+.go-postpartum-list p {
+  margin: 0.3rem 0 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+}
+.go-postpartum-list .go-privacy {
+  margin: 0 0 0.42rem;
+}
+
+.go-service-list article {
+  display: grid;
+  grid-template-columns: auto minmax(12rem, 1fr) auto minmax(9rem, auto);
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.72rem;
+  border-bottom: 1px solid var(--go-soft-rule);
+}
+.go-service-list article > code {
+  color: var(--primary);
+  font-weight: 760;
+}
+.go-service-list article > div strong,
+.go-service-list article > div span {
+  display: block;
+}
+.go-service-list article > div span {
+  color: var(--muted-foreground);
+  font-size: 0.7rem;
+}
+.go-level {
+  background: transparent;
+  color: var(--foreground);
+  text-transform: capitalize;
+}
+.go-level[data-level="essential"] {
+  border-color: var(--status-success-border);
+  background: var(--status-success);
+  color: var(--status-success-foreground);
+}
+.go-level[data-level="reference"] {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.go-empty {
+  color: var(--muted-foreground);
+  font-size: 0.74rem;
+  font-style: italic;
+}
+
+@media (max-width: 850px) {
+  .go-context-grid,
+  .go-labor-layout,
+  .go-decision-layout,
+  .go-postpartum-grid {
+    grid-template-columns: 1fr;
+  }
+  .go-vigilance {
+    grid-template-columns: auto 1fr;
+  }
+  .go-vigilance dl,
+  .go-vigilance .go-source {
+    grid-column: 2;
+  }
+  .go-prenatal-list article {
+    grid-template-columns: 6.5rem 1rem 1fr;
+  }
+  .go-prenatal-list article > .go-source {
+    grid-column: 3;
+  }
+  .go-service-list article {
+    grid-template-columns: auto 1fr auto;
+  }
+  .go-service-list .go-source {
+    grid-column: 2 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .go-header {
+    flex-direction: column;
+  }
+  .go-reproductive-timeline article,
+  .go-prenatal-list article,
+  .go-newborn-list article {
+    grid-template-columns: 1rem 1fr;
+  }
+  .go-reproductive-timeline time,
+  .go-prenatal-list .go-ga,
+  .go-newborn-list article > div:first-child {
+    grid-column: 2;
+    padding: 0;
+    text-align: left;
+  }
+  .go-timeline-mark,
+  .go-prenatal-mark,
+  .go-newborn-mark {
+    grid-row: 1 / span 2;
+  }
+  .go-reproductive-timeline article > div,
+  .go-prenatal-list article > div:nth-of-type(2),
+  .go-newborn-list article > div:last-child {
+    grid-column: 2;
+  }
+  .go-prenatal-list article > .go-source {
+    grid-column: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .go-state[data-state="loading"] .go-state__glyph {
+    animation: none;
+  }
+}
