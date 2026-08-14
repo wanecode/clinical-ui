@@ -1,0 +1,56 @@
+{
+  "name": "@clinical-ui/pediatrics",
+  "version": "0.1.0-rc.12",
+  "private": false,
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "src/styles.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/normalize-esm-specifiers.mjs dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {
+    "@clinical-ui/core": "workspace:*",
+    "@clinical-ui/fhir": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0 <20",
+    "react-dom": ">=18.3.0 <20"
+  },
+  "description": "FHIR R5-native pediatric workbenches for React",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wanecode/clinical-ui.git",
+    "directory": "packages/pediatrics"
+  },
+  "homepage": "https://wanecode.github.io/clinical-ui/",
+  "bugs": {
+    "url": "https://github.com/wanecode/clinical-ui/issues"
+  },
+  "keywords": [
+    "clinical-ui",
+    "fhir",
+    "fhir-r5",
+    "react",
+    "pediatrics"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
