@@ -86,4 +86,27 @@ describe("odontology clinical host contract", () => {
     expect(syntheticMarkup).toContain("Données 100 % synthétiques");
     expect(clinicalMarkup).not.toContain("Données 100 % synthétiques");
   });
+
+  it("keeps undocumented clinical measurements explicit instead of applying demo defaults", () => {
+    const orthodonticMarkup = renderToStaticMarkup(
+      <OrthodonticWorkbench
+        events={syntheticOrthodonticTimeline}
+        currentStep={1}
+        totalSteps={2}
+        dataMode="clinical"
+      />,
+    );
+    const summaryMarkup = renderToStaticMarkup(
+      <OralHealthSummary
+        teeth={syntheticTeeth}
+        periodontalSites={syntheticPeriodontalSites}
+        dataMode="clinical"
+      />,
+    );
+
+    expect(orthodonticMarkup).toContain("Non renseigné");
+    expect(orthodonticMarkup).not.toContain("3.2 mm");
+    expect(summaryMarkup).toContain("Non renseignée");
+    expect(summaryMarkup).not.toContain("0 / 10");
+  });
 });
