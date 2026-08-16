@@ -7,6 +7,7 @@ import argparse
 import shutil
 import subprocess
 import tempfile
+import time
 from pathlib import Path
 
 from playwright.sync_api import Page, sync_playwright
@@ -46,10 +47,12 @@ def capture(base_url: str, output_directory: Path) -> None:
                 record_video_size={"width": 1280, "height": 800},
             )
             page = context.new_page()
+            recording_started_at = time.monotonic()
 
             page.goto(story_url(base_url, "clinical", "light"))
             wait_for_workspace(page)
             page.screenshot(path=str(poster_path), full_page=False)
+            poster_hold_seconds = time.monotonic() - recording_started_at + 0.25
             page.wait_for_timeout(3_000)
 
             page.get_by_role("tab", name="Glaucome").click()
@@ -73,7 +76,10 @@ def capture(base_url: str, output_directory: Path) -> None:
             video_path = Path(video.path())
 
         filter_graph = (
-            "fps=5,scale=960:-2:flags=lanczos,"
+            "[0:v]scale=960:-2:flags=lanczos[recording];"
+            "[1:v]scale=960:-2:flags=lanczos[poster];"
+            f"[recording][poster]overlay=0:0:enable='lt(t,{poster_hold_seconds:.3f})':shortest=1,"
+            "fps=5,"
             "split[frames][palette_source];"
             "[palette_source]palettegen=max_colors=96:stats_mode=diff[palette];"
             "[frames][palette]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle"
@@ -87,8 +93,13 @@ def capture(base_url: str, output_directory: Path) -> None:
                 "-y",
                 "-i",
                 str(video_path),
+                "-loop",
+                "1",
+                "-i",
+                str(poster_path),
                 "-filter_complex",
                 filter_graph,
+                "-shortest",
                 "-loop",
                 "0",
                 str(animation_path),
